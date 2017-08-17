@@ -24,8 +24,6 @@ void GameState::Leave(Ndk::StateMachine& fsm)
 
 bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
 {
-	auto pos = m_entities[0]->GetComponent<Ndk::NodeComponent>().GetPosition();
-	std::cout << pos.x << " " << pos.y << " " << pos.z << std::endl;
 	return true;
 }
 
@@ -36,17 +34,16 @@ void GameState::createShip()
 	nodeComponent.SetPosition(Nz::Vector3f(0, 0, 0));
 	Ndk::GraphicsComponent& graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
 	Ndk::PhysicsComponent2D& physicComponent = entity->AddComponent<Ndk::PhysicsComponent2D>();
-	entity->AddComponent<Ndk::CollisionComponent2D>(Nz::BoxCollider2D::New(Nz::Rectf(Nz::Vector2f::Zero(), Nz::Vector2f(5, 5))));
-	/*
-	Ndk::CollisionComponent2D collisionComponent = entity->AddComponent<Ndk::CollisionComponent2D>();
-	Nz::BoxCollider2DRef collision = Nz::BoxCollider2D::New(Nz::Rectf(Nz::Vector2f::Zero(), Nz::Vector2f(5,5)));
+	
+	Ndk::CollisionComponent2D & collisionComponent = entity->AddComponent<Ndk::CollisionComponent2D>();
+	Nz::CircleCollider2DRef collision = Nz::CircleCollider2D::New(1);
 	collisionComponent.SetGeom(collision);
-	*/
-	entity->AddComponent<ShipControlerComponent>();
+	
+	entity->AddComponent<ShipControlerComponent>(ShipControlerComponent::Controls(Nz::Keyboard::Key::Up, Nz::Keyboard::Key::Down, Nz::Keyboard::Key::Left, Nz::Keyboard::Key::Right));
 
 	Nz::MeshRef mesh = Nz::Mesh::New();
 	mesh->CreateStatic();
-	Nz::SubMeshRef subMesh = mesh->BuildSubMesh(Nz::Primitive::Box(Nz::Vector3f(1, 1, 1)));
+	Nz::SubMeshRef subMesh = mesh->BuildSubMesh(Nz::Primitive::Box(Nz::Vector3f(1, 0.5f, 1)));
 	subMesh->SetMaterialIndex(0);
 	mesh->AddSubMesh(subMesh);
 
