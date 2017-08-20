@@ -7,13 +7,15 @@
 class FollowEntityComponent : public Ndk::Component<FollowEntityComponent>
 {
 public:
-	FollowEntityComponent(Ndk::EntityHandle entity, const Nz::Vector3f & offset);
+	FollowEntityComponent(Ndk::EntityHandle _entity, const Nz::Vector3f & _offset);
 	~FollowEntityComponent() = default;
 
 	static Ndk::ComponentIndex componentIndex;
 
+	Ndk::EntityHandle entity;
+	Nz::Vector3f offset;
+	float velocityOffsetMultiplier;
+
 private:
-	Ndk::EntityHandle m_entity;
-	Nz::Vector3f m_offset;
 };
 

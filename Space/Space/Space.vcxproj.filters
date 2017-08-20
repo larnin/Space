@@ -48,6 +48,9 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Fichiers sources\States</Filter>
     </ClCompile>
+    <ClCompile Include="FollowEntitySystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShipControlerComponent.h">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Fichiers d%27en-tête\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowEntitySystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

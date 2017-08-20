@@ -18,7 +18,7 @@ public:
 	};
 
 	ShipControlerComponent(const Controls & c);
-	virtual ~ShipControlerComponent() = default;
+	~ShipControlerComponent() = default;
 
 	static Ndk::ComponentIndex componentIndex;
 

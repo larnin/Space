@@ -2,11 +2,11 @@
 
 #include <NDK/System.hpp>
 
-class ShipControlerSystem : public Ndk::System<ShipControlerSystem>
+class FollowEntitySystem : public Ndk::System<FollowEntitySystem>
 {
 public:
-	ShipControlerSystem();
-	~ShipControlerSystem() = default;
+	FollowEntitySystem();
+	~FollowEntitySystem() = default;
 
 	static Ndk::SystemIndex systemIndex;
 

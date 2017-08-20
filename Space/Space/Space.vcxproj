@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FollowEntityComponent.cpp" />
+    <ClCompile Include="FollowEntitySystem.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShipControlerComponent.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Env.h" />
     <ClInclude Include="FollowEntityComponent.h" />
+    <ClInclude Include="FollowEntitySystem.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="ShipControlerComponent.h" />
     <ClInclude Include="ShipControlerSystem.h" />

@@ -2,6 +2,7 @@
 #include "ShipControlerComponent.h"
 #include "FollowEntityComponent.h"
 #include "ShipControlerSystem.h"
+#include "FollowEntitySystem.h"
 #include <NDK/Application.hpp>
 #include <NDK/StateMachine.hpp>
 #include <NDK/Components.hpp>
@@ -14,6 +15,7 @@ void initializeCustomComponentsAndSystems()
 	Ndk::InitializeComponent<FollowEntityComponent>("002FEC");
 
 	Ndk::InitializeSystem<ShipControlerSystem>();
+	Ndk::InitializeSystem<FollowEntitySystem>();
 }
 
 int main()

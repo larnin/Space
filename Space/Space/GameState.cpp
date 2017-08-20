@@ -1,21 +1,21 @@
 #include "GameState.h"
 #include "FollowEntityComponent.h"
+#include "ShipControlerComponent.h"
+#include "FollowEntitySystem.h"
+#include "ShipControlerSystem.h"
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/CameraComponent.hpp>
 #include <NDK/Components/LightComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
 #include <NDK/Components/CollisionComponent2D.hpp>
-#include <Nazara/Graphics/Model.hpp>
-#include "ShipControlerComponent.h"
-#include "ShipControlerSystem.h"
-
 #include <NDK/Components/ParticleGroupComponent.hpp>
 #include <NDK/Components/ParticleEmitterComponent.hpp>
 #include <Nazara/Graphics/ParticleFunctionController.hpp>
 #include <Nazara/Graphics/ParticleMapper.hpp>
 #include <Nazara/Graphics/ParticleFunctionRenderer.hpp>
 #include <Nazara/Graphics/ParticleStruct.hpp>
+#include <Nazara/Graphics/Model.hpp>
 
 GameState::GameState(const Env & env)
 	: m_env(env)
@@ -30,6 +30,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 	addCamera();
 	addLight();
 	m_world3D.AddSystem<ShipControlerSystem>();
+	m_world3D.AddSystem<FollowEntitySystem>();
 }
 
 void GameState::Leave(Ndk::StateMachine& fsm)
@@ -55,7 +56,8 @@ void GameState::addCamera()
 	auto & cameraComponent = cameraEntity->AddComponent<Ndk::CameraComponent>();
 	cameraComponent.SetProjectionType(Nz::ProjectionType_Perspective);
 	cameraComponent.SetTarget(&m_env.window);
-	cameraEntity->AddComponent<FollowEntityComponent>(m_shipEntity, offset);
+	auto & followComponent = cameraEntity->AddComponent<FollowEntityComponent>(m_shipEntity, offset);
+	followComponent.velocityOffsetMultiplier = 0.15f;
 }
 
 void GameState::addPlayerShip()
@@ -101,7 +103,7 @@ void GameState::addPlayerShip()
 
 	auto & emitter = m_shipEntity->AddComponent<Ndk::ParticleEmitterComponent>();
 	emitter.SetEmissionCount(2);
-	emitter.SetEmissionRate(100.f);
+	emitter.SetEmissionRate(300.0f);
 	emitter.Enable(false);
 	
 	emitter.SetSetupFunc([&gen = m_gen, &nodeComponent](const Ndk::EntityHandle& entity, Nz::ParticleMapper& mapper, unsigned int count)
@@ -109,16 +111,16 @@ void GameState::addPlayerShip()
 		Nz::Vector3f dir = nodeComponent.GetRotation() * Nz::Vector3f(-1.0f, 0, 0);
 		Nz::Vector3f pos = dir / 2 + nodeComponent.GetPosition();
 
-		std::uniform_real_distribution<float> lifeDis(-0.3f, 0.3f);
-		std::uniform_real_distribution<float> posDis(-0.1f, 0.1f);
+		std::uniform_real_distribution<float> lifeDis(-0.2f, 0.2f);
+		std::uniform_real_distribution<float> posDis(-0.05f, 0.05f);
 		std::uniform_real_distribution<float> rotDis(-180.f, 180.f);
 		std::uniform_real_distribution<float> velDis(0.0f, 0.025f);
 
 		Nz::ParticleStruct_Billboard* billboards = static_cast<Nz::ParticleStruct_Billboard*>(mapper.GetPointer());
 		for (unsigned int i = 0; i < count; ++i)
 		{
-			billboards[i].color = Nz::Color::White;
-			billboards[i].life = 0.5f + lifeDis(gen);
+			billboards[i].color = Nz::Color(62, 172, 236);
+			billboards[i].life = 0.4f + lifeDis(gen);
 			billboards[i].position = pos + Nz::Vector3f(posDis(gen), posDis(gen), posDis(gen));
 			billboards[i].rotation = rotDis(gen);
 			billboards[i].size = { 0.2f, 0.2f };
@@ -141,7 +143,7 @@ void GameState::addLight()
 void GameState::createParticleHandle()
 {
 	auto entity = m_world3D.CreateEntity();
-	m_shipParticleHandle = entity->AddComponent<Ndk::ParticleGroupComponent>(10000, Nz::ParticleDeclaration::Get(Nz::ParticleLayout_Billboard)).CreateHandle();
+	m_shipParticleHandle = entity->AddComponent<Ndk::ParticleGroupComponent>(1000, Nz::ParticleDeclaration::Get(Nz::ParticleLayout_Billboard)).CreateHandle();
 	m_shipParticleHandle->AddController(Nz::ParticleFunctionController::New([](Nz::ParticleGroup& group, Nz::ParticleMapper& mapper, unsigned int startId, unsigned int endId, float elapsedTime)
 	{
 		auto colorPtr = mapper.GetComponentPtr<Nz::Color>(Nz::ParticleComponent_Color);
@@ -155,7 +157,14 @@ void GameState::createParticleHandle()
 
 		for (unsigned int i = startId; i <= endId; ++i)
 		{
-			colorPtr[i].a = static_cast<Nz::UInt8>(Nz::Clamp(lifePtr[i] * 255.f, 0.f, 255.f));
+			float normalizedLife(lifePtr[i] / 0.6f);
+			const Nz::Color startColor(62, 172, 236);
+			const Nz::Color endColor(255, 95, 13);
+			Nz::Color current(startColor.r * normalizedLife + endColor.r * (1 - normalizedLife)
+							, startColor.g * normalizedLife + endColor.g * (1 - normalizedLife)
+							, startColor.b * normalizedLife + endColor.b * (1 - normalizedLife)
+							, static_cast<Nz::UInt8>(Nz::Clamp(lifePtr[i] * 255.f, 0.f, 255.f)));
+			colorPtr[i] = current;
 			lifePtr[i] -= elapsedTime;
 			if (lifePtr[i] < 0.f)
 				group.KillParticle(i);
