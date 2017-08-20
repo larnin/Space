@@ -135,13 +135,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FollowEntityComponent.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GameState2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShipControlerComponent.cpp" />
     <ClCompile Include="ShipControlerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Env.h" />
+    <ClInclude Include="FollowEntityComponent.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameState2.h" />
     <ClInclude Include="ShipControlerComponent.h" />
     <ClInclude Include="ShipControlerSystem.h" />
   </ItemGroup>

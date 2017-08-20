@@ -1,5 +1,7 @@
+#include "GameState2.h"
 #include "GameState.h"
 #include "ShipControlerComponent.h"
+#include "FollowEntityComponent.h"
 #include "ShipControlerSystem.h"
 #include <NDK/Application.hpp>
 #include <NDK/StateMachine.hpp>
@@ -10,7 +12,8 @@
 
 void initializeCustomComponentsAndSystems()
 {
-	Ndk::InitializeComponent<ShipControlerComponent>("SCC");
+	Ndk::InitializeComponent<ShipControlerComponent>("001SCC");
+	Ndk::InitializeComponent<FollowEntityComponent>("002FEC");
 
 	Ndk::InitializeSystem<ShipControlerSystem>();
 }
@@ -35,11 +38,13 @@ int main()
 
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Test");
+	mainWindow.SetFramerateLimit(60);
 
-	auto & world = application.AddWorld();
-	initializeWorld(world, mainWindow);
+	auto & world2D = application.AddWorld();
+	auto & world3D = application.AddWorld();
+	Ndk::StateMachine fsm{ std::shared_ptr<Ndk::State>() };
 
-	Ndk::StateMachine fsm(std::make_unique<GameState>(world));
+	fsm.ChangeState(std::make_shared<GameState>(Env(application, fsm, mainWindow, world2D, world3D)));
 
 	while (application.Run())
 	{

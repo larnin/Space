@@ -1,25 +1,26 @@
 #include "GameState.h"
-#include "ShipControlerComponent.h"
-#include <NDK/Components.hpp>
+#include "FollowEntityComponent.h"
+#include <NDK/Components/NodeComponent.hpp>
+#include <NDK/Components/GraphicsComponent.hpp>
+#include <NDK/Components/CameraComponent.hpp>
+#include <NDK/Components/LightComponent.hpp>
 #include <Nazara/Graphics/Model.hpp>
-#include <Nazara/Graphics/Sprite.hpp>
-#include <iostream>
 
-GameState::GameState(Ndk::World & world)
-	: m_world(world)
+GameState::GameState(const Env & env)
+	: m_env(env)
 {
-	createShip();
-	createBackground();
 }
 
 void GameState::Enter(Ndk::StateMachine& fsm)
 {
-
+	addPlayerShip();
+	addCamera();
+	addLight();
 }
 
 void GameState::Leave(Ndk::StateMachine& fsm)
 {
-
+	cleanEntities();
 }
 
 bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
@@ -27,47 +28,57 @@ bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
 	return true;
 }
 
-void GameState::createShip()
+
+void GameState::addCamera()
 {
-	Ndk::EntityHandle entity = m_world.CreateEntity();
-	Ndk::NodeComponent& nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
-	nodeComponent.SetPosition(Nz::Vector3f(0, 0, 0));
-	Ndk::GraphicsComponent& graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
-	Ndk::PhysicsComponent2D& physicComponent = entity->AddComponent<Ndk::PhysicsComponent2D>();
-	
-	Ndk::CollisionComponent2D & collisionComponent = entity->AddComponent<Ndk::CollisionComponent2D>();
-	Nz::CircleCollider2DRef collision = Nz::CircleCollider2D::New(1);
-	collisionComponent.SetGeom(collision);
-	
-	entity->AddComponent<ShipControlerComponent>(ShipControlerComponent::Controls(Nz::Keyboard::Key::Up, Nz::Keyboard::Key::Down, Nz::Keyboard::Key::Left, Nz::Keyboard::Key::Right));
+	Nz::Vector3f offset(0, 10.0f, 0);
 
-	Nz::MeshRef mesh = Nz::Mesh::New();
-	mesh->CreateStatic();
-	Nz::SubMeshRef subMesh = mesh->BuildSubMesh(Nz::Primitive::Box(Nz::Vector3f(1, 0.5f, 1)));
-	subMesh->SetMaterialIndex(0);
-	mesh->AddSubMesh(subMesh);
-
-	Nz::ModelRef model = Nz::Model::New();
-	model->SetMesh(mesh);
-	Nz::MaterialRef mat = Nz::Material::New();
-	mat->SetDiffuseColor(Nz::Color::White);
-	model->SetMaterial(0, mat);
-	graphicComponent.Attach(model);
-
-	m_entities.push_back(entity);
+	m_cameraEntity = m_env.world3D.CreateEntity();
+	auto & nodeComponent = m_cameraEntity->AddComponent<Ndk::NodeComponent>();
+	nodeComponent.SetPosition(offset);
+	nodeComponent.SetRotation(Nz::Quaternionf(Nz::EulerAnglesf(-90, 0, 0)));
+	auto & cameraComponent = m_cameraEntity->AddComponent<Ndk::CameraComponent>();
+	cameraComponent.SetProjectionType(Nz::ProjectionType_Perspective);
+	cameraComponent.SetTarget(&m_env.window);
+	m_cameraEntity->AddComponent<FollowEntityComponent>(m_shipEntity, offset);
 }
 
-void GameState::createBackground()
+void GameState::addPlayerShip()
 {
-	Ndk::EntityHandle entity = m_world.CreateEntity();
-	Ndk::NodeComponent& nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
-	Ndk::GraphicsComponent& graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
+	m_shipEntity = m_env.world3D.CreateEntity();
+	auto & nodeComponent = m_shipEntity->AddComponent<Ndk::NodeComponent>();
+	nodeComponent.SetPosition(0, 0, 0);
+	auto & graphicComponent = m_shipEntity->AddComponent<Ndk::GraphicsComponent>();
 
-	Nz::SpriteRef sprite = Nz::Sprite::New();
-	sprite->SetTexture("res/back.jpg");
-	sprite->SetSize(100, 100);
-	graphicComponent.Attach(sprite);
-	nodeComponent.SetPosition(Nz::Vector3f(-sprite->GetSize().x/2.0f, sprite->GetSize().y/2.0f, -10));
+	auto ship = Nz::Model::New();
 
-	m_entities.push_back(entity);
+	const std::string shipDir = "res/Ship/space_frigate_6/space_frigate_6";
+	Nz::ModelParameters params;
+	params.mesh.texCoordScale.y = -1;
+	if (!ship->LoadFromFile(shipDir + ".obj", params))
+	{
+		NazaraWarning("Failed to load " + shipDir + ".obj");
+	}
+	auto mat = ship->GetMaterial(0);
+	mat->SetDiffuseMap(shipDir + "_color.png");
+	mat->SetEmissiveMap(shipDir + "_illumination.png");
+	mat->SetSpecularMap(shipDir + "_specular.png");
+
+	nodeComponent.SetScale(0.2f, 0.2f, 0.2f);
+
+	graphicComponent.Attach(ship);
+}
+
+void GameState::addLight()
+{
+	m_lightEntity = m_env.world3D.CreateEntity();
+	auto & nodeComponent = m_lightEntity->AddComponent<Ndk::NodeComponent>();
+	nodeComponent.SetRotation(Nz::Quaternionf(Nz::EulerAnglesf(-50, 45, 0)));
+	auto & lightComponent = m_lightEntity->AddComponent<Ndk::LightComponent>(Nz::LightType::LightType_Directional);
+	lightComponent.SetAmbientFactor(0.2f);
+}
+
+void GameState::cleanEntities()
+{
+	m_env.world3D.KillEntities(std::vector<Ndk::EntityHandle>{m_cameraEntity, m_shipEntity, m_lightEntity});
 }
