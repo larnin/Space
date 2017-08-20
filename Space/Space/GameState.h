@@ -2,7 +2,7 @@
 
 #include "Env.h"
 #include <NDK/State.hpp>
-#include <NDK/World.hpp>
+#include <random>
 
 class GameState : public Ndk::State
 {
@@ -24,5 +24,6 @@ private:
 	Ndk::EntityHandle m_cameraEntity;
 	Ndk::EntityHandle m_shipEntity;
 	Ndk::EntityHandle m_lightEntity;
+	std::mt19937 m_gen;
 };
 

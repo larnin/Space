@@ -42,9 +42,6 @@
     <ClCompile Include="ShipControlerSystem.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="GameState2.cpp">
-      <Filter>Fichiers sources\States</Filter>
-    </ClCompile>
     <ClCompile Include="FollowEntityComponent.cpp">
       <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
@@ -58,9 +55,6 @@
     </ClInclude>
     <ClInclude Include="ShipControlerSystem.h">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState2.h">
-      <Filter>Fichiers d%27en-tête\States</Filter>
     </ClInclude>
     <ClInclude Include="Env.h">
       <Filter>Fichiers d%27en-tête</Filter>
