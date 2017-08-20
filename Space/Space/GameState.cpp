@@ -25,94 +25,23 @@ GameState::GameState(const Env & env)
 
 void GameState::Enter(Ndk::StateMachine& fsm)
 {
+	createParticleHandle();
 	addPlayerShip();
 	addCamera();
 	addLight();
-	m_env.world3D.AddSystem<ShipControlerSystem>();
-
-	auto entity = m_env.world3D.CreateEntity();
-	auto handle = entity->AddComponent<Ndk::ParticleGroupComponent>(100, Nz::ParticleDeclaration::Get(Nz::ParticleLayout_Billboard)).CreateHandle();
-	handle->AddController(Nz::ParticleFunctionController::New([](Nz::ParticleGroup& group, Nz::ParticleMapper& mapper, unsigned int startId, unsigned int endId, float elapsedTime)
-	{
-		auto colorPtr = mapper.GetComponentPtr<Nz::Color>(Nz::ParticleComponent_Color);
-		auto lifePtr = mapper.GetComponentPtr<float>(Nz::ParticleComponent_Life);
-		auto positionPtr = mapper.GetComponentPtr<Nz::Vector3f>(Nz::ParticleComponent_Position);
-		auto rotationPtr = mapper.GetComponentPtr<float>(Nz::ParticleComponent_Rotation);
-		auto sizePtr = mapper.GetComponentPtr<Nz::Vector2f>(Nz::ParticleComponent_Size);
-		auto velocityPtr = mapper.GetComponentPtr<Nz::Vector3f>(Nz::ParticleComponent_Velocity);
-
-		float velFactor = std::pow(0.9f, elapsedTime / 0.1f);
-
-		for (unsigned int i = startId; i <= endId; ++i)
-		{
-			colorPtr[i].a = static_cast<Nz::UInt8>(Nz::Clamp(lifePtr[i] * 255.f, 0.f, 255.f));
-			lifePtr[i] -= elapsedTime;
-			if (lifePtr[i] < 0.f)
-				group.KillParticle(i);
-
-			positionPtr[i] += velocityPtr[i];
-		}
-
-	}));
-
-	Nz::MaterialRef fireMat = Nz::Material::New("Translucent3D");
-	fireMat->EnableFaceCulling(true);
-	fireMat->SetDiffuseMap("res/fire_particle.png");
-	// Additive blending for fire
-	fireMat->SetDstBlend(Nz::BlendFunc_One);
-	fireMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
-
-	handle->SetRenderer(Nz::ParticleFunctionRenderer::New([fireMat](const Nz::ParticleGroup& group, const Nz::ParticleMapper& mapper, unsigned int startId, unsigned int endId, Nz::AbstractRenderQueue* renderQueue)
-	{
-		auto colorPtr = mapper.GetComponentPtr<const Nz::Color>(Nz::ParticleComponent_Color);
-		auto posPtr = mapper.GetComponentPtr<const Nz::Vector3f>(Nz::ParticleComponent_Position);
-		auto rotPtr = mapper.GetComponentPtr<const float>(Nz::ParticleComponent_Rotation);
-		auto sizePtr = mapper.GetComponentPtr<const Nz::Vector2f>(Nz::ParticleComponent_Size);
-
-		renderQueue->AddBillboards(0, fireMat, endId - startId + 1, posPtr, sizePtr, rotPtr, colorPtr);
-	}));
-
-	auto & emitter = m_shipEntity->AddComponent<Ndk::ParticleEmitterComponent>();
-	emitter.SetEmissionCount(2);
-	emitter.SetEmissionRate(100.f);
-	emitter.SetSetupFunc([&gen = m_gen, handle](const Ndk::EntityHandle& entity, Nz::ParticleMapper& mapper, unsigned int count)
-	{
-		const float maxFireVel = 15.f;
-		std::uniform_real_distribution<float> lifeDis(-0.5f, 0.5f);
-		std::uniform_real_distribution<float> normalDis(-1.f, 1.f);
-		std::uniform_real_distribution<float> posDis(-0.1f, 0.1f);
-		std::uniform_real_distribution<float> rotDis(-180.f, 180.f);
-		std::uniform_real_distribution<float> sizeDis(1.0f, 4.f);
-		std::uniform_real_distribution<float> velDis(-maxFireVel, maxFireVel);
-
-		Nz::Vector3f pos = entity->GetComponent<Ndk::NodeComponent>().GetPosition();
-
-		Nz::ParticleStruct_Billboard* billboards = static_cast<Nz::ParticleStruct_Billboard*>(mapper.GetPointer());
-		for (unsigned int i = 0; i < count; ++i)
-		{
-			billboards[i].color = Nz::Color::White;
-			billboards[i].life = 1.f + lifeDis(gen);
-			billboards[i].position = pos + Nz::Vector3f(posDis(gen), posDis(gen), posDis(gen));
-			billboards[i].rotation = rotDis(gen);
-			billboards[i].size = { 1.28f, 1.28f };
-			billboards[i].size *= sizeDis(gen);
-			billboards[i].velocity.Set(normalDis(gen), normalDis(gen), normalDis(gen));
-			billboards[i].velocity.Normalize();
-			billboards[i].velocity *= velDis(gen);
-		}
-	});
-
-	handle->AddEmitter(m_shipEntity);
+	m_world3D.AddSystem<ShipControlerSystem>();
 }
 
 void GameState::Leave(Ndk::StateMachine& fsm)
 {
-	cleanEntities();
-	m_env.world3D.RemoveSystem<ShipControlerSystem>();
+
 }
 
 bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
 {
+	m_world2D.Update(elapsedTime);
+	m_world3D.Update(elapsedTime);
+
 	return true;
 }
 
@@ -120,18 +49,18 @@ void GameState::addCamera()
 {
 	Nz::Vector3f offset(0, 0, 5.0f);
 
-	m_cameraEntity = m_env.world3D.CreateEntity();
-	auto & nodeComponent = m_cameraEntity->AddComponent<Ndk::NodeComponent>();
+	auto cameraEntity = m_world3D.CreateEntity();
+	auto & nodeComponent = cameraEntity->AddComponent<Ndk::NodeComponent>();
 	nodeComponent.SetPosition(offset);
-	auto & cameraComponent = m_cameraEntity->AddComponent<Ndk::CameraComponent>();
+	auto & cameraComponent = cameraEntity->AddComponent<Ndk::CameraComponent>();
 	cameraComponent.SetProjectionType(Nz::ProjectionType_Perspective);
 	cameraComponent.SetTarget(&m_env.window);
-	m_cameraEntity->AddComponent<FollowEntityComponent>(m_shipEntity, offset);
+	cameraEntity->AddComponent<FollowEntityComponent>(m_shipEntity, offset);
 }
 
 void GameState::addPlayerShip()
 {
-	m_shipEntity = m_env.world3D.CreateEntity();
+	m_shipEntity = m_world3D.CreateEntity();
 	auto & nodeComponent = m_shipEntity->AddComponent<Ndk::NodeComponent>();
 	nodeComponent.SetPosition(0, 0, 0);
 	auto & graphicComponent = m_shipEntity->AddComponent<Ndk::GraphicsComponent>();
@@ -169,18 +98,87 @@ void GameState::addPlayerShip()
 	nodeComponent.SetScale(scale, scale, scale);
 
 	graphicComponent.Attach(ship);
+
+	auto & emitter = m_shipEntity->AddComponent<Ndk::ParticleEmitterComponent>();
+	emitter.SetEmissionCount(2);
+	emitter.SetEmissionRate(100.f);
+	emitter.Enable(false);
+	
+	emitter.SetSetupFunc([&gen = m_gen, &nodeComponent](const Ndk::EntityHandle& entity, Nz::ParticleMapper& mapper, unsigned int count)
+	{
+		Nz::Vector3f dir = nodeComponent.GetRotation() * Nz::Vector3f(-1.0f, 0, 0);
+		Nz::Vector3f pos = dir / 2 + nodeComponent.GetPosition();
+
+		std::uniform_real_distribution<float> lifeDis(-0.3f, 0.3f);
+		std::uniform_real_distribution<float> posDis(-0.1f, 0.1f);
+		std::uniform_real_distribution<float> rotDis(-180.f, 180.f);
+		std::uniform_real_distribution<float> velDis(0.0f, 0.025f);
+
+		Nz::ParticleStruct_Billboard* billboards = static_cast<Nz::ParticleStruct_Billboard*>(mapper.GetPointer());
+		for (unsigned int i = 0; i < count; ++i)
+		{
+			billboards[i].color = Nz::Color::White;
+			billboards[i].life = 0.5f + lifeDis(gen);
+			billboards[i].position = pos + Nz::Vector3f(posDis(gen), posDis(gen), posDis(gen));
+			billboards[i].rotation = rotDis(gen);
+			billboards[i].size = { 0.2f, 0.2f };
+			billboards[i].velocity = dir * velDis(gen);
+		}
+	});
+
+	m_shipParticleHandle->AddEmitter(m_shipEntity);
 }
 
 void GameState::addLight()
 {
-	m_lightEntity = m_env.world3D.CreateEntity();
-	auto & nodeComponent = m_lightEntity->AddComponent<Ndk::NodeComponent>();
+	auto lightEntity = m_world3D.CreateEntity();
+	auto & nodeComponent = lightEntity->AddComponent<Ndk::NodeComponent>();
 	nodeComponent.SetRotation(Nz::Quaternionf(Nz::EulerAnglesf(-45, 0, 0)));
-	auto & lightComponent = m_lightEntity->AddComponent<Ndk::LightComponent>(Nz::LightType::LightType_Directional);
+	auto & lightComponent = lightEntity->AddComponent<Ndk::LightComponent>(Nz::LightType::LightType_Directional);
 	lightComponent.SetAmbientFactor(0.2f);
 }
 
-void GameState::cleanEntities()
+void GameState::createParticleHandle()
 {
-	m_env.world3D.KillEntities(std::vector<Ndk::EntityHandle>{m_cameraEntity, m_shipEntity, m_lightEntity});
+	auto entity = m_world3D.CreateEntity();
+	m_shipParticleHandle = entity->AddComponent<Ndk::ParticleGroupComponent>(10000, Nz::ParticleDeclaration::Get(Nz::ParticleLayout_Billboard)).CreateHandle();
+	m_shipParticleHandle->AddController(Nz::ParticleFunctionController::New([](Nz::ParticleGroup& group, Nz::ParticleMapper& mapper, unsigned int startId, unsigned int endId, float elapsedTime)
+	{
+		auto colorPtr = mapper.GetComponentPtr<Nz::Color>(Nz::ParticleComponent_Color);
+		auto lifePtr = mapper.GetComponentPtr<float>(Nz::ParticleComponent_Life);
+		auto positionPtr = mapper.GetComponentPtr<Nz::Vector3f>(Nz::ParticleComponent_Position);
+		auto rotationPtr = mapper.GetComponentPtr<float>(Nz::ParticleComponent_Rotation);
+		auto sizePtr = mapper.GetComponentPtr<Nz::Vector2f>(Nz::ParticleComponent_Size);
+		auto velocityPtr = mapper.GetComponentPtr<Nz::Vector3f>(Nz::ParticleComponent_Velocity);
+
+		float velFactor = std::pow(0.9f, elapsedTime / 0.1f);
+
+		for (unsigned int i = startId; i <= endId; ++i)
+		{
+			colorPtr[i].a = static_cast<Nz::UInt8>(Nz::Clamp(lifePtr[i] * 255.f, 0.f, 255.f));
+			lifePtr[i] -= elapsedTime;
+			if (lifePtr[i] < 0.f)
+				group.KillParticle(i);
+
+			positionPtr[i] += velocityPtr[i];
+		}
+
+	}));
+
+	Nz::MaterialRef fireMat = Nz::Material::New("Translucent3D");
+	fireMat->EnableFaceCulling(true);
+	fireMat->SetDiffuseMap("res/fire_particle.png");
+	// Additive blending for fire
+	fireMat->SetDstBlend(Nz::BlendFunc_One);
+	fireMat->SetSrcBlend(Nz::BlendFunc_SrcAlpha);
+
+	m_shipParticleHandle->SetRenderer(Nz::ParticleFunctionRenderer::New([fireMat](const Nz::ParticleGroup& group, const Nz::ParticleMapper& mapper, unsigned int startId, unsigned int endId, Nz::AbstractRenderQueue* renderQueue)
+	{
+		auto colorPtr = mapper.GetComponentPtr<const Nz::Color>(Nz::ParticleComponent_Color);
+		auto posPtr = mapper.GetComponentPtr<const Nz::Vector3f>(Nz::ParticleComponent_Position);
+		auto rotPtr = mapper.GetComponentPtr<const float>(Nz::ParticleComponent_Rotation);
+		auto sizePtr = mapper.GetComponentPtr<const Nz::Vector2f>(Nz::ParticleComponent_Size);
+
+		renderQueue->AddBillboards(0, fireMat, endId - startId + 1, posPtr, sizePtr, rotPtr, colorPtr);
+	}));
 }

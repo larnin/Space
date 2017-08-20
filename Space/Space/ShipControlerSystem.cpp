@@ -1,5 +1,6 @@
 #include "ShipControlerSystem.h"
 #include "ShipControlerComponent.h"
+#include <NDK/Components/ParticleEmitterComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
 #include <Nazara/Utility/Keyboard.hpp>
 #include <algorithm>
@@ -34,7 +35,7 @@ float offsetAngle(float current, float target)
 
 ShipControlerSystem::ShipControlerSystem()
 {
-	Requires<Ndk::PhysicsComponent2D, ShipControlerComponent>();
+	Requires<Ndk::PhysicsComponent2D, Ndk::ParticleEmitterComponent, ShipControlerComponent>();
 }
 
 void ShipControlerSystem::OnUpdate(float elapsedTime)
@@ -43,6 +44,7 @@ void ShipControlerSystem::OnUpdate(float elapsedTime)
 	{
 		auto & shipComponent = entity->GetComponent<ShipControlerComponent>();
 		auto & physicComponent = entity->GetComponent<Ndk::PhysicsComponent2D>();
+		auto & particleComponent = entity->GetComponent<Ndk::ParticleEmitterComponent>();
 		auto & controls = shipComponent.getControls();
 		
 		float rotation = physicComponent.GetRotation();
@@ -97,7 +99,11 @@ void ShipControlerSystem::OnUpdate(float elapsedTime)
 		}
 
 		if (dir.x != 0 || dir.y != 0)
-			acceleration = (1 - (a/180.0f)*(a/180.0f)) * shipComponent.acceleration;
+		{
+			acceleration = (1 - (a / 180.0f)*(a / 180.0f)) * shipComponent.acceleration;
+			particleComponent.Enable(true);
+		}
+		else particleComponent.Enable(false);
 
 		physicComponent.SetRotation(physicComponent.GetRotation() + shipComponent.rotationSpeed * elapsedTime);
 

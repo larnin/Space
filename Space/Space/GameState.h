@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Env.h"
+#include <NDK/World.hpp>
 #include <NDK/State.hpp>
+#include <NDK/Components/ParticleGroupComponent.hpp>
 #include <random>
 
 class GameState : public Ndk::State
@@ -18,12 +20,15 @@ private:
 	void addCamera();
 	void addPlayerShip();
 	void addLight();
-	void cleanEntities();
+	void createParticleHandle();
 
 	Env m_env;
-	Ndk::EntityHandle m_cameraEntity;
 	Ndk::EntityHandle m_shipEntity;
-	Ndk::EntityHandle m_lightEntity;
 	std::mt19937 m_gen;
+
+	Ndk::World m_world2D;
+	Ndk::World m_world3D;
+	
+	Ndk::ParticleGroupComponentHandle m_shipParticleHandle;
 };
 

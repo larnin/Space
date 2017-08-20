@@ -4,7 +4,6 @@
 #include "ShipControlerSystem.h"
 #include <NDK/Application.hpp>
 #include <NDK/StateMachine.hpp>
-#include <NDK/World.hpp>
 #include <NDK/Components.hpp>
 #include <Nazara/Renderer.hpp>
 #include <memory>
@@ -26,11 +25,9 @@ int main()
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Test");
 	mainWindow.SetFramerateLimit(60);
 
-	auto & world2D = application.AddWorld();
-	auto & world3D = application.AddWorld();
 	Ndk::StateMachine fsm{ std::shared_ptr<Ndk::State>() };
 
-	fsm.ChangeState(std::make_shared<GameState>(Env(application, fsm, mainWindow, world2D, world3D)));
+	fsm.ChangeState(std::make_shared<GameState>(Env(fsm, mainWindow)));
 
 	while (application.Run())
 	{
