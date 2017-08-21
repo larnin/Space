@@ -30,7 +30,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 	addCamera();
 	addLight();
 	m_world3D.AddSystem<ShipControlerSystem>();
-	m_world3D.AddSystem<FollowEntitySystem>();
+	m_world3D.AddSystem<FollowEntitySystem>(m_env.window);
 }
 
 void GameState::Leave(Ndk::StateMachine& fsm)

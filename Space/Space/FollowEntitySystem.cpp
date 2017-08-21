@@ -3,11 +3,20 @@
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
 
+#include <iostream>
+
 Ndk::SystemIndex FollowEntitySystem::systemIndex;
 
-FollowEntitySystem::FollowEntitySystem()
+FollowEntitySystem::FollowEntitySystem(Nz::Window & window)
 {
 	Requires<Ndk::NodeComponent, FollowEntityComponent>();
+
+	auto & handler = window.GetEventHandler();
+	mouseMovedEvent.Connect(handler.OnMouseMoved,
+		[](const Nz::EventHandler*, const Nz::WindowEvent::MouseMoveEvent& event)
+	{
+		std::cout << event.x << " " << event.y << " " << event.x << " " << event.y << std::endl;
+	});
 }
 
 void FollowEntitySystem::OnUpdate(float elapsedTime)
