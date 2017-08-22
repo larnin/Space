@@ -16,6 +16,7 @@
 #include <Nazara/Graphics/ParticleFunctionRenderer.hpp>
 #include <Nazara/Graphics/ParticleStruct.hpp>
 #include <Nazara/Graphics/Model.hpp>
+#include <Nazara/Graphics/Sprite.hpp>
 
 GameState::GameState(const Env & env)
 	: m_env(env)
@@ -29,6 +30,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 	addPlayerShip();
 	addCamera();
 	addLight();
+	addBasicBackground();
 	m_world3D.AddSystem<ShipControlerSystem>();
 	m_world3D.AddSystem<FollowEntitySystem>(m_env.window);
 }
@@ -48,16 +50,12 @@ bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
 
 void GameState::addCamera()
 {
-	Nz::Vector3f offset(0, 0, 5.0f);
-
 	auto cameraEntity = m_world3D.CreateEntity();
 	auto & nodeComponent = cameraEntity->AddComponent<Ndk::NodeComponent>();
-	nodeComponent.SetPosition(offset);
 	auto & cameraComponent = cameraEntity->AddComponent<Ndk::CameraComponent>();
 	cameraComponent.SetProjectionType(Nz::ProjectionType_Perspective);
 	cameraComponent.SetTarget(&m_env.window);
-	auto & followComponent = cameraEntity->AddComponent<FollowEntityComponent>(m_shipEntity, offset);
-	followComponent.velocityOffsetMultiplier = 0.15f;
+	auto & followComponent = cameraEntity->AddComponent<FollowEntityComponent>(m_shipEntity);
 }
 
 void GameState::addPlayerShip()
@@ -138,6 +136,19 @@ void GameState::addLight()
 	nodeComponent.SetRotation(Nz::Quaternionf(Nz::EulerAnglesf(-45, 0, 0)));
 	auto & lightComponent = lightEntity->AddComponent<Ndk::LightComponent>(Nz::LightType::LightType_Directional);
 	lightComponent.SetAmbientFactor(0.2f);
+}
+
+void  GameState::addBasicBackground()
+{
+	Ndk::EntityHandle entity = m_world3D.CreateEntity();
+	Ndk::NodeComponent& nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
+	Ndk::GraphicsComponent& graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
+
+	Nz::SpriteRef sprite = Nz::Sprite::New();
+	sprite->SetTexture("res/back.jpg");
+	sprite->SetSize(100, 100);
+	graphicComponent.Attach(sprite);
+	nodeComponent.SetPosition(Nz::Vector3f(-sprite->GetSize().x / 2.0f, sprite->GetSize().y / 2.0f, -10));
 }
 
 void GameState::createParticleHandle()

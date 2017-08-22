@@ -20,6 +20,7 @@ private:
 	void addCamera();
 	void addPlayerShip();
 	void addLight();
+	void addBasicBackground();
 	void createParticleHandle();
 
 	Env m_env;

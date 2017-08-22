@@ -3,24 +3,58 @@
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
 
-#include <iostream>
-
 Ndk::SystemIndex FollowEntitySystem::systemIndex;
 
+namespace
+{
+	const float maxZoomTime(0.5f);
+	const float mouseDistanceMultiplier(0.5f);
+	float lerp(float minValue, float maxValue, float t, float minT, float maxT)
+	{
+		float tNorm = (t - minT) / (maxT - minT);
+		return minValue * tNorm + maxValue * (1 - tNorm);
+	}
+
+	float zoomHeight(float level)
+	{
+		const float base(sqrt(2.0f));
+		return pow(base, level);
+	}
+}
+
 FollowEntitySystem::FollowEntitySystem(Nz::Window & window)
+	: m_normalizedMousePos(0.0f, 0.0f)
+	, m_zoomTime(0)
+	, m_zoomLevel(3)
+	, m_oldZoomLevel(3.0f)
 {
 	Requires<Ndk::NodeComponent, FollowEntityComponent>();
 
 	auto & handler = window.GetEventHandler();
 	mouseMovedEvent.Connect(handler.OnMouseMoved,
-		[](const Nz::EventHandler*, const Nz::WindowEvent::MouseMoveEvent& event)
+		[&normalizedMousePos = m_normalizedMousePos, &window](const Nz::EventHandler*, const Nz::WindowEvent::MouseMoveEvent& event)
 	{
-		std::cout << event.x << " " << event.y << " " << event.x << " " << event.y << std::endl;
+		normalizedMousePos = Nz::Vector2f(event.x / (float)window.GetWidth() - 0.5f, -(event.y / (float)window.GetHeight() - 0.5f));
+	});
+
+	mouseWheelMovedEvent.Connect(handler.OnMouseWheelMoved,
+		[&oldZoomLevel = m_oldZoomLevel, &zoomLevel = m_zoomLevel, &zoomTime = m_zoomTime](const Nz::EventHandler*, const Nz::WindowEvent::MouseWheelEvent& event)
+	{
+		oldZoomLevel = lerp((float)zoomLevel, oldZoomLevel, zoomTime, maxZoomTime, 0);
+		zoomLevel = Nz::Clamp(zoomLevel + (event.delta > 0 ? 1 : -1), 1, 9);
+		zoomTime = maxZoomTime;
 	});
 }
 
 void FollowEntitySystem::OnUpdate(float elapsedTime)
 {
+	m_zoomTime = std::max(m_zoomTime - elapsedTime, 0.0f);		
+	
+	Nz::Vector3f offset(0, 0, 0);
+	offset.z = zoomHeight(lerp((float)m_zoomLevel, m_oldZoomLevel, m_zoomTime, maxZoomTime, 0));
+	offset.x = m_normalizedMousePos.x * offset.z * mouseDistanceMultiplier;
+	offset.y = m_normalizedMousePos.y * offset.z * mouseDistanceMultiplier;
+
 	for (const Ndk::EntityHandle& entity : GetEntities())
 	{
 		auto & followComponent = entity->GetComponent<FollowEntityComponent>();
@@ -29,6 +63,6 @@ void FollowEntitySystem::OnUpdate(float elapsedTime)
 		auto & entityNodeComponent = followComponent.entity->GetComponent<Ndk::NodeComponent>();;
 		auto & nodeComponent = entity->GetComponent<Ndk::NodeComponent>();
 
-		nodeComponent.SetPosition(entityNodeComponent.GetPosition() + followComponent.offset);
+		nodeComponent.SetPosition(entityNodeComponent.GetPosition() + offset);
 	}
 }

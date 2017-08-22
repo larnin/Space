@@ -2,9 +2,8 @@
 
 Ndk::ComponentIndex FollowEntityComponent::componentIndex;
 
-FollowEntityComponent::FollowEntityComponent(Ndk::EntityHandle _entity, const Nz::Vector3f & _offset)
+FollowEntityComponent::FollowEntityComponent(Ndk::EntityHandle _entity)
 	: entity(_entity)
-	, offset(_offset)
 {
 
 }
