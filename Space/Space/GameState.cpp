@@ -148,7 +148,7 @@ void  GameState::addBasicBackground()
 	sprite->SetTexture("res/back.jpg");
 	sprite->SetSize(100, 100);
 	graphicComponent.Attach(sprite);
-	nodeComponent.SetPosition(Nz::Vector3f(-sprite->GetSize().x / 2.0f, sprite->GetSize().y / 2.0f, -10));
+	nodeComponent.SetPosition(Nz::Vector3f(-sprite->GetSize().x / 2.0f, sprite->GetSize().y / 2.0f, -2));
 }
 
 void GameState::createParticleHandle()

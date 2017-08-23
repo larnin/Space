@@ -26,6 +26,7 @@ int main()
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Test");
 	mainWindow.SetFramerateLimit(60);
+	mainWindow.EnableVerticalSync(true);
 
 	Ndk::StateMachine fsm{ std::shared_ptr<Ndk::State>() };
 

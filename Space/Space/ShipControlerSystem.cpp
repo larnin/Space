@@ -1,5 +1,6 @@
 #include "ShipControlerSystem.h"
 #include "ShipControlerComponent.h"
+#include "Utilities.h"
 #include <NDK/Components/ParticleEmitterComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
 #include <Nazara/Utility/Keyboard.hpp>
@@ -7,30 +8,23 @@
 
 Ndk::SystemIndex ShipControlerSystem::systemIndex;
 
-float sign(float value)
+namespace
 {
-	return value >= 0 ? 1.0f : -1.0f;
-}
+	float offsetAngle(float current, float target)
+	{
+		current = fmod(current, 360.0f);
+		if (current < 0) current += 360.0f;
+		target = fmod(target, 360.0f);
+		if (target < 0)
+			target += 360.0f;
 
-float signedAngle(const Nz::Vector2f & vect)
-{
-	return atan2(vect.y, vect.x) * 180.0f / float(M_PI);
-}
-
-float offsetAngle(float current, float target)
-{
-	current = fmod(current, 360.0f);
-	if (current < 0) current += 360.0f;
-	target = fmod(target, 360.0f);
-	if (target < 0)
-		target += 360.0f;
-
-	float angle = target - current;
-	if (angle > 180.0f)
-		return angle - 360.0f;
-	if (angle < -180.0f)
-		return 360.0f + angle;
-	return angle;
+		float angle = target - current;
+		if (angle > 180.0f)
+			return angle - 360.0f;
+		if (angle < -180.0f)
+			return 360.0f + angle;
+		return angle;
+	}
 }
 
 ShipControlerSystem::ShipControlerSystem()
