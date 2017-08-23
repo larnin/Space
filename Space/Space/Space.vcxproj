@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>NazaraAudio-d.lib;NazaraCore-d.lib;NazaraGraphics-d.lib;NazaraLua-d.lib;NazaraNetwork-d.lib;NazaraNoise-d.lib;NazaraPhysics2D-d.lib;NazaraPhysics3D-d.lib;NazaraRenderer-d.lib;NazaraSDK-d.lib;NazaraSDKServer-d.lib;NazaraUtility-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -125,7 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

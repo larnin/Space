@@ -17,7 +17,7 @@ void initializeCustomComponentsAndSystems()
 	Ndk::InitializeSystem<ShipControlerSystem>();
 	Ndk::InitializeSystem<FollowEntitySystem>();
 }
-
+#include <iostream>
 int main()
 {
 	Ndk::Application application;
