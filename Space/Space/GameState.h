@@ -22,6 +22,7 @@ private:
 	void addLight();
 	void addBasicBackground();
 	void createParticleHandle();
+	void addAsteroid(unsigned int count);
 
 	Env m_env;
 	Ndk::EntityHandle m_shipEntity;

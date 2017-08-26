@@ -99,7 +99,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>NazaraAudio-d.lib;NazaraCore-d.lib;NazaraGraphics-d.lib;NazaraLua-d.lib;NazaraNetwork-d.lib;NazaraNoise-d.lib;NazaraPhysics2D-d.lib;NazaraPhysics3D-d.lib;NazaraRenderer-d.lib;NazaraSDK-d.lib;NazaraSDKServer-d.lib;NazaraUtility-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,10 +131,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>NazaraAudio.lib;NazaraCore.lib;NazaraGraphics.lib;NazaraLua.lib;NazaraNetwork.lib;NazaraNoise.lib;NazaraPhysics2D.lib;NazaraPhysics3D.lib;NazaraRenderer.lib;NazaraSDK.lib;NazaraSDKServer.lib;NazaraUtility.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev593\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsteroidComponent.cpp" />
     <ClCompile Include="FollowEntityComponent.cpp" />
     <ClCompile Include="FollowEntitySystem.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="ShipControlerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsteroidComponent.h" />
     <ClInclude Include="Env.h" />
     <ClInclude Include="FollowEntityComponent.h" />
     <ClInclude Include="FollowEntitySystem.h" />

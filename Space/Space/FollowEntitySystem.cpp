@@ -44,8 +44,6 @@ FollowEntitySystem::FollowEntitySystem(Nz::Window & window)
 	});
 }
 
-#include <iostream>
-
 void FollowEntitySystem::OnUpdate(float elapsedTime)
 {
 	m_zoomTime = std::max(m_zoomTime - elapsedTime, 0.0f);		
@@ -64,6 +62,5 @@ void FollowEntitySystem::OnUpdate(float elapsedTime)
 		auto & nodeComponent = entity->GetComponent<Ndk::NodeComponent>();
 
 		nodeComponent.SetPosition(entityNodeComponent.GetPosition() + offset);
-		nodeComponent.SetRotation(entityNodeComponent.GetRotation() * Nz::Quaternionf(Nz::EulerAnglesf(0, 0, 90)));
 	}
 }

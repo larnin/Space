@@ -1,6 +1,7 @@
 #include "GameState.h"
 #include "ShipControlerComponent.h"
 #include "FollowEntityComponent.h"
+#include "AsteroidComponent.h"
 #include "ShipControlerSystem.h"
 #include "FollowEntitySystem.h"
 #include <NDK/Application.hpp>
@@ -9,10 +10,14 @@
 #include <Nazara/Renderer.hpp>
 #include <memory>
 
+#include <Nazara/Renderer/Shader.hpp>
+#include <Nazara/Graphics/Material.hpp>
+
 void initializeCustomComponentsAndSystems()
 {
 	Ndk::InitializeComponent<ShipControlerComponent>("001SCC");
 	Ndk::InitializeComponent<FollowEntityComponent>("002FEC");
+	Ndk::InitializeComponent<AsteroidComponent>("003AsC");
 
 	Ndk::InitializeSystem<ShipControlerSystem>();
 	Ndk::InitializeSystem<FollowEntitySystem>();

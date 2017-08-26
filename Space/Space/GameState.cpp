@@ -1,6 +1,7 @@
 #include "GameState.h"
 #include "FollowEntityComponent.h"
 #include "ShipControlerComponent.h"
+#include "AsteroidComponent.h"
 #include "FollowEntitySystem.h"
 #include "ShipControlerSystem.h"
 #include <NDK/Components/NodeComponent.hpp>
@@ -17,6 +18,7 @@
 #include <Nazara/Graphics/ParticleStruct.hpp>
 #include <Nazara/Graphics/Model.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
+#include <random>
 
 GameState::GameState(const Env & env)
 	: m_env(env)
@@ -31,6 +33,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 	addCamera();
 	addLight();
 	addBasicBackground();
+	addAsteroid(30);
 	m_world3D.AddSystem<ShipControlerSystem>();
 	m_world3D.AddSystem<FollowEntitySystem>(m_env.window);
 }
@@ -39,6 +42,8 @@ void GameState::Leave(Ndk::StateMachine& fsm)
 {
 
 }
+
+#include <iostream>
 
 bool GameState::Update(Ndk::StateMachine& fsm, float elapsedTime)
 {
@@ -201,4 +206,28 @@ void GameState::createParticleHandle()
 
 		renderQueue->AddBillboards(0, fireMat, endId - startId + 1, posPtr, sizePtr, rotPtr, colorPtr);
 	}));
+}
+
+
+void GameState::addAsteroid(unsigned int count)
+{
+	std::mt19937 gen(0);
+	std::uniform_real_distribution<float> dPos(-20, 20);
+	std::uniform_real_distribution<float> dScale(1, 2);
+
+	AsteroidParameters parameters;
+
+	for (auto entity : m_world3D.CreateEntities(count))
+	{
+		auto & nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
+		nodeComponent.SetPosition(dPos(gen), dPos(gen), 0);
+
+		parameters.sphereScale.Set(dScale(gen), dScale(gen), dScale(gen));
+		parameters.seed = gen();
+
+		auto & asteroidComponent = AsteroidComponent::create(entity, parameters);
+
+		auto & graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
+		graphicComponent.Attach(asteroidComponent.getModel());
+	}
 }

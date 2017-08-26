@@ -51,6 +51,9 @@
     <ClCompile Include="FollowEntitySystem.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="AsteroidComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShipControlerComponent.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="AsteroidComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
