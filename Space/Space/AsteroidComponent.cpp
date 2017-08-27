@@ -7,6 +7,8 @@
 #include <Nazara/Core/SparsePtr.hpp>
 #include <vector>
 
+#include <iostream>
+
 Ndk::ComponentIndex AsteroidComponent::componentIndex;
 
 AsteroidComponent::AsteroidComponent()
@@ -35,12 +37,14 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 	};
 
 	std::vector<PerlinData> perlins;
+	float totalAmplitude(0);
 	{
 		float amplitude(params.amplitude);
 		float scale(params.scale);
 		for (unsigned int i(0); i < params.steps; i++)
 		{
 			perlins.emplace_back(Nz::Perlin(params.seed + i), amplitude, scale);
+			totalAmplitude += amplitude;
 			amplitude *= params.amplitudeMultiplier;
 			scale *= params.scaleMultiplier;
 		}
@@ -57,6 +61,14 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 		float offset(0);
 		for (const auto & p : perlins)
 			offset += p.perlin.Get(pos.x, pos.y, pos.z, p.scale) * p.amplitude;
+
+		offset += totalAmplitude / 2;
+		offset /= totalAmplitude;
+		offset = std::pow(offset, params.amplitudeExp);
+		offset *= totalAmplitude;
+		offset -= totalAmplitude / 2;
+		offset *= params.amplitude / totalAmplitude;
+
 		pos = (pos.GetLength() + offset) * Nz::Vector3f::Normalize(pos);
 
 		*position = pos;
