@@ -12,8 +12,9 @@ struct AsteroidParameters
 	float period = 2;
 	float amplitude = 1.0f;
 	float amplitudeMultiplier = 0.5f;
+	float amplitudeExp = 1.0f;
 	int steps = 3;
-	float scale = 0.5f;
+	float scale = 1.0f;
 	float scaleMultiplier = 2.0f;
 };
 

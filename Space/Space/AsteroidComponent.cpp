@@ -3,6 +3,8 @@
 #include <Nazara/Utility/Mesh.hpp>
 #include <Nazara/Utility/StaticMesh.hpp>
 #include <Nazara/Utility/BufferMapper.hpp>
+#include <Nazara/Utility/VertexMapper.hpp>
+#include <Nazara/Core/SparsePtr.hpp>
 #include <vector>
 
 Ndk::ComponentIndex AsteroidComponent::componentIndex;
@@ -19,11 +21,10 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 	auto sphereMesh = dynamic_cast<Nz::StaticMesh*>(sphere);
 	NazaraAssert(sphereMesh != nullptr, "The sphere is not a staticmesh !");
 
-	auto buffer = sphereMesh->GetVertexBuffer();
 	auto bufferSize = sphereMesh->GetVertexCount();
 
-	Nz::BufferMapper<Nz::VertexBuffer> vertexsMapper(buffer, Nz::BufferAccess_ReadWrite);
-	auto meshVertices = static_cast<Nz::VertexStruct_XYZ_Normal_UV_Tangent*>(vertexsMapper.GetPointer());
+	Nz::VertexMapper mapper(sphere);
+	Nz::SparsePtr<Nz::Vector3f> position = mapper.GetComponentPtr<Nz::Vector3f>(Nz::VertexComponent_Position);
 
 	struct PerlinData
 	{
@@ -47,7 +48,7 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 
 	for (unsigned int i(0); i < bufferSize; i++)
 	{
-		auto pos = meshVertices[i].position;
+		auto pos = *position;
 
 		pos.x *= params.sphereScale.x;
 		pos.y *= params.sphereScale.y;
@@ -56,13 +57,15 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 		float offset(0);
 		for (const auto & p : perlins)
 			offset += p.perlin.Get(pos.x, pos.y, pos.z, p.scale) * p.amplitude;
+		pos = (pos.GetLength() + offset) * Nz::Vector3f::Normalize(pos);
 
-		pos = (pos.GetLength() + offset) * pos.Normalize();
-		meshVertices[i].position = pos;
+		*position = pos;
+		position++;
 	}
 
-	//sphereMesh->GenerateNormalsAndTangents();
-	//sphereMesh->GenerateAABB();
+	mapper.Unmap();
+	sphereMesh->GenerateNormalsAndTangents();
+	sphereMesh->GenerateAABB();
 
 	sphere->SetMaterialIndex(0);
 	auto model = Nz::Model::New();
@@ -74,7 +77,6 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 
 	auto & comp = e->AddComponent<AsteroidComponent>();
 	comp.m_model = model;
-	comp.m_buffer = meshVertices;
 	comp.m_bufferSize = bufferSize;
 
 	return comp;

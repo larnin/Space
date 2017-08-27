@@ -33,7 +33,7 @@ void GameState::Enter(Ndk::StateMachine& fsm)
 	addCamera();
 	addLight();
 	addBasicBackground();
-	addAsteroid(30);
+	addAsteroid(10);
 	m_world3D.AddSystem<ShipControlerSystem>();
 	m_world3D.AddSystem<FollowEntitySystem>(m_env.window);
 }
@@ -216,6 +216,12 @@ void GameState::addAsteroid(unsigned int count)
 	std::uniform_real_distribution<float> dScale(1, 2);
 
 	AsteroidParameters parameters;
+	parameters.scale = 0.3f;
+	parameters.subdivisions = 4;
+	parameters.amplitude = 2.0f;
+	parameters.amplitudeMultiplier = 0.5f;
+	parameters.steps = 5;
+	parameters.amplitudeExp = 2.0f;
 
 	for (auto entity : m_world3D.CreateEntities(count))
 	{
