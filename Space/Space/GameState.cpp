@@ -223,6 +223,9 @@ void GameState::addAsteroid(unsigned int count)
 	parameters.steps = 5;
 	parameters.amplitudeExp = 2.0f;
 
+	std::uniform_real_distribution<float> dCratere(-1, 1);
+	std::uniform_real_distribution<float> dPower(10.0, 20.0f);
+
 	for (auto entity : m_world3D.CreateEntities(count))
 	{
 		auto & nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
@@ -235,5 +238,8 @@ void GameState::addAsteroid(unsigned int count)
 
 		auto & graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
 		graphicComponent.Attach(asteroidComponent.getModel());
+
+		for(unsigned int i(0) ; i < 25 ; i++)
+			asteroidComponent.damage(Nz::Vector3f(dCratere(gen), dCratere(gen), dCratere(gen)), dPower(gen));
 	}
 }

@@ -3,6 +3,7 @@
 #include <NDK/Component.hpp>
 #include <Nazara/Math/Vector3.hpp>
 #include <Nazara/Graphics/Model.hpp>
+#include <Nazara/Utility/StaticMesh.hpp>
 
 struct AsteroidParameters
 {
@@ -16,6 +17,7 @@ struct AsteroidParameters
 	int steps = 3;
 	float scale = 1.0f;
 	float scaleMultiplier = 2.0f;
+	float damageResistance = 1.0f;
 };
 
 class AsteroidComponent : public Ndk::Component<AsteroidComponent>
@@ -26,13 +28,18 @@ public:
 
 	static AsteroidComponent & create(Ndk::EntityHandle e, const AsteroidParameters & params);
 
+	inline Nz::ModelRef getModel() { return m_model; };
+	void damage(const Nz::Vector3f & relativePos, float value);
+
 	static Ndk::ComponentIndex componentIndex;
 
-	inline Nz::ModelRef getModel() { return m_model; };
-
 private:
+	void damageModel(const Nz::Vector3f & relativePos, float radius);
+
 	Nz::ModelRef m_model;
 	unsigned int m_bufferSize;
-	Nz::VertexStruct_XYZ_Normal_UV_Tangent* m_buffer;
+	Nz::StaticMesh* m_mesh;
+	float m_life;
+	float m_damageResistance;
 };
 
