@@ -31,6 +31,12 @@
     <Filter Include="Fichiers sources\Systems">
       <UniqueIdentifier>{291d64d9-acd4-422e-9caa-65a4ae01b5e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{1fda72bf-25b1-4420-8dc2-779211022db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Blend">
+      <UniqueIdentifier>{0c3d14bb-3427-4662-9e6f-64fc0c65f53d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -80,5 +86,13 @@
     <ClInclude Include="AsteroidComponent.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="blend.vert">
+      <Filter>Shader\Blend</Filter>
+    </None>
+    <None Include="blend.frag">
+      <Filter>Shader\Blend</Filter>
+    </None>
   </ItemGroup>
 </Project>

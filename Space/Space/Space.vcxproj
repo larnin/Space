@@ -153,6 +153,10 @@
     <ClInclude Include="ShipControlerSystem.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="blend.frag" />
+    <None Include="blend.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -5,6 +5,8 @@
 #include <Nazara/Graphics/Model.hpp>
 #include <Nazara/Utility/StaticMesh.hpp>
 
+Nz::ModelRef createThing();
+
 struct AsteroidParameters
 {
 	unsigned int seed = 0;

@@ -234,12 +234,16 @@ void GameState::addAsteroid(unsigned int count)
 		parameters.sphereScale.Set(dScale(gen), dScale(gen), dScale(gen));
 		parameters.seed = gen();
 
-		auto & asteroidComponent = AsteroidComponent::create(entity, parameters);
+		/*auto & asteroidComponent = AsteroidComponent::create(entity, parameters);
 
 		auto & graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
 		graphicComponent.Attach(asteroidComponent.getModel());
 
 		for(unsigned int i(0) ; i < 25 ; i++)
-			asteroidComponent.damage(Nz::Vector3f(dCratere(gen), dCratere(gen), dCratere(gen)), dPower(gen));
+			asteroidComponent.damage(Nz::Vector3f(dCratere(gen), dCratere(gen), dCratere(gen)), dPower(gen));*/
+
+		auto & graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
+		graphicComponent.Attach(createThing());
+
 	}
 }
