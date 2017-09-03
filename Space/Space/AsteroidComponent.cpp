@@ -160,6 +160,7 @@ Nz::ModelRef createThing()
 	Nz::VertexMapper vertexMapper(vertexBuffer, Nz::BufferAccess_WriteOnly);
 
 	Nz::SparsePtr<Nz::Vector3f> position = vertexMapper.GetComponentPtr<Nz::Vector3f>(Nz::VertexComponent_Position);
+	Nz::SparsePtr<Nz::Vector2f> uv = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_TexCoord);
 	Nz::SparsePtr<Nz::Vector2f> factors = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_Userdata0);
 	// and others
 
@@ -171,6 +172,9 @@ Nz::ModelRef createThing()
 	position[5].Set( 1, -1,  1);
 	position[6].Set( 1,  1, -1);
 	position[7].Set( 1,  1,  1);
+
+	for (int i = 0; i < 8; i++)
+		uv[i].Set((position[i].x + 1) / 2, (position[i].y + 1) / 2);
 
 	for (int i = 0; i < 8; i++)
 		factors[i].Set(0, 0);
@@ -221,6 +225,10 @@ Nz::ModelRef createThing()
 	auto mat = model->GetMaterial(0);
 	mat->SetFaceCulling(Nz::FaceSide_FrontAndBack);
 	mat->SetFaceFilling(Nz::FaceFilling_Fill);
+	mat->SetShader("blendAsteroid");
+	mat->SetDiffuseMap("res/Asteroids/stone.png");
+	mat->SetNormalMap("res/Asteroids/bedrock.png");
+	mat->SetSpecularMap("res/Asteroids/gold.png");
 
 	return model;
 }

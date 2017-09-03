@@ -22,11 +22,20 @@ void initializeCustomComponentsAndSystems()
 	Ndk::InitializeSystem<ShipControlerSystem>();
 	Ndk::InitializeSystem<FollowEntitySystem>();
 }
-#include <iostream>
+
+void initializeShaders()
+{
+	Nz::UberShaderPreprocessorRef blendShader(Nz::UberShaderPreprocessor::New());
+	blendShader->SetShaderFromFile(Nz::ShaderStageType::ShaderStageType_Vertex, "blend.vert", "FLAG_INSTANCING TRANSFORM UNIFORM_VERTEX_DEPTH TEXTURE_MAPPING");
+	blendShader->SetShaderFromFile(Nz::ShaderStageType::ShaderStageType_Fragment, "blend.frag", "ALPHA_TEST AUTO_TEXCOORDS DIFFUSE_MAPPING NORMAL_MAPPING SPECULAR_MAPPING");
+	Nz::UberShaderLibrary::Register("blendAsteroid", blendShader);
+}
+
 int main()
 {
 	Ndk::Application application;
 	initializeCustomComponentsAndSystems();
+	initializeShaders();
 
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Test");
