@@ -4,17 +4,140 @@
 #include <Nazara/Utility/BufferMapper.hpp>
 #include <Nazara/Utility/VertexMapper.hpp>
 #include <Nazara/Core/SparsePtr.hpp>
+#include <Nazara/Core/OffsetOf.hpp>
+#include <Nazara/Utility/IndexMapper.hpp>
+#include <Nazara/Utility/IndexIterator.hpp>
 #include <vector>
 
 #include <iostream>
 
 Ndk::ComponentIndex AsteroidComponent::componentIndex;
+Nz::VertexDeclarationRef AsteroidComponent::m_vertexDeclariation(AsteroidComponent::asteroidVertexDeclaration());
+std::map<std::string, Nz::TextureRef> AsteroidComponent::m_rockTextures(AsteroidComponent::texturesList({"stone", "lightstone", "sandstone"}));
+std::map<std::string, Nz::TextureRef> AsteroidComponent::m_brokenRockTextures(AsteroidComponent::texturesList({"bedrock", "iron2"}));
+std::map<std::string, Nz::TextureRef> AsteroidComponent::m_oreTextures(AsteroidComponent::texturesList({"clay", "diamond", "emerald", "gold", "iron", "lapis", "netherrack", "obsidian", "redstone", "yellow"}));
 
 AsteroidComponent::AsteroidComponent()
+	: m_bufferSize(0)
+	, m_mesh(nullptr)
+	, m_life(0)
+	, m_damageResistance(1)
+	, m_baseSubdivision(0)
 {
 }
 
+#include <iostream>
+
 AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const AsteroidParameters & params)
+{
+	auto baseMesh = Nz::Mesh::New();
+	baseMesh->CreateStatic(); 
+	auto sphere = baseMesh->BuildSubMesh(Nz::Primitive::IcoSphere(1, params.subdivisions));
+	auto sphereMesh = dynamic_cast<Nz::StaticMesh*>(sphere);
+	NazaraAssert(sphereMesh != nullptr, "The sphere is not a staticmesh !");
+
+	auto bufferSize = sphereMesh->GetVertexCount();
+	auto vertexBuffer = Nz::VertexBuffer::New(m_vertexDeclariation, bufferSize, Nz::DataStorage_Hardware, 0);
+	auto indexBuffer = Nz::IndexBuffer::New(false, sphereMesh->GetIndexBuffer()->GetIndexCount(), Nz::DataStorage_Hardware, 0);
+
+	Nz::VertexMapper vertexMapper(vertexBuffer, Nz::BufferAccess_WriteOnly);
+	Nz::SparsePtr<Nz::Vector3f> position = vertexMapper.GetComponentPtr<Nz::Vector3f>(Nz::VertexComponent_Position);
+	Nz::SparsePtr<Nz::Vector2f> uv = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_TexCoord);
+	Nz::SparsePtr<Nz::Vector2f> factors = vertexMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_Userdata0);
+
+	Nz::VertexMapper baseMapper(sphereMesh);
+	Nz::SparsePtr<Nz::Vector3f> basePosition = baseMapper.GetComponentPtr<Nz::Vector3f>(Nz::VertexComponent_Position);
+	Nz::SparsePtr<Nz::Vector2f> baseUv = baseMapper.GetComponentPtr<Nz::Vector2f>(Nz::VertexComponent_TexCoord);
+
+	struct PerlinData
+	{
+		PerlinData(const Nz::Perlin & _perlin, float _amplitude, float _scale) : perlin(_perlin), amplitude(_amplitude), scale(_scale) {}
+		Nz::Perlin perlin;
+		float amplitude;
+		float scale;
+	};
+
+	std::vector<PerlinData> perlins;
+	float totalAmplitude(0);
+	{
+		float amplitude(params.amplitude);
+		float scale(params.scale);
+		for (unsigned int i(0); i < params.steps; i++)
+		{
+			perlins.emplace_back(Nz::Perlin(params.seed + i), amplitude, scale);
+			totalAmplitude += amplitude;
+			amplitude *= params.amplitudeMultiplier;
+			scale *= params.scaleMultiplier;
+		}
+	}
+
+	for (unsigned int i(0); i < bufferSize; i++)
+	{
+		auto pos = basePosition[i];
+
+		pos.x *= params.sphereScale.x;
+		pos.y *= params.sphereScale.y;
+		pos.z *= params.sphereScale.z;
+
+		float offset(0);
+		for (const auto & p : perlins)
+			offset += p.perlin.Get(pos.x, pos.y, pos.z, p.scale) * p.amplitude;
+
+		offset += totalAmplitude / 2;
+		offset /= totalAmplitude;
+		offset = std::pow(offset, params.amplitudeExp);
+		offset *= totalAmplitude;
+		offset -= totalAmplitude / 2;
+		offset *= params.amplitude / totalAmplitude;
+
+		pos = (pos.GetLength() + offset) * Nz::Vector3f::Normalize(pos);
+
+		position[i] = pos;
+		uv[i] = baseUv[i];
+	}
+
+	Nz::IndexMapper indexMapper(indexBuffer, Nz::BufferAccess_WriteOnly);
+	Nz::IndexMapper baseIndexMapper(sphereMesh->GetIndexBuffer(), Nz::BufferAccess_ReadOnly);
+	for (auto it(indexMapper.begin()), itBase(baseIndexMapper.begin()); it != indexMapper.end() && itBase != baseIndexMapper.end(); it++, itBase++)
+		*it = *itBase;
+
+	vertexMapper.Unmap();
+	baseMapper.Unmap();
+	indexMapper.Unmap();
+	baseIndexMapper.Unmap();
+
+	auto mesh = Nz::Mesh::New();
+	mesh->CreateStatic();
+	auto subMesh = Nz::StaticMesh::New(mesh);
+	if (!subMesh->Create(vertexBuffer))
+		NazaraAssert(false, "Can't create submesh");
+
+	subMesh->SetIndexBuffer(indexBuffer);
+	subMesh->SetPrimitiveMode(Nz::PrimitiveMode_TriangleList);
+	subMesh->GenerateNormalsAndTangents();
+	subMesh->GenerateAABB();
+	subMesh->SetMaterialIndex(0);
+	mesh->AddSubMesh(subMesh);
+
+	auto model = Nz::Model::New();
+	model->SetMesh(mesh);
+
+	auto mat = model->GetMaterial(0);
+	mat->SetShader("PhongLighting");
+	mat->SetDiffuseMap("res/Asteroids/gold.png");
+	mat->SetFaceFilling(Nz::FaceFilling_Fill);
+
+	auto & comp = e->AddComponent<AsteroidComponent>();
+	comp.m_model = model;
+	comp.m_bufferSize = bufferSize;
+	comp.m_mesh = subMesh;
+	comp.m_life = params.sphereScale.x * params.sphereScale.y * params.sphereScale.z;
+	comp.m_damageResistance = params.damageResistance;
+
+	return comp;
+}
+
+/*AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const AsteroidParameters & params)
 {
 	auto mesh = Nz::Mesh::New();
 	mesh->CreateStatic();
@@ -94,9 +217,8 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 	comp.m_damageResistance = params.damageResistance;
 
 	return comp;
-}
+}*/
 
-#include <iostream>
 void AsteroidComponent::damage(const Nz::Vector3f & relativePos, float value)
 {
 	value /= m_damageResistance;
@@ -131,11 +253,36 @@ void AsteroidComponent::damageModel(const Nz::Vector3f & relativePos, float radi
 	m_mesh->GenerateAABB();
 }
 
-#include <Nazara/Utility/VertexDeclaration.hpp>
-#include <Nazara/Utility/VertexStruct.hpp>
-#include <Nazara/Core/OffsetOf.hpp>
-#include <Nazara/Utility/IndexMapper.hpp>
-#include <Nazara/Utility/IndexIterator.hpp>
+Nz::VertexDeclarationRef AsteroidComponent::asteroidVertexDeclaration()
+{
+	auto declaration = Nz::VertexDeclaration::New();
+	declaration->EnableComponent(Nz::VertexComponent_Position, Nz::ComponentType_Float3, NazaraOffsetOf(AsteroidVertexStruct, position));
+	declaration->EnableComponent(Nz::VertexComponent_Normal, Nz::ComponentType_Float3, NazaraOffsetOf(AsteroidVertexStruct, normal));
+	declaration->EnableComponent(Nz::VertexComponent_TexCoord, Nz::ComponentType_Float2, NazaraOffsetOf(AsteroidVertexStruct, uv));
+	declaration->EnableComponent(Nz::VertexComponent_Tangent, Nz::ComponentType_Float3, NazaraOffsetOf(AsteroidVertexStruct, tangent));
+
+	declaration->EnableComponent(Nz::VertexComponent_Userdata0, Nz::ComponentType_Float2, NazaraOffsetOf(AsteroidVertexStruct, factors));
+
+	NazaraAssert(declaration->GetStride() == sizeof(CustomVertex), "Invalid stride for declaration CustomVertex");
+
+	return declaration;
+}
+
+std::map<std::string, Nz::TextureRef> AsteroidComponent::texturesList(const std::vector<std::string> & names)
+{
+	const std::string dir("res/Asteroids/");
+
+	std::map<std::string, Nz::TextureRef> tex;
+
+	for (const auto & n : names)
+	{
+		auto t = Nz::Texture::New();
+		if (t->LoadFromFile(dir + n + ".png"))
+		tex.emplace(n, t);
+	}
+
+	return tex;
+}
 
 struct CustomVertex : public Nz::VertexStruct_XYZ_Normal_UV_Tangent
 {
@@ -232,3 +379,4 @@ Nz::ModelRef createThing()
 
 	return model;
 }
+

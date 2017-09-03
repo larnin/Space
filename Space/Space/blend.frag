@@ -29,8 +29,8 @@ void main()
 #endif
 
 #if DIFFUSE_MAPPING && NORMAL_MAPPING && SPECULAR_MAPPING
-	float oreFactor = vFactors.x > 0.5f ? 1 : 0;
-	float destructionFactor = max((vFactors.y > 0.5f ? 1 : 0) - oreFactor, 0);
+	float oreFactor = vFactors.x;
+	float destructionFactor = max(vFactors.y - oreFactor, 0);
 	float rockFactor = 1-(oreFactor + destructionFactor);
 	vec4 blend = texture(MaterialDiffuseMap, texCoord)*rockFactor + texture(MaterialNormalMap, texCoord)*destructionFactor + texture(MaterialSpecularMap, texCoord)*oreFactor;
 
