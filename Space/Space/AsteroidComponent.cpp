@@ -28,7 +28,7 @@ AsteroidComponent::AsteroidComponent()
 
 #include <iostream>
 
-AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const AsteroidParameters & params)
+/*AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const AsteroidParameters & params)
 {
 	auto baseMesh = Nz::Mesh::New();
 	baseMesh->CreateStatic(); 
@@ -135,13 +135,15 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 	comp.m_damageResistance = params.damageResistance;
 
 	return comp;
-}
+}*/
 
-/*AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const AsteroidParameters & params)
+AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const AsteroidParameters & params)
 {
 	auto mesh = Nz::Mesh::New();
 	mesh->CreateStatic();
-	auto sphere = mesh->BuildSubMesh(Nz::Primitive::IcoSphere(1, params.subdivisions));
+	Nz::MeshParams meshParams;
+	meshParams.vertexDeclaration = m_vertexDeclariation;
+	auto sphere = mesh->BuildSubMesh(Nz::Primitive::IcoSphere(1, params.subdivisions), meshParams);
 	auto sphereMesh = dynamic_cast<Nz::StaticMesh*>(sphere);
 	NazaraAssert(sphereMesh != nullptr, "The sphere is not a staticmesh !");
 
@@ -206,6 +208,7 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 	model->SetMesh(mesh);
 
 	auto mat = model->GetMaterial(0);
+	mat->SetDiffuseMap("res/Asteroids/gold.png");
 	mat->SetShader("PhongLighting");
 	mat->SetFaceFilling(Nz::FaceFilling_Fill);
 
@@ -217,7 +220,7 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 	comp.m_damageResistance = params.damageResistance;
 
 	return comp;
-}*/
+}
 
 void AsteroidComponent::damage(const Nz::Vector3f & relativePos, float value)
 {
@@ -289,7 +292,7 @@ struct CustomVertex : public Nz::VertexStruct_XYZ_Normal_UV_Tangent
 	Nz::Vector2f factors; //x = destruction, y = ore
 };
 
-Nz::ModelRef createThing()
+/*Nz::ModelRef createThing()
 {
 	auto declaration = Nz::VertexDeclaration::New();
 	declaration->EnableComponent(Nz::VertexComponent_Position, Nz::ComponentType_Float3, NazaraOffsetOf(CustomVertex, position));
@@ -378,5 +381,5 @@ Nz::ModelRef createThing()
 	mat->SetSpecularMap("res/Asteroids/gold.png");
 
 	return model;
-}
+}*/
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <NDK/System.hpp>
-#include <Nazara/Utility/Window.hpp>
+#include <Nazara/Platform/Window.hpp>
 
 class FollowEntitySystem : public Ndk::System<FollowEntitySystem>
 {

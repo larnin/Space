@@ -8,8 +8,6 @@
 #include <Nazara/Utility/VertexStruct.hpp>
 #include <map>
 
-Nz::ModelRef createThing();
-
 struct AsteroidParameters
 {
 	unsigned int seed = 0;

@@ -1,6 +1,6 @@
 #pragma once
 #include <NDK/Component.hpp>
-#include <Nazara/Utility/Keyboard.hpp>
+#include <Nazara/Platform/Keyboard.hpp>
 
 class ShipControlerComponent : public Ndk::Component<ShipControlerComponent>
 {

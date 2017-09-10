@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Libs\Nazara\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Libs\Nazara\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Libs\Nazara\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Libs\Nazara\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -95,11 +95,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>NazaraAudio-d.lib;NazaraCore-d.lib;NazaraGraphics-d.lib;NazaraLua-d.lib;NazaraNetwork-d.lib;NazaraNoise-d.lib;NazaraPhysics2D-d.lib;NazaraPhysics3D-d.lib;NazaraRenderer-d.lib;NazaraSDK-d.lib;NazaraSDKServer-d.lib;NazaraUtility-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NazaraAudio-d.lib;NazaraCore-d.lib;NazaraGraphics-d.lib;NazaraLua-d.lib;NazaraNetwork-d.lib;NazaraNoise-d.lib;NazaraPhysics2D-d.lib;NazaraPhysics3D-d.lib;NazaraPlatform-d.lib;NazaraRenderer-d.lib;NazaraSDK-d.lib;NazaraSDKServer-d.lib;NazaraUtility-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,13 +126,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>NazaraAudio.lib;NazaraCore.lib;NazaraGraphics.lib;NazaraLua.lib;NazaraNetwork.lib;NazaraNoise.lib;NazaraPhysics2D.lib;NazaraPhysics3D.lib;NazaraRenderer.lib;NazaraSDK.lib;NazaraSDKServer.lib;NazaraUtility.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Nicolas\Programation\c++\Nazara\Rev626\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NazaraAudio.lib;NazaraCore.lib;NazaraGraphics.lib;NazaraLua.lib;NazaraNetwork.lib;NazaraNoise.lib;NazaraPhysics2D.lib;NazaraPhysics3D.lib;NazaraPlatform.lib;NazaraRenderer.lib;NazaraSDK.lib;NazaraSDKServer.lib;NazaraUtility.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

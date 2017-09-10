@@ -3,7 +3,7 @@
 #include "Utilities.h"
 #include <NDK/Components/ParticleEmitterComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
-#include <Nazara/Utility/Keyboard.hpp>
+#include <Nazara/Platform/Keyboard.hpp>
 #include <algorithm>
 
 Ndk::SystemIndex ShipControlerSystem::systemIndex;
