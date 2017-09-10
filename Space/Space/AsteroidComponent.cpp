@@ -139,11 +139,26 @@ AsteroidComponent::AsteroidComponent()
 
 AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const AsteroidParameters & params)
 {
+	//static Primitive Box(const Vector3f& lengths, const Vector3ui& subdivision = Vector3ui(0U), const Matrix4f& transformMatrix = Matrix4f::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive Box(const Vector3f& lengths, const Vector3ui& subdivision, const Vector3f& position, const Quaternionf& rotation = Quaternionf::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//**static Primitive Cone(float length, float radius, unsigned int subdivision = 4, const Matrix4f& transformMatrix = Matrix4f::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive Cone(float length, float radius, unsigned int subdivision, const Vector3f& position, const Quaternionf& rotation = Quaternionf::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive CubicSphere(float size, unsigned int subdivision = 4, const Matrix4f& transformMatrix = Matrix4f::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive CubicSphere(float size, unsigned int subdivision, const Vector3f& position, const Quaternionf& rotation = Quaternionf::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//**static Primitive IcoSphere(float size, unsigned int recursionLevel = 3, const Matrix4f& transformMatrix = Matrix4f::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive IcoSphere(float size, unsigned int recursionLevel, const Vector3f& position, const Quaternionf& rotation = Quaternionf::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive Plane(const Vector2f& size, const Vector2ui& subdivision = Vector2ui(0U), const Matrix4f& transformMatrix = Matrix4f::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive Plane(const Vector2f& size, const Vector2ui& subdivision, const Planef& plane, const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive Plane(const Vector2f& size, const Vector2ui& subdivision, const Vector3f& position, const Quaternionf& rotation = Quaternionf::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive UVSphere(float size, unsigned int sliceCount = 4, unsigned int stackCount = 4, const Matrix4f& transformMatrix = Matrix4f::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+	//static Primitive UVSphere(float size, unsigned int sliceCount, unsigned int stackCount, const Vector3f& position, const Quaternionf& rotation = Quaternionf::Identity(), const Rectf& uvCoords = Rectf(0.f, 0.f, 1.f, 1.f));
+
 	auto mesh = Nz::Mesh::New();
 	mesh->CreateStatic();
 	Nz::MeshParams meshParams;
 	meshParams.vertexDeclaration = m_vertexDeclariation;
-	auto sphere = mesh->BuildSubMesh(Nz::Primitive::IcoSphere(1, params.subdivisions), meshParams);
+	//auto sphere = mesh->BuildSubMesh(Nz::Primitive::IcoSphere(1, params.subdivisions), meshParams);
+	auto sphere = mesh->BuildSubMesh(Nz::Primitive::CubicSphere(1, params.subdivisions), meshParams);
 	auto sphereMesh = dynamic_cast<Nz::StaticMesh*>(sphere);
 	NazaraAssert(sphereMesh != nullptr, "The sphere is not a staticmesh !");
 
@@ -208,7 +223,7 @@ AsteroidComponent & AsteroidComponent::create(Ndk::EntityHandle e, const Asteroi
 	model->SetMesh(mesh);
 
 	auto mat = model->GetMaterial(0);
-	mat->SetDiffuseMap("res/Asteroids/gold.png");
+	mat->SetDiffuseMap("res/Asteroids/stone.png");
 	mat->SetShader("PhongLighting");
 	mat->SetFaceFilling(Nz::FaceFilling_Fill);
 
