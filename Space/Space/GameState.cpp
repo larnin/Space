@@ -98,6 +98,8 @@ void GameState::addPlayerShip()
 	mat->SetDiffuseMap(shipDir + "_color.png");
 	mat->SetEmissiveMap(shipDir + "_illumination.png");
 	mat->SetSpecularMap(shipDir + "_specular.png");
+	mat->EnableShadowCasting(true);
+	mat->EnableShadowReceive(true);
 	auto & box = ship->GetMesh()->GetAABB();
 	auto scale = 1/std::max({ box.width, box.height, box.depth });
 	nodeComponent.SetScale(scale, scale, scale);
@@ -222,7 +224,7 @@ void GameState::addAsteroid(unsigned int count)
 	parameters.amplitudeMultiplier = 0.5f;
 	parameters.steps = 5;
 	parameters.amplitudeExp = 2.0f;
-	parameters.oreType = OreType_Emerald;
+	parameters.oreType = OreType_Diamond;
 
 	AsteroidCreator creator(m_world3D);
 

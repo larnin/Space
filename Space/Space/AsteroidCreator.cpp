@@ -14,6 +14,8 @@
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 
+#include <iostream>
+
 AsteroidCreator::AsteroidCreator(Ndk::World & world)
 	: m_world(world)
 {
@@ -87,18 +89,31 @@ Ndk::EntityHandle AsteroidCreator::create(const AsteroidParameters & params, con
 	sphereMesh->GenerateAABB();
 
 	sphere->SetMaterialIndex(0);
-	auto model = Nz::Model::New();
-	model->SetMesh(mesh);
+	auto lightModel = Nz::Model::New();
+	lightModel->SetMesh(mesh);
+	auto textureModel = Nz::Model::New();
+	textureModel->SetMesh(mesh);
 
-	auto mat = model->GetMaterial(0);
-	mat->SetDiffuseMap("res/Asteroids/stone.png");
-	mat->SetShader("PhongLighting");
-	mat->SetFaceFilling(Nz::FaceFilling_Fill);
+	auto lightMat = lightModel->GetMaterial(0);
+	lightMat->SetShader("PhongLighting");
+	lightMat->SetFaceFilling(Nz::FaceFilling_Fill);
+	lightMat->EnableShadowCasting(true);
+	lightMat->EnableShadowReceive(true);
+
+	/*auto textureMat = textureModel->GetMaterial(0);
+	textureMat->SetShader("blendAsteroid");
+	textureMat->SetDiffuseMap(OreTypeToStoneTexture(params.oreType));
+	textureMat->SetSpecularMap(OreTypeToOreTexture(params.oreType));
+	textureMat->SetNormalMap(OreTypeToBrokenStoneTexture(params.oreType));
+	textureMat->EnableBlending(true);
+	textureMat->SetSrcBlend(Nz::BlendFunc_SrcColor);
+	textureMat->SetDstBlend(Nz::BlendFunc_DestColor);*/
 
 	auto entity = m_world.CreateEntity();
 	auto & comp = entity->AddComponent<AsteroidComponent>();
 	auto & graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
-	graphicComponent.Attach(model);
+	graphicComponent.Attach(lightModel);
+	graphicComponent.Attach(textureModel);
 
 	auto & nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
 	nodeComponent.SetPosition(pos);
