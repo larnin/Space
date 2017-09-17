@@ -1,7 +1,7 @@
 #include "GameState.h"
 #include "FollowEntityComponent.h"
 #include "ShipControlerComponent.h"
-#include "AsteroidComponent.h"
+#include "AsteroidCreator.h"
 #include "FollowEntitySystem.h"
 #include "ShipControlerSystem.h"
 #include <NDK/Components/NodeComponent.hpp>
@@ -211,7 +211,7 @@ void GameState::createParticleHandle()
 
 void GameState::addAsteroid(unsigned int count)
 {
-	std::mt19937 gen(0);
+	std::mt19937 gen(10);
 	std::uniform_real_distribution<float> dPos(-20, 20);
 	std::uniform_real_distribution<float> dScale(1, 2);
 
@@ -222,29 +222,15 @@ void GameState::addAsteroid(unsigned int count)
 	parameters.amplitudeMultiplier = 0.5f;
 	parameters.steps = 5;
 	parameters.amplitudeExp = 2.0f;
+	parameters.oreType = OreType_Emerald;
 
-	parameters.rockName = "stone";
-	parameters.brokenRockName = "bedrock";
-	parameters.oreName = "emerald";
+	AsteroidCreator creator(m_world3D);
 
-	std::uniform_real_distribution<float> dCratere(-1, 1);
-	std::uniform_real_distribution<float> dPower(10.0, 20.0f);
-
-	for (auto entity : m_world3D.CreateEntities(count))
+	for (unsigned int i(0); i < count; i++)
 	{
-		auto & nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
-		nodeComponent.SetPosition(dPos(gen), dPos(gen), 0);
-
 		parameters.sphereScale.Set(dScale(gen), dScale(gen), dScale(gen));
 		parameters.seed = gen();
 
-		auto & asteroidComponent = AsteroidComponent::create(entity, parameters);
-
-		auto & graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
-		graphicComponent.Attach(asteroidComponent.getModel());
-
-		/*for(unsigned int i(0) ; i < 25 ; i++)
-			asteroidComponent.damage(Nz::Vector3f(dCratere(gen), dCratere(gen), dCratere(gen)), dPower(gen));*/
-
+		creator.create(parameters, Nz::Vector3f(dPos(gen), dPos(gen), 0));
 	}
 }

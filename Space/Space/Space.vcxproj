@@ -138,19 +138,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AsteroidComponent.cpp" />
+    <ClCompile Include="AsteroidCreator.cpp" />
     <ClCompile Include="FollowEntityComponent.cpp" />
     <ClCompile Include="FollowEntitySystem.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OreType.cpp" />
     <ClCompile Include="ShipControlerComponent.cpp" />
     <ClCompile Include="ShipControlerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsteroidComponent.h" />
+    <ClInclude Include="AsteroidCreator.h" />
     <ClInclude Include="Env.h" />
     <ClInclude Include="FollowEntityComponent.h" />
     <ClInclude Include="FollowEntitySystem.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="OreType.h" />
     <ClInclude Include="ShipControlerComponent.h" />
     <ClInclude Include="ShipControlerSystem.h" />
     <ClInclude Include="Utilities.h" />
