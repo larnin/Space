@@ -20,6 +20,7 @@ AsteroidCreator::AsteroidCreator(Ndk::World & world)
 	: m_world(world)
 {
 	loadTextures();
+	initializeMaterials();
 }
 
 Ndk::EntityHandle AsteroidCreator::create(const AsteroidParameters & params, const Nz::Vector3f & pos)
@@ -94,20 +95,8 @@ Ndk::EntityHandle AsteroidCreator::create(const AsteroidParameters & params, con
 	auto textureModel = Nz::Model::New();
 	textureModel->SetMesh(mesh);
 
-	auto lightMat = lightModel->GetMaterial(0);
-	lightMat->SetShader("PhongLighting");
-	lightMat->SetFaceFilling(Nz::FaceFilling_Fill);
-	lightMat->EnableShadowCasting(true);
-	lightMat->EnableShadowReceive(true);
-
-	/*auto textureMat = textureModel->GetMaterial(0);
-	textureMat->SetShader("blendAsteroid");
-	textureMat->SetDiffuseMap(OreTypeToStoneTexture(params.oreType));
-	textureMat->SetSpecularMap(OreTypeToOreTexture(params.oreType));
-	textureMat->SetNormalMap(OreTypeToBrokenStoneTexture(params.oreType));
-	textureMat->EnableBlending(true);
-	textureMat->SetSrcBlend(Nz::BlendFunc_SrcColor);
-	textureMat->SetDstBlend(Nz::BlendFunc_DestColor);*/
+	lightModel->SetMaterial(0, m_lightMaterial);
+	textureModel->SetMaterial(0, m_materials[params.oreType]);
 
 	auto entity = m_world.CreateEntity();
 	auto & comp = entity->AddComponent<AsteroidComponent>();
@@ -153,6 +142,30 @@ void AsteroidCreator::loadTextures()
 		auto t = Nz::Texture::New();
 		if (t->LoadFromFile(dir + n.second + ".png"))
 			m_textures.emplace(n.first, t);
+	}
+}
+
+void AsteroidCreator::initializeMaterials()
+{
+	m_lightMaterial = Nz::Material::New();
+	m_lightMaterial->SetShader("PhongLighting");
+	m_lightMaterial->SetFaceFilling(Nz::FaceFilling_Fill);
+	m_lightMaterial->EnableShadowCasting(true);
+	m_lightMaterial->EnableShadowReceive(true);
+
+	for (unsigned int i(0); i <= OreType_Max; i++)
+	{
+		auto mat = Nz::Material::New();
+		mat->SetShader("blendAsteroid");
+		mat->SetDiffuseMap(OreTypeToStoneTexture((OreType)i));
+		mat->SetSpecularMap(OreTypeToOreTexture((OreType)i));
+		mat->SetNormalMap(OreTypeToBrokenStoneTexture((OreType)i));
+		mat->EnableBlending(true);
+		mat->SetSrcBlend(Nz::BlendFunc_DestColor);
+		mat->SetDstBlend(Nz::BlendFunc_Zero);
+		mat->EnableDepthWrite(true);
+		mat->SetDepthFunc(Nz::RendererComparison_Equal);
+		m_materials.push_back(mat);
 	}
 }
 

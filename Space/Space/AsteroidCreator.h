@@ -2,6 +2,7 @@
 
 #include "OreType.h"
 #include <Nazara/Renderer/Texture.hpp>
+#include <Nazara/Graphics/Material.hpp>
 #include <NDK/Entity.hpp>
 #include <NDK/World.hpp>
 #include <map>
@@ -32,6 +33,7 @@ public:
 
 private:
 	void loadTextures();
+	void initializeMaterials();
 
 	Nz::TextureRef OreTypeToStoneTexture(OreType type);
 	Nz::TextureRef OreTypeToBrokenStoneTexture(OreType type);
@@ -56,7 +58,9 @@ private:
 		TextureIndex_Yellow
 	};
 
-	std::map<int, Nz::TextureRef> m_textures;
+	std::map<TextureIndex, Nz::TextureRef> m_textures;
+	std::vector<Nz::MaterialRef> m_materials;
+	Nz::MaterialRef m_lightMaterial;
 	Ndk::World& m_world;
 };
 
