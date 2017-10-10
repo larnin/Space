@@ -11,6 +11,7 @@
 #include <Nazara/Utility/IndexMapper.hpp>
 #include <Nazara/Utility/IndexIterator.hpp>
 #include <Nazara/Noise/Perlin.hpp>
+#include <Nazara/Core/Primitive.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 
