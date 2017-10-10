@@ -94,6 +94,7 @@ void GameState::addPlayerShip()
 		NazaraWarning("Failed to load " + shipDir + ".obj");
 	}
 	ship->GetMesh()->GenerateNormalsAndTangents();
+	ship->GetMesh()->SetMaterialCount(1);
 	auto mat = ship->GetMaterial(0);
 	mat->SetDiffuseMap(shipDir + "_color.png");
 	mat->SetEmissiveMap(shipDir + "_illumination.png");

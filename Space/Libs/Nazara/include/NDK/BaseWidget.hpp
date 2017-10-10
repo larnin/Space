@@ -12,7 +12,6 @@
 #include <NDK/EntityOwner.hpp>
 #include <NDK/World.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
-#include <Nazara/Platform/Cursor.hpp>
 #include <Nazara/Platform/Event.hpp>
 #include <Nazara/Platform/Mouse.hpp>
 #include <Nazara/Utility/Node.hpp>
@@ -38,6 +37,8 @@ namespace Ndk
 			inline void AddChild(std::unique_ptr<BaseWidget>&& widget);
 
 			inline void Center();
+			inline void CenterHorizontal();
+			inline void CenterVertical();
 
 			inline void Destroy();
 
@@ -79,7 +80,7 @@ namespace Ndk
 			};
 
 		protected:
-			EntityHandle CreateEntity();
+			const EntityHandle& CreateEntity();
 			void DestroyEntity(Entity* entity);
 			virtual void Layout();
 			void InvalidateNode() override;
