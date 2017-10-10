@@ -14,7 +14,7 @@ struct AsteroidVertexStruct : public Nz::VertexStruct_XYZ_Normal_UV_Tangent
 class AsteroidComponent : public Ndk::Component<AsteroidComponent>
 {
 public:
-	AsteroidComponent();
+	AsteroidComponent(Nz::StaticMesh * mesh, unsigned int baseSubdivisions, float damageResistance = 1);
 	~AsteroidComponent() = default;
 
 	void damage(const Nz::Vector3f & relativePos, float value);
@@ -24,10 +24,10 @@ public:
 
 private:
 	void damageModel(const Nz::Vector3f & relativePos, float radius);
+	float calculateLife();
 
 	static Nz::VertexDeclarationRef asteroidVertexDeclaration();
 	
-	unsigned int m_bufferSize;
 	Nz::StaticMesh* m_mesh;
 	float m_life;
 	float m_damageResistance;

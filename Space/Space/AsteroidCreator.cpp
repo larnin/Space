@@ -99,19 +99,14 @@ Ndk::EntityHandle AsteroidCreator::create(const AsteroidParameters & params, con
 	textureModel->SetMaterial(0, m_materials[params.oreType]);
 
 	auto entity = m_world.CreateEntity();
-	auto & comp = entity->AddComponent<AsteroidComponent>();
+	auto & comp = entity->AddComponent<AsteroidComponent>(sphereMesh, params.subdivisions);
+
 	auto & graphicComponent = entity->AddComponent<Ndk::GraphicsComponent>();
 	graphicComponent.Attach(lightModel);
 	graphicComponent.Attach(textureModel);
 
 	auto & nodeComponent = entity->AddComponent<Ndk::NodeComponent>();
 	nodeComponent.SetPosition(pos);
-
-	/*comp.m_model = model;
-	comp.m_bufferSize = bufferSize;
-	comp.m_mesh = sphereMesh;
-	comp.m_life = params.sphereScale.x * params.sphereScale.y * params.sphereScale.z;
-	comp.m_damageResistance = params.damageResistance;*/
 
 	return entity;
 }
@@ -163,7 +158,6 @@ void AsteroidCreator::initializeMaterials()
 		mat->EnableBlending(true);
 		mat->SetSrcBlend(Nz::BlendFunc_DestColor);
 		mat->SetDstBlend(Nz::BlendFunc_Zero);
-		mat->EnableDepthWrite(true);
 		mat->SetDepthFunc(Nz::RendererComparison_Equal);
 		m_materials.push_back(mat);
 	}

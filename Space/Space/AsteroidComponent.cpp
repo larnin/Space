@@ -13,12 +13,11 @@
 Ndk::ComponentIndex AsteroidComponent::componentIndex;
 Nz::VertexDeclarationRef AsteroidComponent::m_vertexDeclariation(AsteroidComponent::asteroidVertexDeclaration());
 
-AsteroidComponent::AsteroidComponent()
-	: m_bufferSize(0)
-	, m_mesh(nullptr)
-	, m_life(0)
-	, m_damageResistance(1)
-	, m_baseSubdivision(0)
+AsteroidComponent::AsteroidComponent(Nz::StaticMesh * mesh, unsigned int baseSubdivisions, float damageResistance)
+	: m_mesh(mesh)
+	, m_life(calculateLife())
+	, m_damageResistance(damageResistance)
+	, m_baseSubdivision(baseSubdivisions)
 {
 }
 
@@ -34,7 +33,7 @@ void AsteroidComponent::damage(const Nz::Vector3f & relativePos, float value)
 
 void AsteroidComponent::damageModel(const Nz::Vector3f & relativePos, float radius)
 {
-	Nz::VertexMapper mapper(m_mesh);
+	/*Nz::VertexMapper mapper(m_mesh);
 	Nz::SparsePtr<Nz::Vector3f> position = mapper.GetComponentPtr<Nz::Vector3f>(Nz::VertexComponent_Position);
 
 	for (unsigned int i(0); i < m_bufferSize; i++)
@@ -55,7 +54,15 @@ void AsteroidComponent::damageModel(const Nz::Vector3f & relativePos, float radi
 
 	mapper.Unmap();
 	m_mesh->GenerateNormalsAndTangents();
-	m_mesh->GenerateAABB();
+	m_mesh->GenerateAABB();*/
+}
+
+float AsteroidComponent::calculateLife()
+{
+	assert(m_mesh != nullptr);
+	auto & aabb = m_mesh->GetAABB();
+	return aabb.width * aabb.height * aabb.depth;
+
 }
 
 Nz::VertexDeclarationRef AsteroidComponent::asteroidVertexDeclaration()
@@ -72,8 +79,3 @@ Nz::VertexDeclarationRef AsteroidComponent::asteroidVertexDeclaration()
 
 	return declaration;
 }
-
-struct CustomVertex : public Nz::VertexStruct_XYZ_Normal_UV_Tangent
-{
-	Nz::Vector2f factors; //x = destruction, y = ore
-};
