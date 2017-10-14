@@ -2,8 +2,10 @@
 #include "ShipControlerComponent.h"
 #include "FollowEntityComponent.h"
 #include "AsteroidComponent.h"
+#include "Animation2DComponent.h"
 #include "ShipControlerSystem.h"
 #include "FollowEntitySystem.h"
+#include "Animation2DSystem.h"
 #include <NDK/Application.hpp>
 #include <NDK/StateMachine.hpp>
 #include <NDK/Components.hpp>
@@ -18,9 +20,11 @@ void initializeCustomComponentsAndSystems()
 	Ndk::InitializeComponent<ShipControlerComponent>("001SCC");
 	Ndk::InitializeComponent<FollowEntityComponent>("002FEC");
 	Ndk::InitializeComponent<AsteroidComponent>("003AsC");
+	Ndk::InitializeComponent<Animation2DComponent>("004A2D");
 
 	Ndk::InitializeSystem<ShipControlerSystem>();
 	Ndk::InitializeSystem<FollowEntitySystem>();
+	Ndk::InitializeSystem<Animation2DSystem>();
 }
 
 void initializeShaders()

@@ -37,6 +37,12 @@
     <Filter Include="Shader\Blend">
       <UniqueIdentifier>{0c3d14bb-3427-4662-9e6f-64fc0c65f53d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Animation">
+      <UniqueIdentifier>{a206c8fe-ed58-4c6c-a0f7-e6f262f46159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Animation">
+      <UniqueIdentifier>{4184d335-668c-4c07-bb29-cf8270c21660}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -65,6 +71,15 @@
     </ClCompile>
     <ClCompile Include="OreType.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2D.cpp">
+      <Filter>Fichiers sources\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2DComponent.cpp">
+      <Filter>Fichiers sources\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2DSystem.cpp">
+      <Filter>Fichiers sources\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +113,15 @@
     <ClInclude Include="OreType.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Animation2D.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2DComponent.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2DSystem.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="blend.vert">
@@ -105,6 +129,9 @@
     </None>
     <None Include="blend.frag">
       <Filter>Shader\Blend</Filter>
+    </None>
+    <None Include="Animation2D.inl">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
     </None>
   </ItemGroup>
 </Project>

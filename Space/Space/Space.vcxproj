@@ -137,6 +137,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation2D.cpp" />
+    <ClCompile Include="Animation2DComponent.cpp" />
+    <ClCompile Include="Animation2DSystem.cpp" />
     <ClCompile Include="AsteroidComponent.cpp" />
     <ClCompile Include="AsteroidCreator.cpp" />
     <ClCompile Include="FollowEntityComponent.cpp" />
@@ -148,6 +151,9 @@
     <ClCompile Include="ShipControlerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation2D.h" />
+    <ClInclude Include="Animation2DComponent.h" />
+    <ClInclude Include="Animation2DSystem.h" />
     <ClInclude Include="AsteroidComponent.h" />
     <ClInclude Include="AsteroidCreator.h" />
     <ClInclude Include="Env.h" />
@@ -160,6 +166,7 @@
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animation2D.inl" />
     <None Include="blend.frag" />
     <None Include="blend.vert" />
   </ItemGroup>
