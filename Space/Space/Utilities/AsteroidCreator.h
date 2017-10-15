@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OreType.h"
+#include "Utilities/OreType.h"
 #include <Nazara/Renderer/Texture.hpp>
 #include <Nazara/Graphics/Material.hpp>
 #include <NDK/Entity.hpp>

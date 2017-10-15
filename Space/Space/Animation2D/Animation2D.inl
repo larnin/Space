@@ -1,4 +1,4 @@
-#include "Animation2D.h"
+#include "Animation2D/Animation2D.h"
 
 Frame::Frame(float _time, const Nz::Rectui _texRectf, const Nz::Vector2f _offset, bool _xFliped, bool _yFliped)
 	: time(_time)

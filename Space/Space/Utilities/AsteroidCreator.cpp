@@ -1,5 +1,5 @@
-#include "AsteroidCreator.h"
-#include "AsteroidComponent.h"
+#include "Utilities/AsteroidCreator.h"
+#include "Components/AsteroidComponent.h"
 #include <Nazara/Graphics/Model.hpp>
 #include <Nazara/Utility/StaticMesh.hpp>
 #include <Nazara/Utility/VertexDeclaration.hpp>

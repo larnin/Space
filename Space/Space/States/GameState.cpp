@@ -1,9 +1,9 @@
-#include "GameState.h"
-#include "FollowEntityComponent.h"
-#include "ShipControlerComponent.h"
-#include "AsteroidCreator.h"
-#include "FollowEntitySystem.h"
-#include "ShipControlerSystem.h"
+#include "States/GameState.h"
+#include "Components/FollowEntityComponent.h"
+#include "Components/ShipControlerComponent.h"
+#include "Utilities/AsteroidCreator.h"
+#include "Systems/FollowEntitySystem.h"
+#include "Systems/ShipControlerSystem.h"
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/CameraComponent.hpp>

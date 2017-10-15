@@ -1,4 +1,4 @@
-#include "ShipControlerComponent.h"
+#include "Components/ShipControlerComponent.h"
 
 Ndk::ComponentIndex ShipControlerComponent::componentIndex;
 

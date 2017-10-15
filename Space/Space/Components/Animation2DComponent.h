@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Animation2D.h"
+#include "Animation2D/Animation2D.h"
 #include <Nazara/Graphics/Sprite.hpp>
 #include <NDK/Component.hpp>
 #include <vector>

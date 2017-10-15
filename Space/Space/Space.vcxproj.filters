@@ -43,95 +43,101 @@
     <Filter Include="Fichiers sources\Animation">
       <UniqueIdentifier>{4184d335-668c-4c07-bb29-cf8270c21660}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Utilities">
+      <UniqueIdentifier>{91fcda2e-7d06-4010-9738-296a748fb962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Utilities">
+      <UniqueIdentifier>{a72a8ac0-4c3e-4110-a993-bae13ed646e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="ShipControlerComponent.cpp">
+    <ClCompile Include="Animation2D/Animation2D.cpp">
+      <Filter>Fichiers sources\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Components/Animation2DComponent.cpp">
       <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ShipControlerSystem.cpp">
+    <ClCompile Include="Systems/Animation2DSystem.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="FollowEntityComponent.cpp">
+    <ClCompile Include="Components/AsteroidComponent.cpp">
       <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
+    <ClCompile Include="Utilities/AsteroidCreator.cpp">
+      <Filter>Fichiers sources\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Components/FollowEntityComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems/FollowEntitySystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="States/GameState.cpp">
       <Filter>Fichiers sources\States</Filter>
     </ClCompile>
-    <ClCompile Include="FollowEntitySystem.cpp">
-      <Filter>Fichiers sources\Systems</Filter>
+    <ClCompile Include="Utilities/OreType.cpp">
+      <Filter>Fichiers sources\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="AsteroidComponent.cpp">
+    <ClCompile Include="Components/ShipControlerComponent.cpp">
       <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
-    <ClCompile Include="AsteroidCreator.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="OreType.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation2D.cpp">
-      <Filter>Fichiers sources\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation2DComponent.cpp">
-      <Filter>Fichiers sources\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation2DSystem.cpp">
-      <Filter>Fichiers sources\Animation</Filter>
+    <ClCompile Include="Systems/ShipControlerSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ShipControlerComponent.h">
+    <ClInclude Include="Animation2D/Animation2D.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Components/Animation2DComponent.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ShipControlerSystem.h">
+    <ClInclude Include="Systems/Animation2DSystem.h">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Env.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="FollowEntityComponent.h">
+    <ClInclude Include="Components/AsteroidComponent.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
+    <ClInclude Include="Utilities/AsteroidCreator.h">
+      <Filter>Fichiers d%27en-tête\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities/Env.h">
+      <Filter>Fichiers d%27en-tête\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Components/FollowEntityComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems/FollowEntitySystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="States/GameState.h">
       <Filter>Fichiers d%27en-tête\States</Filter>
     </ClInclude>
-    <ClInclude Include="FollowEntitySystem.h">
-      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    <ClInclude Include="Utilities/OreType.h">
+      <Filter>Fichiers d%27en-tête\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="AsteroidComponent.h">
+    <ClInclude Include="Components/ShipControlerComponent.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
     </ClInclude>
-    <ClInclude Include="AsteroidCreator.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Systems/ShipControlerSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="OreType.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation2D.h">
-      <Filter>Fichiers d%27en-tête\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation2DComponent.h">
-      <Filter>Fichiers d%27en-tête\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation2DSystem.h">
-      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    <ClInclude Include="Utilities/Utilities.h">
+      <Filter>Fichiers d%27en-tête\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="blend.vert">
-      <Filter>Shader\Blend</Filter>
-    </None>
-    <None Include="blend.frag">
-      <Filter>Shader\Blend</Filter>
-    </None>
-    <None Include="Animation2D.inl">
+    <None Include="Animation2D/Animation2D.inl">
       <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </None>
+    <None Include="Shader/Blend/blend.frag">
+      <Filter>Shader\Blend</Filter>
+    </None>
+    <None Include="Shader/Blend/blend.vert">
+      <Filter>Shader\Blend</Filter>
     </None>
   </ItemGroup>
 </Project>

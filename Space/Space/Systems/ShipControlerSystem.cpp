@@ -1,6 +1,6 @@
-#include "ShipControlerSystem.h"
-#include "ShipControlerComponent.h"
-#include "Utilities.h"
+#include "Systems/ShipControlerSystem.h"
+#include "Components/ShipControlerComponent.h"
+#include "Utilities/Utilities.h"
 #include <NDK/Components/ParticleEmitterComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
 #include <Nazara/Platform/Keyboard.hpp>

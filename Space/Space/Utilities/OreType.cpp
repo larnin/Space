@@ -1,5 +1,6 @@
 
-#include "OreType.h"
+#include "Utilities/OreType.h"
+#include <Nazara/Core/Error.hpp>
 
 std::string oreName(OreType type)
 {

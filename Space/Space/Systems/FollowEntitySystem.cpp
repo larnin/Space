@@ -1,6 +1,6 @@
-#include "FollowEntitySystem.h"
-#include "FollowEntityComponent.h"
-#include "Utilities.h"
+#include "Systems/FollowEntitySystem.h"
+#include "Components/FollowEntityComponent.h"
+#include "Utilities/Utilities.h"
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/PhysicsComponent2D.hpp>
 

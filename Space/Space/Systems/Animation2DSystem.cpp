@@ -1,5 +1,5 @@
-#include "Animation2DSystem.h"
-#include "Animation2DComponent.h"
+#include "Systems/Animation2DSystem.h"
+#include "Components/Animation2DComponent.h"
 
 Ndk::SystemIndex Animation2DSystem::systemIndex;
 

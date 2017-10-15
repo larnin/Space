@@ -70,11 +70,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\Libs\Nazara\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Space;$(SolutionDir)\Libs\Nazara\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\Libs\Nazara\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\Libs\Nazara\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Space;$(SolutionDir)\Libs\Nazara\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\Libs\Nazara\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -137,38 +137,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation2D.cpp" />
-    <ClCompile Include="Animation2DComponent.cpp" />
-    <ClCompile Include="Animation2DSystem.cpp" />
-    <ClCompile Include="AsteroidComponent.cpp" />
-    <ClCompile Include="AsteroidCreator.cpp" />
-    <ClCompile Include="FollowEntityComponent.cpp" />
-    <ClCompile Include="FollowEntitySystem.cpp" />
-    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="Animation2D/Animation2D.cpp" />
+    <ClCompile Include="Components/Animation2DComponent.cpp" />
+    <ClCompile Include="Systems/Animation2DSystem.cpp" />
+    <ClCompile Include="Components/AsteroidComponent.cpp" />
+    <ClCompile Include="Utilities/AsteroidCreator.cpp" />
+    <ClCompile Include="Components/FollowEntityComponent.cpp" />
+    <ClCompile Include="Systems/FollowEntitySystem.cpp" />
+    <ClCompile Include="States/GameState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="OreType.cpp" />
-    <ClCompile Include="ShipControlerComponent.cpp" />
-    <ClCompile Include="ShipControlerSystem.cpp" />
+    <ClCompile Include="Utilities/OreType.cpp" />
+    <ClCompile Include="Components/ShipControlerComponent.cpp" />
+    <ClCompile Include="Systems/ShipControlerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation2D.h" />
-    <ClInclude Include="Animation2DComponent.h" />
-    <ClInclude Include="Animation2DSystem.h" />
-    <ClInclude Include="AsteroidComponent.h" />
-    <ClInclude Include="AsteroidCreator.h" />
-    <ClInclude Include="Env.h" />
-    <ClInclude Include="FollowEntityComponent.h" />
-    <ClInclude Include="FollowEntitySystem.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="OreType.h" />
-    <ClInclude Include="ShipControlerComponent.h" />
-    <ClInclude Include="ShipControlerSystem.h" />
-    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Animation2D/Animation2D.h" />
+    <ClInclude Include="Components/Animation2DComponent.h" />
+    <ClInclude Include="Systems/Animation2DSystem.h" />
+    <ClInclude Include="Components/AsteroidComponent.h" />
+    <ClInclude Include="Utilities/AsteroidCreator.h" />
+    <ClInclude Include="Utilities/Env.h" />
+    <ClInclude Include="Components/FollowEntityComponent.h" />
+    <ClInclude Include="Systems/FollowEntitySystem.h" />
+    <ClInclude Include="States/GameState.h" />
+    <ClInclude Include="Utilities/OreType.h" />
+    <ClInclude Include="Components/ShipControlerComponent.h" />
+    <ClInclude Include="Systems/ShipControlerSystem.h" />
+    <ClInclude Include="Utilities/Utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Animation2D.inl" />
-    <None Include="blend.frag" />
-    <None Include="blend.vert" />
+    <None Include="Animation2D/Animation2D.inl" />
+    <None Include="Shader/Blend/blend.frag" />
+    <None Include="Shader/Blend/blend.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

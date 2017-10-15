@@ -1,4 +1,4 @@
-#include "AsteroidComponent.h"
+#include "Components/AsteroidComponent.h"
 #include <Nazara/Utility/Mesh.hpp>
 #include <Nazara/Utility/BufferMapper.hpp>
 #include <Nazara/Utility/VertexMapper.hpp>

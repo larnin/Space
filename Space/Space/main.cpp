@@ -1,11 +1,11 @@
-#include "GameState.h"
-#include "ShipControlerComponent.h"
-#include "FollowEntityComponent.h"
-#include "AsteroidComponent.h"
-#include "Animation2DComponent.h"
-#include "ShipControlerSystem.h"
-#include "FollowEntitySystem.h"
-#include "Animation2DSystem.h"
+#include "States/GameState.h"
+#include "Components/ShipControlerComponent.h"
+#include "Components/FollowEntityComponent.h"
+#include "Components/AsteroidComponent.h"
+#include "Components/Animation2DComponent.h"
+#include "Systems/ShipControlerSystem.h"
+#include "Systems/FollowEntitySystem.h"
+#include "Systems/Animation2DSystem.h"
 #include <NDK/Application.hpp>
 #include <NDK/StateMachine.hpp>
 #include <NDK/Components.hpp>
@@ -67,8 +67,8 @@ void initializeShaders()
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/CameraComponent.hpp>
-#include "Animation2DComponent.h"
-#include "Animation2D.h"
+#include "Components/Animation2DComponent.h"
+#include "Animation2D/Animation2D.h"
 
 int main()
 {

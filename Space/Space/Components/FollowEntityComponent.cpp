@@ -1,4 +1,4 @@
-#include "FollowEntityComponent.h"
+#include "Components/FollowEntityComponent.h"
 
 Ndk::ComponentIndex FollowEntityComponent::componentIndex;
 

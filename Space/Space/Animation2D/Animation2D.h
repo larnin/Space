@@ -44,5 +44,5 @@ private:
 	float m_totalTime;
 };
 
-#include "Animation2D.inl"
+#include "Animation2D/Animation2D.inl"
 
