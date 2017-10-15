@@ -13,6 +13,7 @@ Animation2DComponent::Animation2DComponent(const Animation2D & animation)
 	, m_paused(false)
 	, m_changedState(true)
 {
+
 }
 
 const Animation2D & Animation2DComponent::getAnimation() const
@@ -64,7 +65,7 @@ void Animation2DComponent::setCurrentTime(float time)
 	m_currentFrameTime = 0;
 	m_currentFrameIndex = m_animation.frameCount() - 1;
 }
-
+#include <iostream>
 bool Animation2DComponent::update(float elapsedTime)
 {
 	elapsedTime *= m_speed;
@@ -94,6 +95,7 @@ bool Animation2DComponent::update(float elapsedTime)
 
 		m_currentFrameTime -= m_animation[m_currentFrameIndex].time;
 		m_currentFrameIndex = m_currentFrameIndex == m_animation.frameCount() - 1 ? 0 : m_currentFrameIndex + 1;
+		return true;
 	}
 	return oldChangedState;
 }
@@ -181,6 +183,7 @@ void Animation2DComponent::setFrame(Nz::SpriteRef & sprite, const Frame & f)
 		rect.y += rect.height;
 		rect.height *= -1;
 	}
+
 	sprite->SetTextureCoords(rect);
-	sprite->SetSize(f.texRect.x, f.texRect.y);
+	sprite->SetSize(f.texRect.width, f.texRect.height);
 }

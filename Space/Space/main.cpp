@@ -35,7 +35,7 @@ void initializeShaders()
 	Nz::UberShaderLibrary::Register("blendAsteroid", blendShader);
 }
 
-int main()
+/*int main()
 {
 	Ndk::Application application;
 	initializeCustomComponentsAndSystems();
@@ -58,6 +58,56 @@ int main()
 			return EXIT_FAILURE;
 		}
 
+		mainWindow.Display();
+	}
+
+	return EXIT_SUCCESS;
+}*/
+
+#include <NDK/Components/NodeComponent.hpp>
+#include <NDK/Components/GraphicsComponent.hpp>
+#include <NDK/Components/CameraComponent.hpp>
+#include "Animation2DComponent.h"
+#include "Animation2D.h"
+
+int main()
+{
+	Ndk::Application application;
+	initializeCustomComponentsAndSystems();
+
+	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
+	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Test");
+	mainWindow.SetFramerateLimit(60);
+	mainWindow.EnableVerticalSync(true);
+
+	auto & world = application.AddWorld();
+	world.GetSystem<Ndk::RenderSystem>().SetGlobalUp(Nz::Vector3f::Down());
+	world.AddSystem<Animation2DSystem>();
+
+	auto & camera = world.CreateEntity();
+	auto & cameraComponent = camera->AddComponent<Ndk::CameraComponent>();
+	cameraComponent.SetProjectionType(Nz::ProjectionType_Orthogonal);
+	cameraComponent.SetSize(Nz::Vector2f(mainWindow.GetSize().x, mainWindow.GetSize().y));
+	cameraComponent.SetTarget(&mainWindow);
+	auto & cameraNodeComponent = camera->AddComponent<Ndk::NodeComponent>();
+	cameraNodeComponent.SetPosition(-10.0f*cameraComponent.GetForward());
+	
+	auto & entity = world.CreateEntity();
+	entity->AddComponent<Ndk::NodeComponent>();
+	auto sprite = Nz::Sprite::New(Nz::Material::New("Translucent2D"));
+	sprite->SetTexture("res/walkingdead.png");
+	auto & graph = entity->AddComponent<Ndk::GraphicsComponent>();
+	graph.Attach(sprite);
+
+	Animation2D anim;
+	for (unsigned int i(0); i < 10; i++)
+		anim.addFrame(Frame(0.1f, Nz::Rectui(i*200, 0, 200, 312), Nz::Vector2f(0, 0), false, true));
+
+	auto & animComponent = entity->AddComponent<Animation2DComponent>(anim);
+	animComponent.attach(sprite);
+
+	while (application.Run())
+	{
 		mainWindow.Display();
 	}
 
