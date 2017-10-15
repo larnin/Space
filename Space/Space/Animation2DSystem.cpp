@@ -14,6 +14,12 @@ void Animation2DSystem::OnUpdate(float elapsedTime)
 	{
 		auto & animationComponent = entity->GetComponent<Animation2DComponent>();
 
+		if (!animationComponent.update(elapsedTime))
+			continue;
 
+		const auto & f = animationComponent.getCurrentFrame();
+
+		for (auto & sprite : animationComponent.m_sprites)
+			Animation2DComponent::setFrame(sprite, f);
 	}
 }

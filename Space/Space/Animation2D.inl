@@ -1,6 +1,6 @@
 #include "Animation2D.h"
 
-Frame::Frame(float _time, const Nz::Rectf _texRectf, const Nz::Vector2f _offset, bool _xFliped, bool _yFliped)
+Frame::Frame(float _time, const Nz::Rectui _texRectf, const Nz::Vector2f _offset, bool _xFliped, bool _yFliped)
 	: time(_time)
 	, texRect(_texRectf)
 	, offset(_offset)
@@ -23,4 +23,14 @@ inline void Animation2D::setSingleShoot(bool value)
 inline float Animation2D::getTotalAnimationTime() const
 {
 	return m_totalTime;
+}
+
+inline Frame Animation2D::operator[](size_t index)
+{
+	return m_frames[index];
+}
+
+inline const Frame & Animation2D::operator[](size_t index) const
+{
+	return m_frames[index];
 }
