@@ -4,7 +4,7 @@
 
 Ndk::ComponentIndex Animation2DComponent::componentIndex;
 
-Animation2DComponent::Animation2DComponent(const Animation2D & animation)
+Animation2DComponent::Animation2DComponent(Animation2DRef animation)
 	: m_animation(animation)
 	, m_time(0)
 	, m_currentFrameTime(0)
@@ -16,17 +16,17 @@ Animation2DComponent::Animation2DComponent(const Animation2D & animation)
 
 }
 
-const Animation2D & Animation2DComponent::getAnimation() const
+const Animation2DRef & Animation2DComponent::getAnimation() const
 {
 	return m_animation;
 }
 
-Animation2D & Animation2DComponent::getAnimation()
+Animation2DRef & Animation2DComponent::getAnimation()
 {
 	return m_animation;
 }
 
-void Animation2DComponent::setAnimation(const Animation2D & animation, bool resetTime)
+void Animation2DComponent::setAnimation(const Animation2DRef & animation, bool resetTime)
 {
 	m_changedState = true;
 	m_animation = animation;
@@ -47,13 +47,13 @@ void Animation2DComponent::resetTime()
 
 void Animation2DComponent::setCurrentTime(float time)
 {
-	m_time = m_animation.toNormalizedTime(time);
+	m_time = m_animation->toNormalizedTime(time);
 	m_changedState = true;
 
 	float current = 0;
-	for (size_t i(0); i < m_animation.frameCount(); i++)
+	for (size_t i(0); i < m_animation->frameCount(); i++)
 	{
-		const auto & f = m_animation[i];
+		const auto & f = (*m_animation)[i];
 		current += f.time;
 		if (current > m_time)
 		{
@@ -63,7 +63,7 @@ void Animation2DComponent::setCurrentTime(float time)
 		}
 	}
 	m_currentFrameTime = 0;
-	m_currentFrameIndex = m_animation.frameCount() - 1;
+	m_currentFrameIndex = m_animation->frameCount() - 1;
 }
 #include <iostream>
 bool Animation2DComponent::update(float elapsedTime)
@@ -81,20 +81,20 @@ bool Animation2DComponent::update(float elapsedTime)
 
 	while(m_currentFrameTime < 0)
 	{
-		if (m_animation.isSingleShoot() && m_currentFrameIndex == 0)
+		if (m_animation->isSingleShoot() && m_currentFrameIndex == 0)
 			return oldChangedState;
 
-		m_currentFrameIndex = m_currentFrameIndex == 0 ? m_animation.frameCount() - 1 : m_currentFrameIndex - 1;
-		m_currentFrameTime += m_animation[m_currentFrameIndex].time;
+		m_currentFrameIndex = m_currentFrameIndex == 0 ? m_animation->frameCount() - 1 : m_currentFrameIndex - 1;
+		m_currentFrameTime += (*m_animation)[m_currentFrameIndex].time;
 		return true;
 	}
-	while(m_currentFrameTime > m_animation[m_currentFrameIndex].time)
+	while(m_currentFrameTime >(*m_animation)[m_currentFrameIndex].time)
 	{
-		if(m_animation.isSingleShoot() && m_currentFrameIndex == m_animation.frameCount() - 1)
+		if(m_animation->isSingleShoot() && m_currentFrameIndex == m_animation->frameCount() - 1)
 			return oldChangedState;
 
-		m_currentFrameTime -= m_animation[m_currentFrameIndex].time;
-		m_currentFrameIndex = m_currentFrameIndex == m_animation.frameCount() - 1 ? 0 : m_currentFrameIndex + 1;
+		m_currentFrameTime -= (*m_animation)[m_currentFrameIndex].time;
+		m_currentFrameIndex = m_currentFrameIndex == m_animation->frameCount() - 1 ? 0 : m_currentFrameIndex + 1;
 		return true;
 	}
 	return oldChangedState;
@@ -112,7 +112,7 @@ float Animation2DComponent::getAnimationSpeed() const
 
 const Frame & Animation2DComponent::getCurrentFrame() const
 {
-	return m_animation[m_currentFrameIndex];
+	return (*m_animation)[m_currentFrameIndex];
 }
 
 void Animation2DComponent::pause()
@@ -147,7 +147,7 @@ void Animation2DComponent::attach(Nz::SpriteRef sprite)
 	if (std::find(m_sprites.begin(), m_sprites.end(), sprite) != m_sprites.end())
 		return;
 	m_sprites.push_back(sprite);
-	setFrame(sprite, m_animation[m_currentFrameIndex]);
+	setFrame(sprite, (*m_animation)[m_currentFrameIndex]);
 }
 
 void Animation2DComponent::detach(Nz::SpriteRef sprite)

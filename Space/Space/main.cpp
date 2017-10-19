@@ -99,9 +99,9 @@ int main()
 	auto & graph = entity->AddComponent<Ndk::GraphicsComponent>();
 	graph.Attach(sprite);
 
-	Animation2D anim;
+	auto anim = Animation2D::New();
 	for (unsigned int i(0); i < 10; i++)
-		anim.addFrame(Frame(0.1f, Nz::Rectui(i*200, 0, 200, 312), Nz::Vector2f(0, 0), false, true));
+		anim->addFrame(Frame(0.1f, Nz::Rectui(i*200, 0, 200, 312), Nz::Vector2f(0, 0), false, true));
 
 	auto & animComponent = entity->AddComponent<Animation2DComponent>(anim);
 	animComponent.attach(sprite);

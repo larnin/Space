@@ -10,12 +10,12 @@ class Animation2DComponent : public Ndk::Component<Animation2DComponent>
 	friend class Animation2DSystem;
 
 public:
-	Animation2DComponent(const Animation2D & animation);
+	Animation2DComponent(Animation2DRef animation);
 	~Animation2DComponent() = default;
 
-	const Animation2D & getAnimation() const;
-	Animation2D & getAnimation();
-	void setAnimation(const Animation2D & animation, bool resetTime = true);
+	const Animation2DRef & getAnimation() const;
+	Animation2DRef & getAnimation();
+	void setAnimation(const Animation2DRef & animation, bool resetTime = true);
 
 	void resetTime();
 	void setCurrentTime(float time);
@@ -38,7 +38,7 @@ public:
 	static Ndk::ComponentIndex componentIndex;
 
 private:
-	Animation2D m_animation;
+	Animation2DRef m_animation;
 	float m_time;
 	float m_currentFrameTime;
 	float m_speed;

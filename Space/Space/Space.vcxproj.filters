@@ -87,6 +87,15 @@
     <ClCompile Include="Systems/ShipControlerSystem.cpp">
       <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Animation2D\Animation2DState.cpp">
+      <Filter>Fichiers sources\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2D\Animation2DTransition.cpp">
+      <Filter>Fichiers sources\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation2D\Animation2DPropertiesHolder.cpp">
+      <Filter>Fichiers sources\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation2D/Animation2D.h">
@@ -127,6 +136,18 @@
     </ClInclude>
     <ClInclude Include="Utilities/Utilities.h">
       <Filter>Fichiers d%27en-tête\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2D\Animation2DState.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2D\Animation2DTransition.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2D\Animation2DEnv.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation2D\Animation2DPropertiesHolder.h">
+      <Filter>Fichiers d%27en-tête\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

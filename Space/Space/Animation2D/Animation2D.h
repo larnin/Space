@@ -2,6 +2,8 @@
 
 #include <Nazara/Math/Rect.hpp>
 #include <Nazara/Math/Vector2.hpp>
+#include <Nazara/Core/RefCounted.hpp>
+#include <Nazara/Core/ObjectLibrary.hpp>
 #include <vector>
 
 struct Frame
@@ -15,7 +17,13 @@ struct Frame
 	bool yFliped;
 };
 
-class Animation2D
+class Animation2D;
+
+using Animation2DConstRef = Nz::ObjectRef<const Animation2D>;
+using Animation2DLibrary = Nz::ObjectLibrary<Animation2D>;
+using Animation2DRef = Nz::ObjectRef<Animation2D>;
+
+class Animation2D : public Nz::RefCounted
 {
 public:
 	Animation2D(bool singleShoot = false);
@@ -36,6 +44,14 @@ public:
 
 	inline Frame operator[](size_t index);
 	inline const Frame & operator[](size_t index) const;
+
+	template<typename... Args> static Animation2DRef New(Args&&... args)
+	{
+		std::unique_ptr<Animation2D> object(new Animation2D(std::forward<Args>(args)...));
+		object->SetPersistent(false);
+
+		return object.release();
+	}
 
 private:
 	std::vector<Frame> m_frames;
