@@ -34,3 +34,14 @@ inline const Frame & Animation2D::operator[](size_t index) const
 {
 	return m_frames[index];
 }
+
+
+inline std::string Animation2D::getName() const
+{
+	return m_name;
+}
+
+inline void Animation2D::setName(const std::string & name)
+{
+	m_name = name;
+}

@@ -5,6 +5,7 @@
 #include <Nazara/Core/RefCounted.hpp>
 #include <Nazara/Core/ObjectLibrary.hpp>
 #include <vector>
+#include <string>
 
 struct Frame
 {
@@ -26,7 +27,7 @@ using Animation2DRef = Nz::ObjectRef<Animation2D>;
 class Animation2D : public Nz::RefCounted
 {
 public:
-	Animation2D(bool singleShoot = false);
+	Animation2D(const std::string & name, bool singleShoot = false);
 	~Animation2D() = default;
 
 	void addFrame(const Frame & f);
@@ -45,6 +46,9 @@ public:
 	inline Frame operator[](size_t index);
 	inline const Frame & operator[](size_t index) const;
 
+	inline std::string getName() const;
+	inline void setName(const std::string & name);
+
 	template<typename... Args> static Animation2DRef New(Args&&... args)
 	{
 		std::unique_ptr<Animation2D> object(new Animation2D(std::forward<Args>(args)...));
@@ -58,6 +62,7 @@ private:
 
 	bool m_singleShoot;
 	float m_totalTime;
+	std::string m_name;
 };
 
 #include "Animation2D/Animation2D.inl"

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Animation2D/Animation2DPropertiesHolder.h"
+#include "Animation2D/PropertiesHolder.h"
 
 struct Animation2DEnv
 {
-	Animation2DEnv(float _animationTime, bool _animationFinished, Animation2DPropertiesHolder _propertiesHolder)
+	Animation2DEnv(float _animationTime, bool _animationFinished, PropertiesHolder _propertiesHolder)
 		: animationTime(_animationTime)
 		, animationsFinished(_animationFinished)
 		, propertyHolder(_propertiesHolder)
@@ -14,6 +14,6 @@ struct Animation2DEnv
 
 	float animationTime;
 	bool animationsFinished;
-	const Animation2DPropertiesHolder & propertyHolder;
+	const PropertiesHolder & propertyHolder;
 };
 

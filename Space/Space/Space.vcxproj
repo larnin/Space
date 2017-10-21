@@ -138,9 +138,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation2D/Animation2D.cpp" />
-    <ClCompile Include="Animation2D\Animation2DPropertiesHolder.cpp" />
+    <ClCompile Include="Animation2D\Animator2D.cpp" />
+    <ClCompile Include="Animation2D\PropertiesHolder.cpp" />
     <ClCompile Include="Animation2D\Animation2DState.cpp" />
     <ClCompile Include="Animation2D\Animation2DTransition.cpp" />
+    <ClCompile Include="Animation2D\Conditions.cpp" />
     <ClCompile Include="Components/Animation2DComponent.cpp" />
     <ClCompile Include="Systems/Animation2DSystem.cpp" />
     <ClCompile Include="Components/AsteroidComponent.cpp" />
@@ -156,9 +158,11 @@
   <ItemGroup>
     <ClInclude Include="Animation2D/Animation2D.h" />
     <ClInclude Include="Animation2D\Animation2DEnv.h" />
-    <ClInclude Include="Animation2D\Animation2DPropertiesHolder.h" />
+    <ClInclude Include="Animation2D\Animator2D.h" />
+    <ClInclude Include="Animation2D\PropertiesHolder.h" />
     <ClInclude Include="Animation2D\Animation2DState.h" />
     <ClInclude Include="Animation2D\Animation2DTransition.h" />
+    <ClInclude Include="Animation2D\Conditions.h" />
     <ClInclude Include="Components/Animation2DComponent.h" />
     <ClInclude Include="Systems/Animation2DSystem.h" />
     <ClInclude Include="Components/AsteroidComponent.h" />

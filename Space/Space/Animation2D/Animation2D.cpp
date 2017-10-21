@@ -1,9 +1,10 @@
 #include "Animation2D/Animation2D.h"
 #include <limits>
 
-Animation2D::Animation2D(bool singleShoot)
+Animation2D::Animation2D(const std::string & name, bool singleShoot)
 	: m_singleShoot(singleShoot)
 	, m_totalTime(0)
+	, m_name(name)
 {
 }
 
@@ -57,6 +58,4 @@ float Animation2D::toNormalizedTime(float time) const
 		return fmod(time, m_totalTime);
 	return m_totalTime + fmod(time, m_totalTime);
 }
-
-
 

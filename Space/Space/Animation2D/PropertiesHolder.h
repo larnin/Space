@@ -3,11 +3,11 @@
 #include <unordered_map>
 #include <string>
 
-class Animation2DPropertiesHolder
+class PropertiesHolder
 {
 public:
-	Animation2DPropertiesHolder() = default;
-	~Animation2DPropertiesHolder() = default;
+	PropertiesHolder() = default;
+	~PropertiesHolder() = default;
 
 	void set(const std::string & key, int value = 0);
 	int get(const std::string & key) const;
