@@ -12,3 +12,8 @@ int PropertiesHolder::get(const std::string & key) const
 		return 0;
 	return it->second;
 }
+
+void PropertiesHolder::reset()
+{
+	m_properties.clear();
+}

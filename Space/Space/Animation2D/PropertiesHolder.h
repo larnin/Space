@@ -11,6 +11,7 @@ public:
 
 	void set(const std::string & key, int value = 0);
 	int get(const std::string & key) const;
+	void reset();
 
 private:
 	std::unordered_map<std::string, int> m_properties;

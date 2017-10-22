@@ -19,8 +19,26 @@ public:
 	Animator2D() = default;
 	~Animator2D() = default;
 
-	//todo add/remove anim/state
+	void addAnimation(Animation2DRef animation);
+	void removeAnimation(Animation2DRef animation);
+	void removeAnimation(const std::string & name);
+	Animation2DRef getAnimation(const std::string & name) const;
+	bool animationExist(const std::string & name) const;
+	size_t getAnimationCount() const;
+	Animation2DRef getAnimation(size_t index) const;
 
+	void addState(Animation2DState && state);
+	void removeState(const Animation2DState & state);
+	void removeState(const std::string & name);
+	Animation2DState const & getState(const std::string & name) const;
+	Animation2DState & getState(const std::string & name);
+	bool stateExist(const std::string & name) const;
+	size_t getStatesCount() const;
+	Animation2DState const & getState(size_t index) const;
+	Animation2DState & getState(size_t index);
+
+	void setDefaultStateName(const std::string & name);
+	std::string getDefaultStateName() const;
 
 	template<typename... Args> static Animator2DRef New(Args&&... args)
 	{
@@ -33,5 +51,7 @@ public:
 private:
 	std::vector<Animation2DRef> m_animations;
 	std::vector<Animation2DState> m_states;
+
+	std::string m_defaultStateName;
 };
 
