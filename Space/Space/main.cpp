@@ -3,9 +3,11 @@
 #include "Components/FollowEntityComponent.h"
 #include "Components/AsteroidComponent.h"
 #include "Components/Animation2DComponent.h"
+#include "Components/Animator2DComponent.h"
 #include "Systems/ShipControlerSystem.h"
 #include "Systems/FollowEntitySystem.h"
 #include "Systems/Animation2DSystem.h"
+#include "Systems/Animator2DSystem.h"
 #include <NDK/Application.hpp>
 #include <NDK/StateMachine.hpp>
 #include <NDK/Components.hpp>
@@ -21,10 +23,12 @@ void initializeCustomComponentsAndSystems()
 	Ndk::InitializeComponent<FollowEntityComponent>("002FEC");
 	Ndk::InitializeComponent<AsteroidComponent>("003AsC");
 	Ndk::InitializeComponent<Animation2DComponent>("004A2D");
+	Ndk::InitializeComponent<Animator2DComponent>("005A2D");
 
 	Ndk::InitializeSystem<ShipControlerSystem>();
 	Ndk::InitializeSystem<FollowEntitySystem>();
 	Ndk::InitializeSystem<Animation2DSystem>();
+	Ndk::InitializeSystem<Animator2DSystem>();
 }
 
 void initializeShaders()
@@ -99,7 +103,7 @@ int main()
 	auto & graph = entity->AddComponent<Ndk::GraphicsComponent>();
 	graph.Attach(sprite);
 
-	auto anim = Animation2D::New();
+	auto anim = Animation2D::New("");
 	for (unsigned int i(0); i < 10; i++)
 		anim->addFrame(Frame(0.1f, Nz::Rectui(i*200, 0, 200, 312), Nz::Vector2f(0, 0), false, true));
 

@@ -147,6 +147,7 @@
     <ClCompile Include="Components\Animator2DComponent.cpp" />
     <ClCompile Include="Systems/Animation2DSystem.cpp" />
     <ClCompile Include="Components/AsteroidComponent.cpp" />
+    <ClCompile Include="Systems\Animator2DSystem.cpp" />
     <ClCompile Include="Utilities/AsteroidCreator.cpp" />
     <ClCompile Include="Components/FollowEntityComponent.cpp" />
     <ClCompile Include="Systems/FollowEntitySystem.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Components\Animator2DComponent.h" />
     <ClInclude Include="Systems/Animation2DSystem.h" />
     <ClInclude Include="Components/AsteroidComponent.h" />
+    <ClInclude Include="Systems\Animator2DSystem.h" />
     <ClInclude Include="Utilities/AsteroidCreator.h" />
     <ClInclude Include="Utilities/Env.h" />
     <ClInclude Include="Components/FollowEntityComponent.h" />

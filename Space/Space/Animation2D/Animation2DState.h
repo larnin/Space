@@ -9,6 +9,8 @@ class Animation2DState
 public:
 	Animation2DState(const std::string & name, Animation2DRef animation, float animationSpeed = 1.0f, bool xFliped = false, bool yFliped = false);
 	~Animation2DState() = default;
+	Animation2DState(Animation2DState &&) = default;
+	Animation2DState & operator=(Animation2DState &&) = default;
 
 	inline Animation2DRef getAnimation() const { return m_animation; }
 
@@ -24,6 +26,7 @@ public:
 	inline void setName(const std::string & name) { m_name = name; }
 	inline std::string getName() const { return m_name; }
 
+	inline void addTransition(Animation2DTransition && transition) { m_transitions.push_back(std::move(transition)); }
 	inline Animation2DTransition & transition(size_t index) { return m_transitions[index]; }
 	inline Animation2DTransition const & transition(size_t index) const { return m_transitions[index]; }
 

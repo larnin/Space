@@ -11,6 +11,11 @@ struct Frame
 {
 	inline Frame(float _time = 0, const Nz::Rectui _texRectf = Nz::Rectui(0, 0, 1, 1), const Nz::Vector2f _offset = Nz::Vector2f(0, 0), bool _xFliped = false, bool _yFliped = false);
 
+	inline Frame clone(float _time) const
+	{
+		return Frame(_time, texRect, offset, xFliped, yFliped);
+	}
+
 	float time;
 	Nz::Rectui texRect;
 	Nz::Vector2f offset;
@@ -36,8 +41,7 @@ public:
 	inline void setSingleShoot(bool value);
 	inline float getTotalAnimationTime() const;
 
-	const Frame & getFrameAt(float time) const;
-	Frame getFrameAt(float time);
+	Frame getFrameAt(float time) const;
 	size_t getFrameIndexAt(float time) const;
 	size_t frameCount() const;
 

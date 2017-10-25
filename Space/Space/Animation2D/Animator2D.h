@@ -5,6 +5,7 @@
 #include <Nazara/Core/RefCounted.hpp>
 #include <Nazara/Core/ObjectLibrary.hpp>
 #include <vector>
+#include <list>
 
 class Animator2D;
 
@@ -18,6 +19,8 @@ public:
 	Animator2D(Animation2DRef animation);
 	Animator2D() = default;
 	~Animator2D() = default;
+	Animator2D(Animator2D &&) = default;
+	Animator2D & operator=(Animator2D &&) = default;
 
 	void addAnimation(Animation2DRef animation);
 	void removeAnimation(Animation2DRef animation);
@@ -27,15 +30,12 @@ public:
 	size_t getAnimationCount() const;
 	Animation2DRef getAnimation(size_t index) const;
 
-	void addState(Animation2DState && state);
+	Animation2DState & addState(Animation2DState && state);
 	void removeState(const Animation2DState & state);
 	void removeState(const std::string & name);
 	Animation2DState const & getState(const std::string & name) const;
 	Animation2DState & getState(const std::string & name);
 	bool stateExist(const std::string & name) const;
-	size_t getStatesCount() const;
-	Animation2DState const & getState(size_t index) const;
-	Animation2DState & getState(size_t index);
 
 	void setDefaultStateName(const std::string & name);
 	std::string getDefaultStateName() const;
@@ -50,7 +50,7 @@ public:
 
 private:
 	std::vector<Animation2DRef> m_animations;
-	std::vector<Animation2DState> m_states;
+	std::list<Animation2DState> m_states;
 
 	std::string m_defaultStateName;
 };

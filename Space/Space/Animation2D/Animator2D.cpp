@@ -15,7 +15,7 @@ void Animator2D::addAnimation(Animation2DRef animation)
 void Animator2D::removeAnimation(Animation2DRef animation)
 {
 	m_animations.erase(std::remove(m_animations.begin(), m_animations.end(), animation), m_animations.end());
-	m_states.erase(std::remove_if(m_states.begin(), m_states.end(), [animation](const auto & e) {return e == animation; }), m_states.end());
+	m_states.erase(std::remove_if(m_states.begin(), m_states.end(), [animation](const auto & e) {return e.getAnimation() == animation; }), m_states.end());
 }
 
 void Animator2D::removeAnimation(const std::string & name)
@@ -51,15 +51,16 @@ Animation2DRef Animator2D::getAnimation(size_t index) const
 	return m_animations[index];
 }
 
-void Animator2D::addState(Animation2DState && state)
+Animation2DState & Animator2D::addState(Animation2DState && state)
 {
 	NazaraAssert(std::find(m_animations.begin(), m_animations.end(), state.getAnimation()) != m_animations.end(), "You must add the animation on the animator before the state !");
-	m_states.push_back(state);
+	m_states.push_back(std::move(state));
+	return m_states.back();
 }
 
 void Animator2D::removeState(const Animation2DState & state)
 {
-	m_states.erase(std::remove_if(m_states.begin(), m_states.end(), [state](const auto & e) {return &e == &state; }), m_states.end());
+	m_states.erase(std::remove_if(m_states.begin(), m_states.end(), [&state](const auto & e) {return &e == &state; }), m_states.end());
 }
 
 void Animator2D::removeState(const std::string & name)
@@ -73,7 +74,7 @@ Animation2DState const & Animator2D::getState(const std::string & name) const
 		if (s.getName() == name)
 			return s;
 	NazaraAssert(false, "The state can't be found !");
-	return m_states[0];
+	return m_states.front();
 }
 
 Animation2DState & Animator2D::getState(const std::string & name)
@@ -82,7 +83,7 @@ Animation2DState & Animator2D::getState(const std::string & name)
 		if (s.getName() == name)
 			return s;
 	NazaraAssert(false, "The state can't be found !");
-	return m_states[0];
+	return m_states.front();
 }
 
 bool Animator2D::stateExist(const std::string & name) const
@@ -91,21 +92,6 @@ bool Animator2D::stateExist(const std::string & name) const
 		if (s.getName() == name)
 			return true;
 	return false;
-}
-
-size_t Animator2D::getStatesCount() const
-{
-	return size_t();
-}
-
-Animation2DState const & Animator2D::getState(size_t index) const
-{
-	return m_states[index];
-}
-
-Animation2DState & Animator2D::getState(size_t index)
-{
-	return m_states[index];
 }
 
 void Animator2D::setDefaultStateName(const std::string & name)

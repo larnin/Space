@@ -105,6 +105,9 @@
     <ClCompile Include="Components\Animator2DComponent.cpp">
       <Filter>Fichiers sources\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\Animator2DSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation2D/Animation2D.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="Components\Animator2DComponent.h">
       <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Animator2DSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

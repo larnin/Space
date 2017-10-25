@@ -9,6 +9,8 @@
 class Animator2DComponent : public Ndk::Component<Animator2DComponent>
 {
 public:
+	friend class Animator2DSystem;
+
 	Animator2DComponent(Animator2DRef animator, float animationSpeed = 1);
 	~Animator2DComponent() = default;
 
@@ -32,17 +34,23 @@ public:
 	void setProperty(const std::string & key, int value);
 	int getProperty(const std::string & key) const;
 
-private:
-	Animator2DRef m_animator;
-	std::vector<Nz::Sprite> m_sprites;
-	PropertiesHolder m_properties;
+	static void setFrame(Nz::SpriteRef & sprite, const Frame & f);
 
+	static Ndk::ComponentIndex componentIndex;
+
+private:
 	bool currentAnimationFinished() const;
+	void updateCurrentFrame();
+
+	Animator2DRef m_animator;
+	std::vector<Nz::SpriteRef> m_sprites;
+	PropertiesHolder m_properties;
 
 	Animation2DState * m_currentState;
 	float m_currentStateTime;
-	float m_currentFrameTime;
+	Frame m_currentFrame;
 	float m_animationSpeed;
 	bool m_paused;
+	bool m_needToUpdate;
 };
 

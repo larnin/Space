@@ -11,6 +11,8 @@ class Animation2DTransition
 public:
 	Animation2DTransition(Animation2DState & dest, std::unique_ptr<ConditionBase> && condition);
 	~Animation2DTransition() = default;
+	Animation2DTransition(Animation2DTransition &&) = default;
+	Animation2DTransition & operator=(Animation2DTransition &&) = default;
 
 	inline Animation2DState & getDest() const { return m_dest; }
 

@@ -37,15 +37,29 @@ size_t Animation2D::frameCount() const
 	return m_frames.size();
 }
 
-const Frame & Animation2D::getFrameAt(float time) const
+Frame Animation2D::getFrameAt(float time) const
 {
-	return m_frames[getFrameIndexAt(time)];
+	NazaraAssert(m_frames.size() > 0, "There are no frame in the animation !");
+
+	if (m_singleShoot && time < 0)
+		return m_frames.front().clone(std::numeric_limits<float>::max());
+	if (m_singleShoot && time > m_totalTime)
+		return m_frames.back().clone(std::numeric_limits<float>::max());
+
+	time = toNormalizedTime(time);
+
+	float current = 0;
+	for (size_t i(0); i < m_frames.size(); i++)
+	{
+		const auto & f = m_frames[i];
+		current += f.time;
+		if (current >= time)
+			return f.clone(current - time);
+	}
+
+	return m_frames.back().clone(0);
 }
 
-Frame Animation2D::getFrameAt(float time)
-{
-	return m_frames[getFrameIndexAt(time)];
-}
 
 float Animation2D::toNormalizedTime(float time) const
 {
@@ -58,4 +72,5 @@ float Animation2D::toNormalizedTime(float time) const
 		return fmod(time, m_totalTime);
 	return m_totalTime + fmod(time, m_totalTime);
 }
+
 
