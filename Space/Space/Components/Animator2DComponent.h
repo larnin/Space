@@ -41,6 +41,7 @@ public:
 private:
 	bool currentAnimationFinished() const;
 	void updateCurrentFrame();
+	bool checkTransitions();
 
 	Animator2DRef m_animator;
 	std::vector<Nz::SpriteRef> m_sprites;

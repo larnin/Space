@@ -26,9 +26,13 @@ bool Animator2DComponent::update(float elapsedTime)
 	bool oldNeedToUpdate = m_needToUpdate;
 	m_needToUpdate = false;
 
-	if (m_paused)
-		return m_needToUpdate;
 	if (m_currentState == nullptr)
+		return m_needToUpdate;
+
+	if (checkTransitions())
+		return true;
+
+	if (m_paused)
 		return m_needToUpdate;
 	elapsedTime *= std::abs(m_animationSpeed * m_currentState->getSpeed());
 
@@ -120,6 +124,23 @@ void Animator2DComponent::updateCurrentFrame()
 		float speed = m_currentState->getSpeed() * m_animationSpeed;
 		m_currentFrame = m_currentState->getAnimation()->getFrameAt(speed > 0 ? m_currentStateTime : m_currentState->getAnimation()->getTotalAnimationTime() - m_currentStateTime);
 	}
+}
+
+bool Animator2DComponent::checkTransitions()
+{
+	Animation2DEnv env(m_currentStateTime, currentAnimationFinished(), m_properties);
+
+	for (int i = 0; i < m_currentState->transitionCount(); i++)
+	{
+		if (m_currentState->transition(i).check(env))
+		{
+			m_currentStateTime = 0;
+			updateCurrentFrame();
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void Animator2DComponent::setFrame(Nz::SpriteRef & sprite, const Frame & f)

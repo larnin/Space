@@ -86,7 +86,7 @@ int main()
 
 	auto & world = application.AddWorld();
 	world.GetSystem<Ndk::RenderSystem>().SetGlobalUp(Nz::Vector3f::Down());
-	world.AddSystem<Animation2DSystem>();
+	world.AddSystem<Animator2DSystem>();
 
 	auto & camera = world.CreateEntity();
 	auto & cameraComponent = camera->AddComponent<Ndk::CameraComponent>();
@@ -107,7 +107,7 @@ int main()
 	for (unsigned int i(0); i < 10; i++)
 		anim->addFrame(Frame(0.1f, Nz::Rectui(i*200, 0, 200, 312), Nz::Vector2f(0, 0), false, true));
 
-	auto & animComponent = entity->AddComponent<Animation2DComponent>(anim);
+	auto & animComponent = entity->AddComponent<Animator2DComponent>(Animator2D::New(anim));
 	animComponent.attach(sprite);
 
 	while (application.Run())

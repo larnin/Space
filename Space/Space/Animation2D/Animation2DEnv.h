@@ -4,7 +4,7 @@
 
 struct Animation2DEnv
 {
-	Animation2DEnv(float _animationTime, bool _animationFinished, PropertiesHolder _propertiesHolder)
+	Animation2DEnv(float _animationTime, bool _animationFinished, const PropertiesHolder & _propertiesHolder)
 		: animationTime(_animationTime)
 		, animationsFinished(_animationFinished)
 		, propertyHolder(_propertiesHolder)
