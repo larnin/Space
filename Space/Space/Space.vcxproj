@@ -167,6 +167,7 @@
     <ClInclude Include="Animation2D\Conditions.h" />
     <ClInclude Include="Components/Animation2DComponent.h" />
     <ClInclude Include="Components\Animator2DComponent.h" />
+    <ClInclude Include="Libs\json.h" />
     <ClInclude Include="Systems/Animation2DSystem.h" />
     <ClInclude Include="Components/AsteroidComponent.h" />
     <ClInclude Include="Systems\Animator2DSystem.h" />

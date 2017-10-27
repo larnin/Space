@@ -173,6 +173,9 @@
     <ClInclude Include="Systems\Animator2DSystem.h">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Libs\json.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Animation2D/Animation2D.inl">

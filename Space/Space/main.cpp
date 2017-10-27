@@ -16,6 +16,7 @@
 
 #include <Nazara/Renderer/Shader.hpp>
 #include <Nazara/Graphics/Material.hpp>
+#include <Nazara/Platform/Keyboard.hpp>
 
 void initializeCustomComponentsAndSystems()
 {
@@ -107,11 +108,24 @@ int main()
 	for (unsigned int i(0); i < 10; i++)
 		anim->addFrame(Frame(0.1f, Nz::Rectui(i*200, 0, 200, 312), Nz::Vector2f(0, 0), false, true));
 
-	auto & animComponent = entity->AddComponent<Animator2DComponent>(Animator2D::New(anim));
-	animComponent.attach(sprite);
+	auto animator = Animator2D::New();
+	animator->addAnimation(anim);
+	auto & state1 = animator->addState("left", anim, 1, false, true);
+	auto & state2 = animator->addState("right", anim, 1, true, true);
+	state1.addTransition(Animation2DTransition(state2, std::make_unique<PropertyEqualCondition>("turn", 1)));
+	state2.addTransition(Animation2DTransition(state1, std::make_unique<PropertyEqualCondition>("turn", 0)));
+	animator->setDefaultStateName("left");
+
+	auto & animatorComponent = entity->AddComponent<Animator2DComponent>(animator);
+	animatorComponent.attach(sprite);
 
 	while (application.Run())
 	{
+		if (Nz::Keyboard::IsKeyPressed(Nz::Keyboard::Left))
+			animatorComponent.setProperty("turn", 0);
+		else if (Nz::Keyboard::IsKeyPressed(Nz::Keyboard::Right))
+			animatorComponent.setProperty("turn", 1);
+
 		mainWindow.Display();
 	}
 

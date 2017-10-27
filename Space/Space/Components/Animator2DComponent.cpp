@@ -123,6 +123,8 @@ void Animator2DComponent::updateCurrentFrame()
 	{
 		float speed = m_currentState->getSpeed() * m_animationSpeed;
 		m_currentFrame = m_currentState->getAnimation()->getFrameAt(speed > 0 ? m_currentStateTime : m_currentState->getAnimation()->getTotalAnimationTime() - m_currentStateTime);
+		m_currentFrame.xFliped = m_currentFrame.xFliped != m_currentState->getXfliped();
+		m_currentFrame.yFliped = m_currentFrame.yFliped != m_currentState->getYFliped();
 	}
 }
 
@@ -134,6 +136,7 @@ bool Animator2DComponent::checkTransitions()
 	{
 		if (m_currentState->transition(i).check(env))
 		{
+			m_currentState = &m_currentState->transition(i).getDest();
 			m_currentStateTime = 0;
 			updateCurrentFrame();
 			return true;

@@ -40,6 +40,11 @@ public:
 	void setDefaultStateName(const std::string & name);
 	std::string getDefaultStateName() const;
 
+	template<typename... Args> Animation2DState & addState(Args&&... args)
+	{
+		return addState(Animation2DState(std::forward<Args>(args)...));
+	}
+
 	template<typename... Args> static Animator2DRef New(Args&&... args)
 	{
 		std::unique_ptr<Animator2D> object(new Animator2D(std::forward<Args>(args)...));
