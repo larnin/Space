@@ -30,12 +30,24 @@
     <ClCompile Include="Utilities\vect2ext.cpp">
       <Filter>Fichiers sources\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\boolean.cpp">
+      <Filter>Fichiers sources\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\convexshape.cpp">
+      <Filter>Fichiers sources\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\asteroidrender.h">
       <Filter>Fichiers d%27en-tête\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\vect2ext.h">
+      <Filter>Fichiers d%27en-tête\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\boolean.h">
+      <Filter>Fichiers d%27en-tête\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\convexshape.h">
       <Filter>Fichiers d%27en-tête\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
