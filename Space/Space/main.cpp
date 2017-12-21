@@ -7,6 +7,8 @@
 #include <Nazara/Graphics/ColorBackground.hpp>
 #include "Utilities/asteroidrender.h"
 
+#include <iostream>
+
 int main()
 {
 	Ndk::Application application;
@@ -28,11 +30,14 @@ int main()
 	auto & cameraNodeComponent = camera->AddComponent<Ndk::NodeComponent>();
 	cameraNodeComponent.SetPosition(-10.0f*cameraComponent.GetForward());
 
+	Nz::ImageParams params;
+	params.loadFormat = Nz::PixelFormatType::PixelFormatType_RGBA8;
 	Nz::Image imgAsteroid;
-	imgAsteroid.LoadFromFile("res/Asteroids/asteroids0.png");
+	imgAsteroid.LoadFromFile("res/Asteroids/asteroids0.png", params);
 	Nz::Image imgBorder;
-	imgBorder.LoadFromFile("res/Asteroids/explosion.png");
-	createHole(imgAsteroid, Nz::Vector2i(180, 90), 30, imgBorder);
+	imgBorder.LoadFromFile("res/Asteroids/explosion.png", params);
+	createHole(imgAsteroid, Nz::Vector2i(100, 20), 30, imgBorder);
+	createHole(imgAsteroid, Nz::Vector2i(20, 50), 30, imgBorder);
 
 	auto tex = Nz::Texture::New(imgAsteroid);
 
@@ -44,8 +49,7 @@ int main()
 	t.SetFilterMode(Nz::SamplerFilter_Nearest);
 
 	sprite->SetTexture(tex);
-	sprite->SetTextureRect(Nz::Rectui(107, 75, 115, 95));
-	sprite->SetSize(115*2, 95*2);
+	sprite->SetSize(2*tex->GetSize().x, 2*tex->GetSize().y);
 	auto & graph = entity->AddComponent<Ndk::GraphicsComponent>();
 	graph.Attach(sprite);
 

@@ -98,7 +98,7 @@ void adaptShapesOrder(Shape & a, bool swapA, Shape & b, bool swapB, std::vector<
     {
         if(swapA)
         {
-            c.aIndex = a.size() - c.aIndex -1;
+            c.aIndex = a.size() - c.aIndex - 1;
             c.aIndex = c.aIndex <= 0 ? a.size() - 1 : c.aIndex - 1;
         }
         if(swapB)
