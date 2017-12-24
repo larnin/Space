@@ -21,6 +21,11 @@ float norm(const Nz::Vector2f & vect)
     return sqrt(vect.x*vect.x +vect.y*vect.y);
 }
 
+float normSqr(const Nz::Vector2f & vect)
+{
+	return vect.x*vect.x + vect.y*vect.y;
+}
+
 Nz::Vector2f normalize(const Nz::Vector2f & vect)
 {
     return vect/norm(vect);

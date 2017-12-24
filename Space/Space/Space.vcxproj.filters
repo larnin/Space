@@ -50,5 +50,8 @@
     <ClInclude Include="Utilities\convexshape.h">
       <Filter>Fichiers d%27en-tête\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Matrix.h">
+      <Filter>Fichiers d%27en-tête\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

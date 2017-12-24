@@ -36,10 +36,21 @@ int main()
 	imgAsteroid.LoadFromFile("res/Asteroids/asteroids0.png", params);
 	Nz::Image imgBorder;
 	imgBorder.LoadFromFile("res/Asteroids/explosion.png", params);
-	createHole(imgAsteroid, Nz::Vector2i(100, 20), 30, imgBorder);
-	createHole(imgAsteroid, Nz::Vector2i(20, 50), 30, imgBorder);
+	Nz::Image imgExplosedRock;
+	imgExplosedRock.LoadFromFile("res/Asteroids/border.png", params);
+	Nz::Image targetImage;
 
-	auto tex = Nz::Texture::New(imgAsteroid);
+	Nz::Clock c;
+	auto data = createAsteroidData(imgAsteroid);
+	std::cout << c.GetMicroseconds() << std::endl;
+	c.Restart();
+	createRender(targetImage, imgAsteroid, imgExplosedRock, imgBorder, data, { {30, {100, 20}}, {30, {20, 25}}, { 15, {60, 15}} });
+	std::cout << c.GetMicroseconds() << std::endl;
+
+	/*createHole(imgAsteroid, Nz::Vector2i(100, 20), 30, imgBorder);
+	createHole(imgAsteroid, Nz::Vector2i(20, 50), 30, imgBorder);*/
+
+	auto tex = Nz::Texture::New(targetImage);
 
 	auto entity = world.CreateEntity();
 	auto & node = entity->AddComponent<Ndk::NodeComponent>();

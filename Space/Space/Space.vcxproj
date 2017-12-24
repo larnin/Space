@@ -134,6 +134,7 @@
     <ClInclude Include="Utilities\asteroidrender.h" />
     <ClInclude Include="Utilities\boolean.h" />
     <ClInclude Include="Utilities\convexshape.h" />
+    <ClInclude Include="Utilities\Matrix.h" />
     <ClInclude Include="Utilities\vect2ext.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,6 +7,7 @@ float angle(const Nz::Vector2f & vect);
 float angle(const Nz::Vector2f &vect1, const Nz::Vector2f & vect2); //between 0 and pi
 float signedAngle(const Nz::Vector2f &vect1, const Nz::Vector2f & vect2);
 float norm(const Nz::Vector2f & vect);
+float normSqr(const Nz::Vector2f & vect);
 Nz::Vector2f normalize(const Nz::Vector2f & vect);
 
 Nz::Vector2f toVect(float norm, float angle);
