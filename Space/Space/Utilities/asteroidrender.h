@@ -7,7 +7,7 @@
 using AsteroidData = Matrix<float>;
 struct AsteroidExplosion
 {
-	AsteroidExplosion(float _radius, const Nz::Vector2i & _localPos)
+	inline AsteroidExplosion(float _radius, const Nz::Vector2i & _localPos)
 		: radius(_radius), localPos(_localPos) {}
 	float radius;
 	Nz::Vector2i localPos;
