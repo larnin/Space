@@ -6,12 +6,21 @@
 #include <NDK/Components/CameraComponent.hpp>
 #include <Nazara/Graphics/ColorBackground.hpp>
 #include "Utilities/asteroidrender.h"
+#include "Components/AsteroidComponent.h"
+#include "Utilities/AsteroidBaseInfos.h"
 
 #include <iostream>
+
+void initializeSystemsAndComponents()
+{
+	Ndk::InitializeComponent<AsteroidComponent>("001ASC");
+}
 
 int main()
 {
 	Ndk::Application application;
+	initializeSystemsAndComponents();
+	AsteroidBaseInfos::createLibrary();
 
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Space");

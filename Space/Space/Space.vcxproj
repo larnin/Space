@@ -124,13 +124,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\AsteroidComponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Utilities\AsteroidBaseInfos.cpp" />
     <ClCompile Include="Utilities\asteroidrender.cpp" />
     <ClCompile Include="Utilities\boolean.cpp" />
     <ClCompile Include="Utilities\convexshape.cpp" />
     <ClCompile Include="Utilities\vect2ext.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\AsteroidComponent.h" />
+    <ClInclude Include="Utilities\AsteroidBaseInfos.h" />
     <ClInclude Include="Utilities\asteroidrender.h" />
     <ClInclude Include="Utilities\boolean.h" />
     <ClInclude Include="Utilities\convexshape.h" />

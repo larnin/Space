@@ -19,6 +19,12 @@
     <Filter Include="Fichiers sources\Utilities">
       <UniqueIdentifier>{66599c7b-bb0a-4b16-ad0c-da6be0dd1fc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Components">
+      <UniqueIdentifier>{6b819103-cc6d-4352-a174-668a3704d994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Components">
+      <UniqueIdentifier>{0038fbe6-97f2-4ef8-bce4-9c7a2a6eaa4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,6 +42,12 @@
     <ClCompile Include="Utilities\convexshape.cpp">
       <Filter>Fichiers sources\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Components\AsteroidComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\AsteroidBaseInfos.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\asteroidrender.h">
@@ -52,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="Utilities\Matrix.h">
       <Filter>Fichiers d%27en-tête\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AsteroidComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\AsteroidBaseInfos.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
