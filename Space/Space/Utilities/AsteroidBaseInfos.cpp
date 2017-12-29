@@ -3,7 +3,7 @@
 #include <cassert>
 
 std::map<std::string, Nz::ImageRef> AsteroidBaseInfos::m_images;
-std::map<std::string, AsteroidBaseInfos> AsteroidBaseInfos::m_infos;
+std::map<std::string, AsteroidBaseInfosRef> AsteroidBaseInfos::m_infos;
 
 AsteroidBaseInfos::AsteroidBaseInfos(const Nz::ImageRef & _asteroid, const Nz::ImageRef & _explosion, const Nz::ImageRef & _border, const Shape & _shape)
 	: asteroid(_asteroid)
@@ -25,10 +25,10 @@ void AsteroidBaseInfos::registerInfos(const std::string & name, std::string & as
 	auto it(m_infos.find(name));
 	assert(it == m_infos.end() && "An image is already registered in that index");
 
-	m_infos.emplace(name, AsteroidBaseInfos(getImage(asteroidName), getImage(explosionName), getImage(borderName), shape));
+	m_infos.emplace(name, AsteroidBaseInfos::New(getImage(asteroidName), getImage(explosionName), getImage(borderName), shape));
 }
 
-AsteroidBaseInfos AsteroidBaseInfos::getAsteroidInfos(const std::string & name)
+AsteroidBaseInfosRef AsteroidBaseInfos::getAsteroidInfos(const std::string & name)
 {
 	auto it(m_infos.find(name));
 	assert(it != m_infos.end() && "The image don't exist");

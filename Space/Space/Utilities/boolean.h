@@ -15,6 +15,7 @@ using Shape = std::vector<Nz::Vector2f>;
 
 std::vector<Shape> boolean(const Shape & a, const Shape & b, const Nz::Vector2f & offset, BooleanType type);
 
+Nz::Vector2f centerShape(const Shape & s);
 bool isClockWise(const Shape & s);
 Shape switchPointsOrder(const Shape & s);
 void switchPointsOrder(Shape &s);

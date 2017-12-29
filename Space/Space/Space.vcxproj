@@ -70,11 +70,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Libs\Nazara\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libs\Nazara\include;$(SolutionDir)Space;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libs\Nazara\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Libs\Nazara\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libs\Nazara\include;$(SolutionDir)Space;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libs\Nazara\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

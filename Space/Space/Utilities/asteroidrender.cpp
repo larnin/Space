@@ -66,11 +66,6 @@ void createRender(Nz::Image & target, const Nz::Image & asteroid, const Nz::Imag
 	const float perlinMultiplier = 0.12f;
 	const float perlinScale = 0.1f;
 
-	unsigned int explosedCount = 0;
-	unsigned int onExplosionCount = 0;
-	unsigned int onBorderCount = 0;
-	unsigned int unchangedCount = 0;
-
 	for (unsigned int i(0); i < target.GetWidth(); i++)
 		for (unsigned int j(0); j < asteroid.GetHeight(); j++)
 		{
@@ -134,10 +129,7 @@ void createRender(Nz::Image & target, const Nz::Image & asteroid, const Nz::Imag
 			}
 
 			if (explosed)
-			{
 				target.GetPixels(i, j)[3] = 0;
-				explosedCount++;
-			}
 			else if (onExplosion)
 			{
 				float d = explosion.GetHeight() * normalizedDist;
@@ -150,7 +142,6 @@ void createRender(Nz::Image & target, const Nz::Image & asteroid, const Nz::Imag
 				auto color = explosion.GetConstPixels(a, d);
 				for (unsigned int k(0); k < 4; k++)
 					destColor[k] = color[k];
-				onExplosionCount++;
 			}
 			else if (onBorder)
 			{
@@ -162,14 +153,12 @@ void createRender(Nz::Image & target, const Nz::Image & asteroid, const Nz::Imag
 				auto borderColor = border.GetConstPixels(a, d);
 				for (unsigned int k(0); k < 4; k++)
 					destColor[k] = static_cast<Nz::UInt8>((static_cast<unsigned int>(pixel[k]) * static_cast<unsigned int>(borderColor[k])) / 255U);
-				onBorderCount++;
 			}
 			else
 			{
 				auto destColor = target.GetPixels(i, j);
 				for (unsigned int k(0); k < 4; k++)
 					destColor[k] = pixel[k];
-				unchangedCount++;
 			}
 		}
 }
