@@ -8,6 +8,8 @@
 
 bool isConvexe(const Shape & s)
 {
+	assert(s.size() >= 3 && "The shape must have 3 points !");
+
     if(s.size() <= 3) //a triangle is convexe
         return true;
 
@@ -138,4 +140,38 @@ std::vector<Shape> makeConvexe(const Shape & s)
     auto shapes2 = makeConvexe(s2);
     shapes1.insert(shapes1.end(), shapes2.begin(), shapes2.end());
     return shapes1;
+}
+
+float calculateSurface(const Shape & s)
+{
+	assert(isConvexe(s) && "The shape is not convexe !");
+	assert(s.size() >= 3 && "The shape must have 3 points !");
+
+	float surface(0);
+
+	for (unsigned int i(0); i < s.size() - 1; i++)
+	{
+		float s1 = (s[0] - s[i]).GetLength();
+		float s2 = (s[i] - s[i + 1]).GetLength();
+		float s3 = (s[i + 1] - s[0]).GetLength();
+		float s0 = (s1 + s2 + s3) / 2;
+		surface += std::sqrt(s0*(s0 - s1)*(s0 - s2)*(s0 - s3));
+	}
+	return surface;
+}
+
+bool isInShape(const Shape & s, const Nz::Vector2f & pos)
+{
+	assert(isConvexe(s) && "The shape is not convexe !");
+	assert(s.size() >= 3 && "The shape must have 3 points !");
+
+	bool side = isClockWise(s);
+
+	for (unsigned int i(0); i < s.size(); i++)
+	{
+		unsigned int i1 = (i + 1) % s.size();
+		if (isLeft(s[i], s[i1], pos) != side)
+			return false;
+	}
+	return true;
 }

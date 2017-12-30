@@ -14,3 +14,4 @@ struct AsteroidExplosion
 
 AsteroidData createAsteroidData(const Nz::Image & asteroid);
 void createRender(Nz::Image & target, const Nz::Image & asteroid, const Nz::Image & explosion, const Nz::Image & border, const AsteroidData & data, const std::vector<AsteroidExplosion> & explosions);
+void removePixelsOutOfShape(Nz::Image & target, const Nz::Image & asteroid, const Shape & s);

@@ -133,7 +133,7 @@ std::vector<Shape> doBoolean(const Shape & a, const Shape & b, const Nz::Vector2
             {
                 unsigned int nextContactIndex = currentContactIndex;
                 unsigned int nextIndex = (bIndex + 1) % b.size();
-                float maxDist = currentContactIndex > contacts.size() ? norm(b[nextIndex] - b[bIndex]) :
+                float maxDist = currentContactIndex >= contacts.size() ? norm(b[nextIndex] - b[bIndex]) :
                                         contacts[currentContactIndex].bIndex == bIndex ? norm(b[nextIndex] + offset - contacts[nextContactIndex].pos) :
                                                 norm(b[nextIndex] - b[bIndex]);
                 float currentDist = 0;
@@ -167,7 +167,9 @@ std::vector<Shape> doBoolean(const Shape & a, const Shape & b, const Nz::Vector2
             {
                 unsigned int nextContactIndex = currentContactIndex;
                 unsigned int nextIndex = (aIndex + 1) % a.size();
-                float maxDist = contacts[currentContactIndex].aIndex == aIndex ? norm(a[nextIndex] - contacts[nextContactIndex].pos) : norm(a[nextIndex] - a[aIndex]);
+                float maxDist = currentContactIndex >= contacts.size() ? norm(a[nextIndex] - a[bIndex]) :
+										contacts[currentContactIndex].aIndex == aIndex ? norm(a[nextIndex] - contacts[nextContactIndex].pos) : 
+												norm(a[nextIndex] - a[aIndex]);
                 float currentDist = 0;
                 for(unsigned int i(0) ; i < contacts.size() ; i++)
                 {
@@ -268,6 +270,15 @@ std::vector<Shape> substract(Shape a, Shape b, const Nz::Vector2f & offset, std:
     return doBoolean(a, b, offset, contacts);
 }
 
+Shape createCircularShape(float radius, unsigned int sides)
+{
+	const float step = 2 * M_PI / sides;
+	Shape s;
+	for (unsigned int i(0); i < sides; i++)
+		s.push_back(radius * Nz::Vector2f(std::cos(step * i), std::sin(step * i)));
+	return s;
+}
+
 std::vector<Shape> boolean(const Shape & a, const Shape & b, const Nz::Vector2f & offset, BooleanType type)
 {
     assert((!isCrossed(a) && !isCrossed(b)) && "The shapes can't be crossed");
@@ -353,4 +364,32 @@ bool isCrossed(const Shape & s)
         }
     }
     return false;
+}
+
+Nz::Vector2f nearestPointOn(const Nz::Vector2f & pos, const Shape & s)
+{
+	assert(s.size() >= 2 && "The shape must have at least 2 points");
+
+	Nz::Vector2f bestPos = pos;
+	float bestDistance = std::numeric_limits<float>::max();
+	for (unsigned int i(0); i < s.size(); i++)
+	{
+		auto p1 = s[i];
+		auto p2 = i == 0 ? s.back() : s[i - 1];
+
+		auto d = dot(p2 - p1, pos - p1) / norm(p2 - p1);
+		auto p = p1 + (p2 - p1) * d;
+		if (d < 0)
+			p = p1;
+		if (d > 1)
+			p = p2;
+
+		float dist = normSqr(pos - p);
+		if (dist < bestDistance)
+		{
+			bestDistance = dist;
+			bestPos = p;
+		}
+	}
+	return bestPos;
 }

@@ -20,6 +20,7 @@ class AsteroidBaseInfos : public Nz::RefCounted
 {
 public:
 	AsteroidBaseInfos(const Nz::ImageRef & _asteroid, const Nz::ImageRef & _explosion, const Nz::ImageRef & _border, const Shape & _shape);
+	AsteroidBaseInfos(const AsteroidBaseInfos & base);
 	~AsteroidBaseInfos() = default;
 
 	template<typename... Args>
@@ -33,7 +34,7 @@ public:
 
 	static void createLibrary();
 
-	static void registerInfos(const std::string & name, std::string & asteroidName, const std::string & explosionName, const std::string & borderName, const Shape & shape);
+	static void registerInfos(const std::string & name, const std::string & asteroidName, const std::string & explosionName, const std::string & borderName, const Shape & shape);
 	static AsteroidBaseInfosRef getAsteroidInfos(const std::string & name);
 	static bool asteroidInfosExist(const std::string & name);
 

@@ -1,5 +1,6 @@
 #include "asteroidrender.h"
 #include "vect2ext.h"
+#include "convexshape.h"
 #include <Nazara/Noise/Perlin.hpp>
 #include <cassert>
 
@@ -159,6 +160,35 @@ void createRender(Nz::Image & target, const Nz::Image & asteroid, const Nz::Imag
 				auto destColor = target.GetPixels(i, j);
 				for (unsigned int k(0); k < 4; k++)
 					destColor[k] = pixel[k];
+			}
+		}
+}
+
+void removePixelsOutOfShape(Nz::Image & target, const Nz::Image & asteroid, const Shape & s)
+{
+	assert(asteroid.GetFormat() == Nz::PixelFormatType::PixelFormatType_RGBA8 && "The image asteroid must have RGBA8 pixel format type");
+
+	if (!target.IsValid() || target.GetSize() != asteroid.GetSize() || target.GetFormat() != Nz::PixelFormatType::PixelFormatType_RGBA8)
+		target.Create(Nz::ImageType::ImageType_2D, Nz::PixelFormatType::PixelFormatType_RGBA8, asteroid.GetWidth(), asteroid.GetHeight());
+
+	auto shapes = makeConvexe(s);
+
+	for (unsigned int i(0); i < target.GetWidth(); i++)
+		for (unsigned int j(0); j < asteroid.GetHeight(); j++)
+		{
+			auto pixel = target.GetPixels(i, j);
+			for (unsigned int k(0); k < 4; k++)
+				pixel[k] = 0;
+
+			for (const auto & shape : shapes)
+			{
+				if (isInShape(shape, Nz::Vector2f(i, j)))
+				{
+					auto color = asteroid.GetConstPixels(i, j);
+					for (unsigned int k(0); k < 4; k++)
+						pixel[k] = color[k];
+					break;
+				}
 			}
 		}
 }

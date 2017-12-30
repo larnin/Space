@@ -15,12 +15,22 @@ AsteroidBaseInfos::AsteroidBaseInfos(const Nz::ImageRef & _asteroid, const Nz::I
 
 }
 
+AsteroidBaseInfos::AsteroidBaseInfos(const AsteroidBaseInfos & base)
+	: asteroid(base.asteroid)
+	, explosion(base.explosion)
+	, border(base.border)
+	, shape(base.shape)
+	, data(base.data)
+{
+
+}
+
 void AsteroidBaseInfos::createLibrary()
 {
 	//todo fill library
 }
 
-void AsteroidBaseInfos::registerInfos(const std::string & name, std::string & asteroidName, const std::string & explosionName, const std::string & borderName, const Shape & shape)
+void AsteroidBaseInfos::registerInfos(const std::string & name, const std::string & asteroidName, const std::string & explosionName, const std::string & borderName, const Shape & shape)
 {
 	auto it(m_infos.find(name));
 	assert(it == m_infos.end() && "An image is already registered in that index");
