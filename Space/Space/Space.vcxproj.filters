@@ -25,6 +25,12 @@
     <Filter Include="Fichiers sources\Components">
       <UniqueIdentifier>{0038fbe6-97f2-4ef8-bce4-9c7a2a6eaa4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Controles">
+      <UniqueIdentifier>{a98043e9-4ddf-480d-ae30-a1016087e7f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Controles">
+      <UniqueIdentifier>{d1bd4e9d-1964-4bc1-bcd7-5d209fbc5bac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,6 +54,9 @@
     <ClCompile Include="Utilities\AsteroidBaseInfos.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Controles\InputConfigs.cpp">
+      <Filter>Fichiers sources\Controles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\asteroidrender.h">
@@ -70,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Utilities\AsteroidBaseInfos.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Controles\InputConfigs.h">
+      <Filter>Fichiers d%27en-tête\Controles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\AsteroidComponent.cpp" />
+    <ClCompile Include="Controles\InputConfigs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utilities\AsteroidBaseInfos.cpp" />
     <ClCompile Include="Utilities\asteroidrender.cpp" />
@@ -134,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\AsteroidComponent.h" />
+    <ClInclude Include="Controles\InputConfigs.h" />
     <ClInclude Include="Utilities\AsteroidBaseInfos.h" />
     <ClInclude Include="Utilities\asteroidrender.h" />
     <ClInclude Include="Utilities\boolean.h" />
