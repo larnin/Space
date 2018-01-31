@@ -9,6 +9,7 @@
 #include "Components/AsteroidComponent.h"
 #include "Utilities/AsteroidBaseInfos.h"
 #include "Components/AsteroidComponent.h"
+#include "Event/WindowEventsHolder.h"
 
 #include <iostream>
 
@@ -24,6 +25,7 @@ int main()
 	AsteroidBaseInfos::createLibrary();
 
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
+	WindowEventsHolder windowEventHolder(mainWindow.GetEventHandler());
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Space");
 	mainWindow.SetFramerateLimit(60);
 	mainWindow.EnableVerticalSync(true);
@@ -87,7 +89,7 @@ int main()
 
 	while (application.Run())
 	{
-		std::cout << phys.GetVelocity().x << " " << phys.GetVelocity().y << " * " << phys.GetAngularVelocity() << std::endl;
+		//std::cout << phys.GetVelocity().x << " " << phys.GetVelocity().y << " * " << phys.GetAngularVelocity() << std::endl;
 		mainWindow.Display();
 	}
 

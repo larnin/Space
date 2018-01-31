@@ -31,6 +31,9 @@
     <Filter Include="Fichiers sources\Controles">
       <UniqueIdentifier>{d1bd4e9d-1964-4bc1-bcd7-5d209fbc5bac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Event">
+      <UniqueIdentifier>{36888015-4bc5-4d4d-b0fa-69eb9c69c624}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="Controles\InputConfigs.cpp">
       <Filter>Fichiers sources\Controles</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\WindowEventsHolder.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,5 +89,19 @@
     <ClInclude Include="Controles\InputConfigs.h">
       <Filter>Fichiers d%27en-tête\Controles</Filter>
     </ClInclude>
+    <ClInclude Include="Event\Event.h">
+      <Filter>Fichiers d%27en-tête\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\WindowEventsHolder.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\WindowEventArgs.h">
+      <Filter>Fichiers d%27en-tête\Event</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Event\Event.inl">
+      <Filter>Fichiers d%27en-tête\Event</Filter>
+    </None>
   </ItemGroup>
 </Project>

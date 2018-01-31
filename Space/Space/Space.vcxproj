@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="Components\AsteroidComponent.cpp" />
     <ClCompile Include="Controles\InputConfigs.cpp" />
+    <ClCompile Include="Event\WindowEventsHolder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utilities\AsteroidBaseInfos.cpp" />
     <ClCompile Include="Utilities\asteroidrender.cpp" />
@@ -136,12 +137,18 @@
   <ItemGroup>
     <ClInclude Include="Components\AsteroidComponent.h" />
     <ClInclude Include="Controles\InputConfigs.h" />
+    <ClInclude Include="Event\Event.h" />
+    <ClInclude Include="Event\WindowEventArgs.h" />
+    <ClInclude Include="Event\WindowEventsHolder.h" />
     <ClInclude Include="Utilities\AsteroidBaseInfos.h" />
     <ClInclude Include="Utilities\asteroidrender.h" />
     <ClInclude Include="Utilities\boolean.h" />
     <ClInclude Include="Utilities\convexshape.h" />
     <ClInclude Include="Utilities\Matrix.h" />
     <ClInclude Include="Utilities\vect2ext.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Event\Event.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
