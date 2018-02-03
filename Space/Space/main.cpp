@@ -9,13 +9,21 @@
 #include "Components/AsteroidComponent.h"
 #include "Utilities/AsteroidBaseInfos.h"
 #include "Components/AsteroidComponent.h"
+#include "Components/ShipCommandsComponent.h"
+#include "Components/ShipControlerComponent.h"
+#include "Systems/ShipControlerSystem.h"
 #include "Event/WindowEventsHolder.h"
+#include "Env.h"
 
 #include <iostream>
 
 void initializeSystemsAndComponents()
 {
 	Ndk::InitializeComponent<AsteroidComponent>("001ASC");
+	Ndk::InitializeComponent<ShipCommandsComponent>("002SCC");
+	Ndk::InitializeComponent<ShipControlerComponent>("003SCC");
+
+	Ndk::InitializeSystem<ShipControlerSystem>();
 }
 
 int main()
@@ -25,7 +33,11 @@ int main()
 	AsteroidBaseInfos::createLibrary();
 
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
+	Env env;
+	env.window(mainWindow);
+	env.application(application);
 	WindowEventsHolder windowEventHolder(mainWindow.GetEventHandler());
+	
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Space");
 	mainWindow.SetFramerateLimit(60);
 	mainWindow.EnableVerticalSync(true);

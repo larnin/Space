@@ -34,6 +34,12 @@
     <Filter Include="Fichiers d%27en-tête\Event">
       <UniqueIdentifier>{36888015-4bc5-4d4d-b0fa-69eb9c69c624}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Systems">
+      <UniqueIdentifier>{724a1124-0487-4cd6-93ed-8b9ca227bd04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Systems">
+      <UniqueIdentifier>{c35fefd1-70c1-4090-bb07-db5113589959}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -62,6 +68,18 @@
     </ClCompile>
     <ClCompile Include="Event\WindowEventsHolder.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Env.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ShipCommandsComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ShipControlerComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ShipControlerSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +115,18 @@
     </ClInclude>
     <ClInclude Include="Event\WindowEventArgs.h">
       <Filter>Fichiers d%27en-tête\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Env.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ShipCommandsComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ShipControlerComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ShipControlerSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

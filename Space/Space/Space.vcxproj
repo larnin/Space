@@ -125,9 +125,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\AsteroidComponent.cpp" />
+    <ClCompile Include="Components\ShipCommandsComponent.cpp" />
+    <ClCompile Include="Components\ShipControlerComponent.cpp" />
     <ClCompile Include="Controles\InputConfigs.cpp" />
+    <ClCompile Include="Env.cpp" />
     <ClCompile Include="Event\WindowEventsHolder.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Systems\ShipControlerSystem.cpp" />
     <ClCompile Include="Utilities\AsteroidBaseInfos.cpp" />
     <ClCompile Include="Utilities\asteroidrender.cpp" />
     <ClCompile Include="Utilities\boolean.cpp" />
@@ -136,10 +140,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\AsteroidComponent.h" />
+    <ClInclude Include="Components\ShipCommandsComponent.h" />
+    <ClInclude Include="Components\ShipControlerComponent.h" />
     <ClInclude Include="Controles\InputConfigs.h" />
+    <ClInclude Include="Env.h" />
     <ClInclude Include="Event\Event.h" />
     <ClInclude Include="Event\WindowEventArgs.h" />
     <ClInclude Include="Event\WindowEventsHolder.h" />
+    <ClInclude Include="Systems\ShipControlerSystem.h" />
     <ClInclude Include="Utilities\AsteroidBaseInfos.h" />
     <ClInclude Include="Utilities\asteroidrender.h" />
     <ClInclude Include="Utilities\boolean.h" />
