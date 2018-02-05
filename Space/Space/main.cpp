@@ -14,6 +14,7 @@
 #include "Systems/ShipControlerSystem.h"
 #include "Event/WindowEventsHolder.h"
 #include "Env.h"
+#include "Ship.h"
 
 #include <iostream>
 
@@ -33,6 +34,7 @@ int main()
 	AsteroidBaseInfos::createLibrary();
 
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
+	mainWindow.SetFramerateLimit(60);
 	Env env;
 	env.window(mainWindow);
 	env.application(application);
@@ -45,6 +47,16 @@ int main()
 	auto & world = application.AddWorld();
 	world.GetSystem<Ndk::RenderSystem>().SetGlobalUp(Nz::Vector3f::Down());
 	world.GetSystem<Ndk::RenderSystem>().SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::White));
+
+	world.AddSystem<ShipControlerSystem>();
+
+	ShipInfos shipInfos{ "res/Ship/1.png" };
+	shipInfos.solidDrag = 0.1f;
+	shipInfos.fluidDrag = 0.2f;
+	shipInfos.acceleration = 60.0;
+	shipInfos.maxRotationSpeed = 1000.0f;
+	shipInfos.rotationAcceleration = 300.0f;
+	createShip(world, shipInfos, Nz::Vector2f(100, 100), 0);
 
 	auto & camera = world.CreateEntity();
 	auto & cameraComponent = camera->AddComponent<Ndk::CameraComponent>();

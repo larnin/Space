@@ -18,6 +18,6 @@ void ShipControlerSystem::OnUpdate(float elapsedTime)
 		auto & shipCommandsComponent = entity->GetComponent<ShipCommandsComponent>();
 		auto & physicComponent = entity->GetComponent<Ndk::PhysicsComponent2D>();
 
-		shipComponent.update(shipCommandsComponent.evaluateControles(), physicComponent);
+		shipComponent.update(shipCommandsComponent.evaluateControles(), physicComponent, elapsedTime);
 	}
 }

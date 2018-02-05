@@ -131,6 +131,7 @@
     <ClCompile Include="Env.cpp" />
     <ClCompile Include="Event\WindowEventsHolder.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Systems\ShipControlerSystem.cpp" />
     <ClCompile Include="Utilities\AsteroidBaseInfos.cpp" />
     <ClCompile Include="Utilities\asteroidrender.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Event\Event.h" />
     <ClInclude Include="Event\WindowEventArgs.h" />
     <ClInclude Include="Event\WindowEventsHolder.h" />
+    <ClInclude Include="Ship.h" />
     <ClInclude Include="Systems\ShipControlerSystem.h" />
     <ClInclude Include="Utilities\AsteroidBaseInfos.h" />
     <ClInclude Include="Utilities\asteroidrender.h" />
