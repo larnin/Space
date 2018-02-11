@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Nazara/Platform/Event.hpp>
+#include <Nazara/Platform/Enums.hpp>
 
 template <typename T, Nz::WindowEventType type>
 struct WindowEvent

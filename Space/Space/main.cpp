@@ -4,6 +4,7 @@
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/CameraComponent.hpp>
+#include <NDK/Systems/PhysicsSystem2D.hpp>
 #include <Nazara/Graphics/ColorBackground.hpp>
 #include "Utilities/asteroidrender.h"
 #include "Components/AsteroidComponent.h"
@@ -11,8 +12,13 @@
 #include "Components/AsteroidComponent.h"
 #include "Components/ShipCommandsComponent.h"
 #include "Components/ShipControlerComponent.h"
+#include "Components/CameraFollowComponent.h"
+#include "Components/CameraFollowControlerComponent.h"
 #include "Systems/ShipControlerSystem.h"
+#include "Systems/CameraFollowSystem.h"
 #include "Event/WindowEventsHolder.h"
+#include "Event/WindowEventArgs.h"
+#include "Event/Event.h"
 #include "Env.h"
 #include "Ship.h"
 
@@ -23,12 +29,35 @@ void initializeSystemsAndComponents()
 	Ndk::InitializeComponent<AsteroidComponent>("001ASC");
 	Ndk::InitializeComponent<ShipCommandsComponent>("002SCC");
 	Ndk::InitializeComponent<ShipControlerComponent>("003SCC");
+	Ndk::InitializeComponent<CameraFollowComponent>("004CFC");
+	Ndk::InitializeComponent<CameraFollowControlerComponent>("005CFC");
 
 	Ndk::InitializeSystem<ShipControlerSystem>();
+	Ndk::InitializeSystem<CameraFollowSystem>();
 }
+
+template <typename T, Nz::WindowEventType type>
+struct WindowEvent2
+{
+	T value;
+};
+
+using MouseMovedEvent2 = WindowEvent2<Nz::WindowEvent::MouseMoveEvent, Nz::WindowEventType_MouseMoved>;
 
 int main()
 {
+	auto evA = Event<MouseMovedEvent>::connect([](const auto & i) {std::cout << "***** " << i.value.x << std::endl; });
+	Event<MouseMovedEvent>::send({ { 1, 1, 1, 1} });
+
+	/*auto evB = Event<MouseMovedEvent2>::connect([](const auto & i) {std::cout << "***** " << i.value.x << std::endl; });
+	Event<MouseMovedEvent2>::send({ { 2, 2, 2, 2 } });*/
+
+	auto ev2 = Event<int>::connect([](const auto & i) {std::cout << "***** " << i << std::endl; });
+	Event<int>::send(5);
+
+	std::getchar();
+	return 0;
+
 	Ndk::Application application;
 	initializeSystemsAndComponents();
 	AsteroidBaseInfos::createLibrary();
@@ -47,8 +76,10 @@ int main()
 	auto & world = application.AddWorld();
 	world.GetSystem<Ndk::RenderSystem>().SetGlobalUp(Nz::Vector3f::Down());
 	world.GetSystem<Ndk::RenderSystem>().SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::White));
+	world.GetSystem<Ndk::PhysicsSystem2D>().SetMaximumUpdateRate(60);
 
 	world.AddSystem<ShipControlerSystem>();
+	world.AddSystem<CameraFollowSystem>();
 
 	ShipInfos shipInfos{ "res/Ship/1.png" };
 	shipInfos.solidDrag = 0.1f;
@@ -56,15 +87,17 @@ int main()
 	shipInfos.acceleration = 60.0;
 	shipInfos.maxRotationSpeed = 1000.0f;
 	shipInfos.rotationAcceleration = 300.0f;
-	createShip(world, shipInfos, Nz::Vector2f(100, 100), 0);
+	auto ship = createShip(world, shipInfos, Nz::Vector2f(100, 100), 0);
 
-	auto & camera = world.CreateEntity();
+	auto camera = createShipCamera(world, ship);
+
+	/*auto & camera = world.CreateEntity();
 	auto & cameraComponent = camera->AddComponent<Ndk::CameraComponent>();
 	cameraComponent.SetProjectionType(Nz::ProjectionType_Orthogonal);
 	cameraComponent.SetSize(Nz::Vector2f(mainWindow.GetSize().x, mainWindow.GetSize().y));
 	cameraComponent.SetTarget(&mainWindow);
 	auto & cameraNodeComponent = camera->AddComponent<Ndk::NodeComponent>();
-	cameraNodeComponent.SetPosition(-10.0f*cameraComponent.GetForward());
+	cameraNodeComponent.SetPosition(-10.0f*cameraComponent.GetForward());*/
 
 	//Nz::ImageParams params;
 	//params.loadFormat = Nz::PixelFormatType::PixelFormatType_RGBA8;

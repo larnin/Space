@@ -34,4 +34,5 @@ WindowEventsHolder::WindowEventsHolder(Nz::EventHandler & e)
 		[](const Nz::EventHandler*, const Nz::WindowEvent::SizeEvent & event) {Event<ResizedEvent>::send({ event }); });
 	OnTextEntered.Connect(e.OnTextEntered,
 		[](const Nz::EventHandler*, const Nz::WindowEvent::TextEvent & event) {Event<TextEnteredEvent>::send({ event }); });
+	Event<int>::send(4);
 }

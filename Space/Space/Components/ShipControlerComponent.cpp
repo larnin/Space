@@ -1,8 +1,7 @@
 #include "ShipControlerComponent.h"
 #include "Utilities/vect2ext.h"
+#include <NDK/Components/PhysicsComponent2D.hpp>
 #include <cmath>
-
-#include <iostream>
 
 Ndk::ComponentIndex ShipControlerComponent::componentIndex;
 
@@ -40,8 +39,9 @@ ShipControlerComponent::ShipControlerComponent()
 {
 }
 
-void ShipControlerComponent::update(const Nz::Vector2f & constroles, Ndk::PhysicsComponent2D & physics, float elapsedTime)
+void ShipControlerComponent::update(const Nz::Vector2f & constroles, float elapsedTime)
 {
+	auto & physics = GetEntity()->GetComponent<Ndk::PhysicsComponent2D>();
 	float rotation = physics.GetRotation();
 
 	if (abs(m_rotationSpeed) > maxRotationSpeed)

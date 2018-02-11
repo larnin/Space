@@ -40,6 +40,9 @@
     <Filter Include="Fichiers sources\Systems">
       <UniqueIdentifier>{c35fefd1-70c1-4090-bb07-db5113589959}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Event">
+      <UniqueIdentifier>{81a3aa44-687d-4a6e-8df8-1918755b4d6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,9 +69,6 @@
     <ClCompile Include="Controles\InputConfigs.cpp">
       <Filter>Fichiers sources\Controles</Filter>
     </ClCompile>
-    <ClCompile Include="Event\WindowEventsHolder.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Env.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -83,6 +83,18 @@
     </ClCompile>
     <ClCompile Include="Ship.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CameraFollowComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CameraFollowSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CameraFollowControlerComponent.cpp">
+      <Filter>Fichiers sources\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\WindowEventsHolder.cpp">
+      <Filter>Fichiers sources\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +125,6 @@
     <ClInclude Include="Event\Event.h">
       <Filter>Fichiers d%27en-tête\Event</Filter>
     </ClInclude>
-    <ClInclude Include="Event\WindowEventsHolder.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Event\WindowEventArgs.h">
       <Filter>Fichiers d%27en-tête\Event</Filter>
     </ClInclude>
@@ -133,6 +142,18 @@
     </ClInclude>
     <ClInclude Include="Ship.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CameraFollowComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CameraFollowSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CameraFollowControlerComponent.h">
+      <Filter>Fichiers d%27en-tête\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\WindowEventsHolder.h">
+      <Filter>Fichiers d%27en-tête\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

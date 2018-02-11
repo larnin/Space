@@ -1,10 +1,14 @@
 #include "Ship.h"
 #include "Components/ShipCommandsComponent.h"
 #include "Components/ShipControlerComponent.h"
+#include "Components/CameraFollowComponent.h"
+#include "Components/CameraFollowControlerComponent.h"
+#include "Env.h"
 #include <NDK/Components/PhysicsComponent2D.hpp>
 #include <NDK/Components/NodeComponent.hpp>
 #include <NDK/Components/GraphicsComponent.hpp>
 #include <NDK/Components/CollisionComponent2D.hpp>
+#include <NDK/Components/CameraComponent.hpp>
 #include <Nazara/Physics2D/Collider2D.hpp>
 #include <Nazara/Graphics/Sprite.hpp>
 
@@ -35,5 +39,22 @@ Ndk::EntityHandle createShip(Ndk::World & w, const ShipInfos & infos, const Nz::
 	ship.maxRotationSpeed = infos.maxRotationSpeed;
 	ship.rotationAcceleration = infos.rotationAcceleration;
 
+	return e;
+}
+
+Ndk::EntityHandle createShipCamera(Ndk::World & w, const Ndk::EntityHandle & target)
+{
+	auto e = w.CreateEntity();
+	auto & camera = e->AddComponent<Ndk::CameraComponent>();
+	auto & node = e->AddComponent<Ndk::NodeComponent>();
+	e->AddComponent<CameraFollowComponent>(target);
+	e->AddComponent<CameraFollowControlerComponent>();
+
+	camera.SetProjectionType(Nz::ProjectionType_Orthogonal);
+	auto & window = Env::instance().window();
+	camera.SetSize(Nz::Vector2f(window.GetSize().x, window.GetSize().y));
+	camera.SetTarget(&window);
+
+	node.SetPosition(-10.0f*camera.GetForward());
 	return e;
 }

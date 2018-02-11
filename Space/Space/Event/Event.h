@@ -11,29 +11,38 @@ namespace
 	template <typename T>
 	struct EventImpl
 	{
-		EventImpl(std::function<void(T)> _function);
+		EventImpl(const std::function<void(const T &)> & _function);
 
-		std::function<void(T)> function;
+		std::function<void(const T &)> function;
 		bool blocked;
 		bool disconnected;
 	};
 }
+#include <iostream>
+template <typename T>
+class A
+{
+public:
+	inline A() { std::cout << "* " << std::type_index(typeid(T)).hash_code() << std::endl; }
+};
 
 template <typename T>
 class Event
 {
 	friend class EventHolder<T>;
 public:
-	static EventHolder<T> connect(std::function<void(T)> function);
-	static void send(T value);
+	static EventHolder<T> connect(const std::function<void(const T &)> & function);
+	static void send(const T & value);
+
 private:
 	Event() = delete;
 
-	static std::vector<std::unique_ptr<EventImpl<T>>> m_events;
+	static inline std::vector<std::unique_ptr<EventImpl<T>>> m_events{};
+	static inline A<T> a{};
 };
 
-template <typename T>
-std::vector<std::unique_ptr<EventImpl<T>>> Event<T>::m_events;
+//template <typename T>
+//std::vector<std::unique_ptr<EventImpl<T>>> Event<T>::m_events;
 
 template <typename T>
 class EventHolder

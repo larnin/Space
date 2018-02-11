@@ -2,9 +2,12 @@
 
 #include "Event.h"
 #include <algorithm>
+#include <iostream>
+#include <typeindex>
+		
 
 template<typename T>
-inline EventImpl<T>::EventImpl(std::function<void(T)> _function)
+EventImpl<T>::EventImpl(const std::function<void(const T &)> & _function)
 	: function(_function)
 	, blocked(false)
 	, disconnected(false)
@@ -12,18 +15,21 @@ inline EventImpl<T>::EventImpl(std::function<void(T)> _function)
 }
 
 template <typename T>
-EventHolder<T> Event<T>::connect(std::function<void(T)> function)
+EventHolder<T> Event<T>::connect(const std::function<void(const T &)> & function)
 {
-	m_events.push_back(std::move(std::make_unique<EventImpl<T>>(function)));
+	std::cout << "C " << std::type_index(typeid(T)).hash_code() << " " << &m_events << std::endl;
+	//std::cout << __FUNCSIG__ << std::endl;
+	m_events.push_back(std::make_unique<EventImpl<T>>(function));
 	return EventHolder<T>(m_events.back().get());
 }
 
 template<typename T>
-void Event<T>::send(T value)
+void Event<T>::send(const T & value)
 {
-	for (unsigned int i(0); i < m_events.size(); i++)
+	std::cout << "S " << std::type_index(typeid(T)).hash_code() << " " << &m_events << std::endl;
+	//std::cout << __FUNCSIG__ << std::endl;
+	for (auto & e : m_events)
 	{
-		auto & e(m_events[i]);
 		if (e->disconnected || e->blocked || !e->function)
 			continue;
 		e->function(value);

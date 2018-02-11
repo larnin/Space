@@ -14,3 +14,5 @@ struct ShipInfos
 };
 
 Ndk::EntityHandle createShip(Ndk::World & w, const ShipInfos & infos, const Nz::Vector2f & pos, float rotation);
+
+Ndk::EntityHandle createShipCamera(Ndk::World & w, const Ndk::EntityHandle & target);
