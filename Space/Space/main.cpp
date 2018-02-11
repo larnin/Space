@@ -46,18 +46,6 @@ using MouseMovedEvent2 = WindowEvent2<Nz::WindowEvent::MouseMoveEvent, Nz::Windo
 
 int main()
 {
-	auto evA = Event<MouseMovedEvent>::connect([](const auto & i) {std::cout << "***** " << i.value.x << std::endl; });
-	Event<MouseMovedEvent>::send({ { 1, 1, 1, 1} });
-
-	/*auto evB = Event<MouseMovedEvent2>::connect([](const auto & i) {std::cout << "***** " << i.value.x << std::endl; });
-	Event<MouseMovedEvent2>::send({ { 2, 2, 2, 2 } });*/
-
-	auto ev2 = Event<int>::connect([](const auto & i) {std::cout << "***** " << i << std::endl; });
-	Event<int>::send(5);
-
-	std::getchar();
-	return 0;
-
 	Ndk::Application application;
 	initializeSystemsAndComponents();
 	AsteroidBaseInfos::createLibrary();

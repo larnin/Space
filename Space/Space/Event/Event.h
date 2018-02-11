@@ -18,31 +18,24 @@ namespace
 		bool disconnected;
 	};
 }
-#include <iostream>
-template <typename T>
-class A
-{
-public:
-	inline A() { std::cout << "* " << std::type_index(typeid(T)).hash_code() << std::endl; }
-};
 
 template <typename T>
 class Event
 {
 	friend class EventHolder<T>;
 public:
+	Event() = default;
+
+	EventHolder<T> connectInstance(const std::function<void(const T &)> & function);
+	void sendInstance(const T & value);
+
 	static EventHolder<T> connect(const std::function<void(const T &)> & function);
 	static void send(const T & value);
+	static Event<T> & instance();
 
 private:
-	Event() = delete;
-
-	static inline std::vector<std::unique_ptr<EventImpl<T>>> m_events{};
-	static inline A<T> a{};
+	std::vector<std::unique_ptr<EventImpl<T>>> m_events;
 };
-
-//template <typename T>
-//std::vector<std::unique_ptr<EventImpl<T>>> Event<T>::m_events;
 
 template <typename T>
 class EventHolder

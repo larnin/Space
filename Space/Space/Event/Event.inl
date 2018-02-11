@@ -14,20 +14,16 @@ EventImpl<T>::EventImpl(const std::function<void(const T &)> & _function)
 {
 }
 
-template <typename T>
-EventHolder<T> Event<T>::connect(const std::function<void(const T &)> & function)
+template<typename T>
+inline EventHolder<T> Event<T>::connectInstance(const std::function<void(const T&)>& function)
 {
-	std::cout << "C " << std::type_index(typeid(T)).hash_code() << " " << &m_events << std::endl;
-	//std::cout << __FUNCSIG__ << std::endl;
 	m_events.push_back(std::make_unique<EventImpl<T>>(function));
 	return EventHolder<T>(m_events.back().get());
 }
 
 template<typename T>
-void Event<T>::send(const T & value)
+inline void Event<T>::sendInstance(const T & value)
 {
-	std::cout << "S " << std::type_index(typeid(T)).hash_code() << " " << &m_events << std::endl;
-	//std::cout << __FUNCSIG__ << std::endl;
 	for (auto & e : m_events)
 	{
 		if (e->disconnected || e->blocked || !e->function)
@@ -36,6 +32,25 @@ void Event<T>::send(const T & value)
 	}
 
 	m_events.erase(std::remove_if(m_events.begin(), m_events.end(), [](const auto & v) {return v->disconnected; }), m_events.end());
+}
+
+template <typename T>
+EventHolder<T> Event<T>::connect(const std::function<void(const T &)> & function)
+{
+	return instance().connectInstance(function);
+}
+
+template<typename T>
+void Event<T>::send(const T & value)
+{
+	instance().sendInstance(value);
+}
+
+template<typename T>
+inline Event<T> & Event<T>::instance()
+{
+	static Event<T> ins;
+	return ins;
 }
 
 template<typename T>
