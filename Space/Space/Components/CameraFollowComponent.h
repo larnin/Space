@@ -1,7 +1,8 @@
 #pragma once
+#include "CameraFollowControlerComponent.h"
 #include <NDK/Component.hpp>
 #include <NDK/Entity.hpp>
-#include "CameraFollowControlerComponent.h"
+#include <vector>
 
 class CameraFollowComponent : public Ndk::Component<CameraFollowComponent>
 {
@@ -17,6 +18,9 @@ public:
 	static Ndk::ComponentIndex componentIndex;
 
 private:
+	static std::vector<float> m_zoomLevels;
+
 	Ndk::EntityHandle m_target;
+	unsigned int m_currentZoom;
 };
 

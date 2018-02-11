@@ -24,7 +24,7 @@ AsteroidComponent::AsteroidComponent(const AsteroidBaseInfosRef & baseInfos)
 	sampler.SetFilterMode(Nz::SamplerFilter_Nearest);
 	auto texture = Nz::Texture::New(*(m_baseInfos->asteroid));
 	m_sprite->SetTexture(texture);
-	m_sprite->SetSize(2 * texture->GetWidth(), 2 * texture->GetHeight());
+	m_sprite->SetSize(texture->GetWidth(), texture->GetHeight());
 }
 
 void AsteroidComponent::damage(Nz::Vector2f pos, float radius, float force)

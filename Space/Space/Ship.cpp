@@ -27,8 +27,8 @@ Ndk::EntityHandle createShip(Ndk::World & w, const ShipInfos & infos, const Nz::
 	sampler.SetFilterMode(Nz::SamplerFilter_Nearest);
 	sprite->SetTexture(infos.imageName);
 	auto size = sprite->GetMaterial()->GetDiffuseMap()->GetSize();
-	sprite->SetOrigin(Nz::Vector3f(size.x, size.y, 0));
-	sprite->SetSize(size.x * 2, size.y * 2);
+	sprite->SetOrigin(Nz::Vector3f(size.x/2.0f, size.y/2.0f, 0));
+	sprite->SetSize(size.x, size.y);
 	graphics.Attach(sprite, Nz::Matrix4f::Rotate(Nz::Quaternionf(Nz::EulerAnglesf(0, 0, 90))));
 
 	e->AddComponent<ShipCommandsComponent>();

@@ -1,4 +1,5 @@
 #include "CameraFollowControlerComponent.h"
+#include "Env.h"
 
  Ndk::ComponentIndex CameraFollowControlerComponent::componentIndex;
 
@@ -32,16 +33,24 @@ CameraFollowControlerComponent::CameraFollowControlerComponent(CameraFollowContr
 
 CommandsInfos CameraFollowControlerComponent::evaluateControles()
 {
-	return { m_zoomOffset, m_offset };
+	CommandsInfos value{ m_zoomOffset, m_offset };
+	m_zoomOffset = 0;
+	return value;
 }
 #include <iostream>
 void CameraFollowControlerComponent::onMouseMoved(const MouseMovedEvent & e)
 {
-	std::cout << e.value.x << " " << e.value.y << " * " << e.value.deltaX << " " << e.value.deltaY << std::endl;
+	const float maxDistance = 200;
+	auto screenSize = Env::instance().window().GetSize();
+
+	Nz::Vector2f offset((int)e.value.x - screenSize.x / 2.0f, (int)e.value.y - screenSize.y / 2.0f);
+	if (offset.GetSquaredLength() > maxDistance * maxDistance)
+		m_offset = offset.Normalize();
+	else m_offset = offset / maxDistance;
 }
 
 void CameraFollowControlerComponent::onMouseWheelMoved(const MouseWheelMovedEvent & e)
 {
-	std::cout << e.value.delta << std::endl;
+	m_zoomOffset += e.value.delta;
 }
 

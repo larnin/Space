@@ -51,23 +51,23 @@ int main()
 	AsteroidBaseInfos::createLibrary();
 
 	Nz::RenderWindow& mainWindow = application.AddWindow<Nz::RenderWindow>();
-	mainWindow.SetFramerateLimit(60);
-	Env env;
-	env.window(mainWindow);
-	env.application(application);
-	WindowEventsHolder windowEventHolder(mainWindow.GetEventHandler());
-	
 	mainWindow.Create(Nz::VideoMode(800, 600, 32), "Space");
 	mainWindow.SetFramerateLimit(60);
 	mainWindow.EnableVerticalSync(true);
 
+	Env env;
+	env.window(mainWindow);
+	env.application(application);
+	WindowEventsHolder windowEventHolder(mainWindow.GetEventHandler());
+
 	auto & world = application.AddWorld();
+	world.AddSystem<ShipControlerSystem>();
+	world.AddSystem<CameraFollowSystem>().SetMaximumUpdateRate(60);
+
 	world.GetSystem<Ndk::RenderSystem>().SetGlobalUp(Nz::Vector3f::Down());
 	world.GetSystem<Ndk::RenderSystem>().SetDefaultBackground(Nz::ColorBackground::New(Nz::Color::White));
 	world.GetSystem<Ndk::PhysicsSystem2D>().SetMaximumUpdateRate(60);
 
-	world.AddSystem<ShipControlerSystem>();
-	world.AddSystem<CameraFollowSystem>();
 
 	ShipInfos shipInfos{ "res/Ship/1.png" };
 	shipInfos.solidDrag = 0.1f;
